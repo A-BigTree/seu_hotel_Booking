@@ -4,33 +4,134 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <!--项目名称-->
   <groupId>booking</groupId>
   <artifactId>seu_hotel_Booking</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
+  <!--名称设置-->
   <name>seu_hotel_Booking Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://www.example.com</url>
 
+  <!--属性设置-->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
+  <!--依赖设置-->
   <dependencies>
+    <!--================测试================-->
+    <!--junit测试-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.13.2</version>
       <scope>test</scope>
+    </dependency>
+    <!--Spring测试-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>6.0.7</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--=================日志&插件依赖================-->
+    <!--日志打印依赖-->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.4.6</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--Lombok插件依赖-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.26</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!--================数据库连接================-->
+    <!--MySQL接口实现-->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>8.0.32</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!--阿里Druid数据库连接池-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.2.16</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!--================Spring================-->
+    <!--Spring-AOP依赖-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>6.0.7</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!--================SpringMVC================-->
+    <!--Tomcat Servlet依赖-->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <!--Thymeleaf-Spring6依赖-->
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf-spring6</artifactId>
+      <version>3.1.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--SpringMVC依赖-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>6.0.7</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!--================Mybatis================-->
+    <!--Spring持久化依赖-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>6.0.7</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--Mybatis依赖-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.5.13</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--Mybatis-Spring依赖-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>3.0.1</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
+  <!--构建&&插件设置-->
   <build>
     <finalName>seu_hotel_Booking</finalName>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (maybe moved to parent pom) -->
       <plugins>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>

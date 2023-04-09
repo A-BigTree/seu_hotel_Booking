@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+</head>
+<body>
+<table>
+    <tbody th:if="${not #lists.isEmpty(examList)}">
+    <tr th:each="ex:${examList}">
+        <td th:text="${ex.exam}">显示字符串</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

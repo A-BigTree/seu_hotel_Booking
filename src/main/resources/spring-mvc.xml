@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--================Spring装配扫描包设置================-->
+    <context:component-scan base-package="booking.handler"/>
+
+    <!--================SpringMVC配置================-->
+    <!--开启默认Servlet-->
+    <mvc:default-servlet-handler/>
+    <!--开启注解驱动-->
+    <mvc:annotation-driven/>
+
+    <!--================Thymeleaf解析器配置================-->
+    <!--设置模板配置器-->
+    <bean id="templateResolver" class="org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+    <!--设置模板引擎-->
+    <bean id="templateEngine" class="org.thymeleaf.spring6.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+    <!--设置视图配置器-->
+    <bean id="viewResolver" class="org.thymeleaf.spring6.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="order" value="1"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+
+    <!--=================视图跳转控制================-->
+    <!--首页跳转-->
+    <mvc:view-controller path="/" view-name="index"/>
+    <mvc:view-controller path="/index.html" view-name="index"/>
+    <!--下方添加跳转-->
+
+
+</beans>
