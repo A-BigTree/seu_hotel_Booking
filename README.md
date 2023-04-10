@@ -4,7 +4,7 @@ since 2023.04.09
 
 - 👨‍💻Shuxin-Wang📫shuxinwang662@gmail.com
 - 👨‍💻Haoyang-Chen📫haoyang.chen5@icloud.com
-- 👨‍💻Name2📫Email2
+- 👨‍💻Jincheng-Li📫1635461341@qq.com
 - 👨‍💻Name3📫Email3
 
 ---
