@@ -13,7 +13,7 @@ since 2023.04.09
 
 ## 软件安装
 
-IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`
+IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`➕Github Desktop
 
 具体安装和环境配置网上有很多，❗版本最好保持一致❗
 
