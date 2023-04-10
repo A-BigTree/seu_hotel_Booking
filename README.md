@@ -1,2 +1,93 @@
-# seu_hotel_Booking
- 
+since 2023.04.09
+
+⭐⭐⭐⭐**团队**⭐⭐⭐⭐
+
+- 👨‍💻Shuxin-Wang📫shuxinwang662@gmail.com
+- 👨‍💻Name1📫Email1
+- 👨‍💻Name2📫Email2
+- 👨‍💻Name3📫Email3
+
+---
+
+# 环境配置
+
+## 软件安装
+
+IDEA➕JDK`17`➕MySQL`8.0`➕Tomcat`10.1.7`➕Maven`3.9.1`
+
+具体安装和环境配置网上有很多，❗版本最好保持一致❗
+
+先把环境配好再用IDEA打开，不然IDEA内置Maven会自动配置可能会用bug❗
+
+## IDEA配置
+
+❗前提先把上面要求的软件和环境都配置好了❗
+
+### Maven配置
+
+文件👉设置👉构建、执行、部署👉构建工具👉Maven👉把Maven主路径改成自己下载的Maven路径👉**应用**
+
+### Tomcat配置
+
+运行👉编辑配置👉左上角加号选择Tomcat服务器👉本地👉如果没有配置过在选择配置，选择自己下载的Tomcat的文件夹👉部署👉加号选择工件，一般情况有两个，开发阶段选择该项目热部署**后面有war:exploded**的那个👉返回服务器👉可以选择浏览器，**执行更新操作选择<u>更新类和资源</u>，切换出IDEA时选择<u>更新类和资源</u>**，为了分辨配置可以修改上方的名称，也可以不改👉**确定**
+
+运行项目看看是否自动打开浏览器，成功OK了。
+
+
+
+# 项目路径说明
+
+```bash
+`--pom.xml（Maven配置文件）
+`--README.md
+|
+|--src
+|	|--main（开发文件夹）
+|	|	|--java（代码区）
+|	|	|	|--booking（组织文件夹）
+|	|	|	|	|--entity（实体定义）
+|	|	|	|	|	`--Example.java
+|	|	|	|	|
+|	|	|	|	|--handler（控制层类）
+|	|	|	|	|	`--ExampleHandler.java
+|	|	|	|	|
+|	|	|	|	|--mapper（持久化层接口）
+|	|	|	|	|	`--ExampleMapper.java
+|	|	|	|	|
+|	|	|	|	|--service（逻辑业务层）
+|	|	|	|	|	|--api（业务接口）
+|	|	|	|	|	|	`--ExampleService.java
+|	|	|	|	|	|
+|	|	|	|	|	|--impl（业务接口实现类）
+|	|	|	|	|	|	`--ExampleServiceImpl.java
+|	|	|
+|	|	|--resources（配置资源文件夹）
+|	|	|	`--druid.properties（Druid数据库连接池配置，每个人不一样需要配置）
+|	|	|	`--logback.xml（日志打印格式配置）
+|	|	|	`--mybatis-config.xml（Mybatis全局配置文件）
+|	|	|	`--spring-mvc.xml（SpringMVC-IOC配置）
+|	|	|	`--spring-persist.xml（Spring持久化层-IOC配置）
+|	|	|	|
+|	|	|	|--booking.mapper（Mybatis Mapper接口配置）
+|	|	|	|	`--ExampleMapper.xml（ExampleMapper接口配置文件）
+|	|	|	
+|	|	|--webapp（网页视图文件夹）
+|	|	|	`--web.xml（Web应用配置文件）
+|	|	|	|
+|	|	|	|--css（css文件）
+|	|	|	|	`--Example.css
+|	|	|	|
+|	|	|	|--image（图片文件）
+|	|	|	|	`--Example.jpg
+|	|	|	|
+|	|	|	|--WEB-INF（Web信息）
+|	|	|	|	|--templates（Thymeleaf渲染目标，html一般都放在这）
+|	|	|	|	|	`--index.html（首页）
+|	|	|	|	|	`--example.html
+|	|
+|	|--test（测试文件夹）
+|	|	|--java（代码区）
+|	|	|	|--booking（组织文件夹）
+|	|	|	|	`--AppTest.java
+```
+

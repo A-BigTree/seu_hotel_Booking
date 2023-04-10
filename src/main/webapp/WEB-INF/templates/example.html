@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Example</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/example.css}"/>
 </head>
 <body>
+<h1>显示表单</h1>
 <table>
     <tbody th:if="${not #lists.isEmpty(examList)}">
     <tr th:each="ex:${examList}">
@@ -12,6 +14,10 @@
     </tr>
     </tbody>
 </table>
+<h1>测试CSS</h1>
+<div class="example">&nbsp;</div>
 
+<h1>测试图片显示</h1>
+<img th:src="@{/image/example.jpg}" alt="example" src=""/>
 </body>
 </html>
