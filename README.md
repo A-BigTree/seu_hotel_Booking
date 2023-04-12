@@ -33,6 +33,27 @@ IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`➕Github Desktop
 
 运行项目看看是否自动打开浏览器，成功OK了。
 
+## 配置文件
+
+❗在路径`src/main/resources`新建数据库配置文件`druid.properties`，❗文件后缀名就是`*.properties`❗
+
+因为每个的数据库用户名和密码不一致，配置如下：
+
+```properties
+# 实现驱动不用改
+jdbc.driver=com.mysql.cj.jdbc.Driver
+# 目标数据库，改成数据集所在数据库名，比如数据集在hotel数据库中
+jdbc.url=jdbc:mysql://localhost:3306/hotel
+# 用户名，一般是root
+jdbc.username=root
+# 密码，用自己的密码
+jdbc.password=123456
+# 下面是数据库连接池相关设置不用改
+jdbc.initialSize=10
+jdbc.maxActive=40
+jdbc.maxWait=10000
+```
+
 
 
 # 项目路径说明
@@ -73,6 +94,9 @@ IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`➕Github Desktop
 |	|	|	
 |	|	|--webapp（网页视图文件夹）
 |	|	|	`--web.xml（Web应用配置文件）
+|	|	|	|
+|	|	|	|--script（JS脚本文件）
+|	|	|	|	`--example.js
 |	|	|	|
 |	|	|	|--css（css文件）
 |	|	|	|	`--Example.css
