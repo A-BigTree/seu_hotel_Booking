@@ -2,10 +2,10 @@ since 2023.04.09
 
 ⭐⭐⭐⭐**团队**⭐⭐⭐⭐
 
-- 👨‍💻Shuxin-Wang📫shuxinwang662@gmail.com
-- 👨‍💻Haoyang-Chen📫haoyang.chen5@icloud.com
-- 👨‍💻Jincheng-Li📫1635461341@qq.com
-- 👨‍💻Zesen-Yun📫yunzesen@163.com
+- 👨‍💻Shuxin-Wang  📫shuxinwang662@gmail.com
+- 👨‍💻Haoyang-Chen 📫haoyang.chen5@icloud.com
+- 👨‍💻Jincheng-Li  📫1635461341@qq.com
+- 👨‍💻Zesen-Yun    📫yunzesen@163.com
 
 ---
 
