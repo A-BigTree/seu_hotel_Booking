@@ -3,6 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Java out
+/out
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws
