@@ -132,3 +132,21 @@ jdbc.maxWait=10000
 
 ### 地区表
 
+province，city，county
+
+该部分后续可以在前端完成，这里先不确定；
+
+### 酒店信息表
+
+|  字段名称  |     类型     |   含义   |          备注          |
+| :--------: | :----------: | :------: | :--------------------: |
+|  hotel_id  |     int      |  酒店ID  |   主键；范围0~10225    |
+| hotel_name | varchar(100) | 酒店名称 |                        |
+|  dest_id   |     int      | 地区编码 |     县级编码前6位      |
+|  address   | varchar(300) | 具体地址 |                        |
+|   point    |    double    |   评分   |   0表示无评价；<=10    |
+|    star    |     int      |   星级   | 0表示不知星级；范围0~5 |
+| image_num  |     int      | 图片数量 |                        |
+| desciption | varchar(100) | 简要描述 |                        |
+|  can_book  |   tinyint    | 可否预定 |                        |
+
