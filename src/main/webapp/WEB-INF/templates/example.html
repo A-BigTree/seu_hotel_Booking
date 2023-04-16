@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Example</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/example.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/example.css}"/>
 </head>
 <body>
 <h1>数据库测试</h1>
@@ -17,7 +17,20 @@
 <h1>测试CSS</h1>
 <div class="example">&nbsp;</div>
 
+<h1>测试引入JS</h1>
+<button type="button" id="helloBtn">测试JS</button>
+
 <h1>测试图片显示</h1>
-<img th:src="@{/image/example.jpg}" alt="example" src=""/>
+<img th:src="@{/static/seu_hotel/image/example.jpg}" alt="example" src=""/>
+
 </body>
+
+<script th:src="@{/static/seu_hotel/script/example.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    const btnElement = document.getElementById("helloBtn");
+    btnElement.onclick = function (){
+        example();
+    };
+</script>
+
 </html>
