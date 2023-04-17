@@ -95,14 +95,16 @@ jdbc.maxWait=10000
 |	|	|--webapp（网页视图文件夹）
 |	|	|	`--web.xml（Web应用配置文件）
 |	|	|	|
-|	|	|	|--script（JS脚本文件）
-|	|	|	|	`--example.js
-|	|	|	|
-|	|	|	|--css（css文件）
-|	|	|	|	`--Example.css
-|	|	|	|
-|	|	|	|--image（图片文件）
-|	|	|	|	`--Example.jpg
+|	|	|	|--static（静态资源）
+|	|	|	|	|--seu_hotel
+|	|	|	|	|	|--script（JS脚本文件）
+|	|	|	|	|	|	`--example.js
+|	|	|	|	|	|
+|	|	|	|	|	|--css（css文件）
+|	|	|	|	|	|	`--Example.css
+|	|	|	|	|	|
+|	|	|	|	|	|--image（图片文件）
+|	|	|	|	|	|`--Example.jpg
 |	|	|	|
 |	|	|	|--WEB-INF（Web信息）
 |	|	|	|	|--templates（Thymeleaf渲染目标，html一般都放在这）
@@ -138,15 +140,42 @@ province，city，county
 
 ### 酒店信息表
 
-|  字段名称  |     类型     |   含义   |          备注          |
-| :--------: | :----------: | :------: | :--------------------: |
-|  hotel_id  |     int      |  酒店ID  |   主键；范围0~10225    |
-| hotel_name | varchar(100) | 酒店名称 |                        |
-|  dest_id   |     int      | 地区编码 |     县级编码前6位      |
-|  address   | varchar(300) | 具体地址 |                        |
-|   point    |    double    |   评分   |   0表示无评价；<=10    |
-|    star    |     int      |   星级   | 0表示不知星级；范围0~5 |
-| image_num  |     int      | 图片数量 |                        |
-| desciption | varchar(100) | 简要描述 |                        |
-|  can_book  |   tinyint    | 可否预定 |                        |
+|  字段名称  |     类型     |   含义   |            备注            |
+| :--------: | :----------: | :------: | :------------------------: |
+|  hotel_id  |     int      |  酒店ID  |     主键；范围0~10225      |
+| hotel_name | varchar(100) | 酒店名称 |                            |
+|  dest_id   |     int      | 地区编码 |       县级编码前6位        |
+|  address   | varchar(300) | 具体地址 |                            |
+|   point    |    double    |   评分   |    Null表示无评价；<=10    |
+|    star    |     int      |   星级   |   0表示不知星级；范围0~5   |
+| image_num  |     int      | 图片数量 |                            |
+| desciption | varchar(800) | 简要描述 |      “null”表示无描述      |
+|  can_book  |   tinyint    | 可否预定 | 1表示可预定；0表示不可预定 |
 
+### 酒店描述表
+
+|  字段名称   |     类型     |   含义   |        备注        |
+| :---------: | :----------: | :------: | :----------------: |
+|  hotel_id   |     int      |  酒店ID  | 主键1；范围0~10225 |
+|    index    |     int      | 段落索引 |      主键2；       |
+| description | varchar(800) | 详细描述 |                    |
+
+#### 房间记录表
+
+|  字段名称   |     类型     |   含义   |        备注        |
+| :---------: | :----------: | :------: | :----------------: |
+|  hotel_id   |     int      |  酒店ID  | 主键1；范围0~10225 |
+|    index    |     int      | 房间索引 |       主键2        |
+|  room_name  | varchar(200) | 房间名称 |                    |
+| description | varchar(300) | 房间描述 |                    |
+|  capacity   | varchar(50)  | 房间容量 |                    |
+|    price    |   decimal    |   价格   |                    |
+|  room_num   |     int      | 房间数量 |     默认都为10     |
+
+### 酒店政策表
+
+| 字段名称 |     类型     |   含义   |    备注     |
+| :------: | :----------: | :------: | :---------: |
+| hotel_id |     int      |  酒店ID  | 范围0~10225 |
+| p_title  | varchar(20)  | 政策标题 |             |
+|  p_desc  | varchar(300) | 政策描述 |             |
