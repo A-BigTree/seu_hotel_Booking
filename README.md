@@ -19,6 +19,8 @@ IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`➕Github Desktop
 
 先把环境配好再用IDEA打开，不然IDEA内置Maven会自动配置可能会用bug❗
 
+安装完成后用IDEA打开项目⭐
+
 ## IDEA配置
 
 ❗前提先把上面要求的软件和环境都配置好了❗
@@ -31,9 +33,9 @@ IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`➕Github Desktop
 
 运行👉编辑配置👉左上角加号选择Tomcat服务器👉本地👉如果没有配置过在选择配置，选择自己下载的Tomcat的文件夹👉部署👉加号选择工件，一般情况有两个，开发阶段选择该项目热部署**后面有war:exploded**的那个👉返回服务器👉可以选择浏览器，**执行更新操作选择<u>更新类和资源</u>，切换出IDEA时选择<u>更新类和资源</u>**，为了分辨配置可以修改上方的名称，也可以不改👉**确定**
 
-运行项目看看是否自动打开浏览器，成功OK了。
-
 ## 配置文件
+
+### 数据库配置
 
 ❗在路径`src/main/resources`新建数据库配置文件`druid.properties`，❗文件后缀名就是`*.properties`❗
 
@@ -53,6 +55,23 @@ jdbc.initialSize=10
 jdbc.maxActive=40
 jdbc.maxWait=10000
 ```
+
+### 静态资源路径配置
+
+❗在路径`src/main/resources`新建静态资源配置文件`static.properties`❗
+
+```properties
+# 静态资源前缀配置
+static.prefix=http://[静态资源服务器IP]/static/seu_hotel/
+# 搜索页面图片前缀
+static.page.image.prefix=image/page/
+# 详细页面图片前缀
+static.hotels.image.prefix=image/hotels/
+# 图片后缀
+static.image.suffix=.jpg
+```
+
+都完成后运行项目看看是否自动打开浏览器，成功就OK了。
 
 
 
@@ -81,9 +100,13 @@ jdbc.maxWait=10000
 |	|	|	|	|	|
 |	|	|	|	|	|--impl（业务接口实现类）
 |	|	|	|	|	|	`--ExampleServiceImpl.java
+|	|	|	|	|
+|	|	|	|	|--utils（工具包）
+|	|	|	|	|	|--PrefixUtils.java（静态资源前缀工具类）
 |	|	|
 |	|	|--resources（配置资源文件夹）
 |	|	|	`--druid.properties（Druid数据库连接池配置，每个人不一样需要配置）
+|	|	|	`--static.properties（静态资源前缀配置，为防止IP泄露，需自己进行配置）
 |	|	|	`--logback.xml（日志打印格式配置）
 |	|	|	`--mybatis-config.xml（Mybatis全局配置文件）
 |	|	|	`--spring-mvc.xml（SpringMVC-IOC配置）
@@ -104,7 +127,7 @@ jdbc.maxWait=10000
 |	|	|	|	|	|	`--Example.css
 |	|	|	|	|	|
 |	|	|	|	|	|--image（图片文件）
-|	|	|	|	|	|`--Example.jpg
+|	|	|	|	|	|	`--Example.jpg
 |	|	|	|
 |	|	|	|--WEB-INF（Web信息）
 |	|	|	|	|--templates（Thymeleaf渲染目标，html一般都放在这）
@@ -116,6 +139,8 @@ jdbc.maxWait=10000
 |	|	|	|--booking（组织文件夹）
 |	|	|	|	`--AppTest.java
 ```
+
+
 
 # 需求分析
 
@@ -204,4 +229,15 @@ province，city，county
 | check_time | datetime |   下单时间   | 时间戳自动填写 |
 
 ## 实体类逻辑建模
+
+逆向构建实体类
+
+- info -> `HotelInfo`
+- desc -> `Description`
+- rooms -> `Room`
+- policies -> `Policies`
+- user -> `User`
+- booking -> `BookingManager`
+
+为了更好的图片资源寻找路径，创建类`ImagePath`进行专门管理；
 

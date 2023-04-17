@@ -14,13 +14,16 @@
     </tr>
     </tbody>
 </table>
-<h1>测试CSS</h1>
+<h1>测试引入CSS</h1>
 <div class="example">&nbsp;</div>
 
 <h1>测试引入JS</h1>
 <button type="button" id="helloBtn">测试JS</button>
 
-<h1>测试图片显示</h1>
+<h1>远程静态资源服务器图片显示</h1>
+<img th:src="${hotelInfo.pageImage.path}" alt="hotel image" src="">
+
+<h1>本地静态资源图片显示</h1>
 <img th:src="@{/static/seu_hotel/image/example.jpg}" alt="example" src=""/>
 
 </body>

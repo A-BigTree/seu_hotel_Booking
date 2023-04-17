@@ -16,7 +16,9 @@
 package booking.handler;
 
 import booking.entity.Example;
+import booking.entity.HotelInfo;
 import booking.service.api.ExampleService;
+import booking.utils.PrefixUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,10 @@ public class ExampleHandler {
     public String showList(Model model){
         List<Example> exampleList = exampleService.getAll();
         model.addAttribute("examList", exampleList);
+        HotelInfo hotelInfo = new HotelInfo();
+        hotelInfo.setHotelId(2222);
+        PrefixUtils.initPageImage(hotelInfo);
+        model.addAttribute("hotelInfo", hotelInfo);
         return "example";
     }
 
