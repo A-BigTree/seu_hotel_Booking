@@ -15,6 +15,8 @@
 
 package booking;
 
+import booking.entity.HotelInfo;
+import booking.utils.PrefixUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,5 +30,16 @@ public class AppTest {
     @Test
     public void testApp(){
         log.debug("Testing...");
+    }
+
+    @Test
+    public void testUtils(){
+        HotelInfo hotelInfo = new HotelInfo();
+        hotelInfo.setHotelId(6666);
+        hotelInfo.setImageNum(7);
+        PrefixUtils.initPageImage(hotelInfo);
+        PrefixUtils.initHotelsImages(hotelInfo);
+        log.info(hotelInfo.getPageImage().getPath());
+        log.info(hotelInfo.getHotelImages().toString());
     }
 }
