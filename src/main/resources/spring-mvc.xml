@@ -38,6 +38,7 @@
     <mvc:view-controller path="/" view-name="index"/>
     <mvc:view-controller path="/index.html" view-name="index"/>
     <!--下方添加跳转-->
+    <mvc:view-controller path="/about" view-name="about"/>
 
 
 </beans>

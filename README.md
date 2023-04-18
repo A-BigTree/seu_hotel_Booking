@@ -241,3 +241,11 @@ province，city，county
 
 为了更好的图片资源寻找路径，创建类`ImagePath`进行专门管理；
 
+# 技术流程图
+
+<img src="README.assets/image-20230418153227604.png" alt="image-20230418153227604" style="zoom:50%;" />
+
+- 前端组件：BootStrap5；Ajax；Vue3；Thymeleaf3；
+- 后端组件：Spring6；SpringMVC；MyBatis；
+- 服务器组件：Nginx；Tomcat；
+
