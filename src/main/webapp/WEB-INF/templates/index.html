@@ -6,10 +6,14 @@
     <title>SEU Booking-首页</title>
     <!-- CSS模板-->
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-dark bg-dark py-4">
+<!--菜单-->
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-dark bg-primary py-4">
     <div class="container">
         <a class="navbar-brand" href="/"><strong>SEU</strong> Booking</a>
         <button class="navbar-toggler" type="button" data-action="offcanvas-open" data-target="#navbar_main" aria-controls="navbar_main" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,24 +25,37 @@
                     <a class="nav-link" th:href="@{/}">首页</a>
                 </li>
                 <li class="nav-item" th:if="${session.user == null}">
-                    <a class="nav-link" th:href="@{/user/login}">登陆/注册</a>
+                    <a class="nav-link" th:href="@{/user/login}">
+                        <i class="fa-solid fa-user"></i>
+                        登陆/注册
+                    </a>
                 </li>
                 <li class="nav-item" th:if="${session.user != null}">
-                    <a class="nav-link" th:href="@{/user/info}" th:text="您好,${session.user.userName}">显示用户姓名</a>
+                    <a class="nav-link" th:href="@{/user/info}" th:text="您好,${session.user.userName}">
+                        <i class="fa-solid fa-user"></i>
+                        显示用户姓名
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/about}">关于我们</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://github.com/A-BigTree">
-                        <i class="fab fa-github fa-2x">
-                            <span class="ml-2 d-lg-none">GitHub</span>
-                        </i></a>
+                        <i class="fa-brands fa-github fa-2x"></i>
+                        <span class="ml-2 d-lg-none">GitHub</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://blog.csdn.net/weixin_53580595">
+                        <i class="fa-solid fa-blog fa-2x"></i>
+                        <span class="ml-2 d-lg-none">CSDN</span>
+                    </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+<!--主界面-->
 <main class="main">
     <section class="spotlight parallax bg-cover bg-size--cover" data-spotlight="fullscreen" style="background-image:url('http://101.200.59.252/static/seu_hotel/image/index/background.jpg')">
         <span class="mask bg-primary alpha-7"></span>
@@ -63,19 +80,16 @@
         </div>
     </section>
 </main>
+<!--搜索界面-->
 
-<!--Vue.js-->
-<script type="text/javascript" th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
+
 <!--Boomerang theme js-->
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
 
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
 
-<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/fontawesome-all.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
-<!--Axios.js-->
-<script type="text/javascript" th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
 
 </body>
 </html>
