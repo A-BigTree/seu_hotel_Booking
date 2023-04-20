@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Policies {
+public class Policy {
     // 酒店ID
     private Integer hotelId;
     // 政策标题

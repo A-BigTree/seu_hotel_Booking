@@ -42,7 +42,7 @@ public class HotelInfo {
     // 详细描述
     private List<Description> descriptions;
     // 政策
-    private List<Policies> policies;
+    private List<Policy> policies;
     // 展示图片路径
     private ImagePath pageImage;
     // 详细页面图片路径

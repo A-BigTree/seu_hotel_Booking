@@ -16,6 +16,21 @@
 
 package booking.mapper;
 
-public interface BookingMapper {
+import booking.entity.BookingManager;
 
+import java.sql.Date;
+import java.util.List;
+
+public interface BookingMapper {
+    List<BookingManager> selectBookingByUser(Integer userId);
+
+    List<BookingManager> selectBookingByHotel(Integer hotelId,
+                                              Integer roomIndex,
+                                              Date bookDate);
+
+    Integer addBooking(BookingManager bookingManager);
+
+    Integer removeBooking(Integer bookId);
+
+    Integer modifyBooking(BookingManager bookingManager);
 }

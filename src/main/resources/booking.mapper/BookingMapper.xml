@@ -4,5 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="booking.mapper.BookingMapper">
+    <insert id="addBooking">
 
+    </insert>
+    <update id="modifyBooking">
+        
+    </update>
+    <delete id="removeBooking">
+
+    </delete>
+
+    <select id="selectBookingByUser" resultType="booking.entity.BookingManager">
+
+    </select>
+    <select id="selectBookingByHotel" resultType="booking.entity.BookingManager">
+
+    </select>
 </mapper>

@@ -5,4 +5,19 @@
 
 <mapper namespace="booking.mapper.HotelInfoMapper">
 
+    <select id="selectHotelByParams" resultType="booking.entity.HotelInfo">
+
+    </select>
+    <select id="selectHotelById" resultType="booking.entity.HotelInfo">
+
+    </select>
+    <select id="selectDesById" resultType="booking.entity.Description">
+
+    </select>
+    <select id="selectRoomById" resultType="booking.entity.Room">
+
+    </select>
+    <select id="selectPoliesById" resultType="booking.entity.Policy">
+
+    </select>
 </mapper>

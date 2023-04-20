@@ -16,6 +16,23 @@
 
 package booking.mapper;
 
+import booking.entity.Description;
+import booking.entity.HotelInfo;
+import booking.entity.Policy;
+import booking.entity.Room;
+
+import java.util.List;
+
 public interface HotelInfoMapper {
+
+    List<HotelInfo> selectHotelByParams(HotelInfo hotelInfo);
+
+    HotelInfo selectHotelById(Integer hotelId);
+
+    List<Description> selectDesById(Integer hotelId);
+
+    List<Room> selectRoomById(Integer hotelId);
+
+    List<Policy> selectPoliesById(Integer hotelId);
 
 }
