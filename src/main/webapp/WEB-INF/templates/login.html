@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>登陆</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SEU Booking-首页</title>
-    <!-- CSS模板-->
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/bootstrap-select/css/bootstrap-select.css}"/>
-
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
 </head>
 <body>
-<!--菜单-->
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-dark bg-primary py-4">
     <div class="container">
         <a class="navbar-brand" href="/"><strong>SEU</strong> Booking</a>
@@ -23,10 +20,10 @@
         </button>
         <div class="navbar-collapse offcanvas-collapse" id="navbar_main">
             <ul class="navbar-nav ml-auto align-items-lg-center">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" th:href="@{/}">首页</a>
                 </li>
-                <li class="nav-item" th:if="${session.user == null}">
+                <li class="nav-item active" th:if="${session.user == null}">
                     <a class="nav-link" th:href="@{/user/login}">
                         <i class="fa-solid fa-user"></i>
                         登陆/注册
@@ -57,60 +54,36 @@
         </div>
     </div>
 </nav>
-
+<!--主界面-->
 <main class="main">
-    <!--主界面-->
-    <section class="spotlight parallax bg-cover bg-size--cover" data-spotlight="fullscreen"
+    <section class="py-xl bg-cover bg-size--cover"
              style="background-image:url('http://101.200.59.252/static/seu_hotel/image/index/background.jpg')">
-        <span class="mask bg-primary alpha-7"></span>
-        <div class="spotlight-holder py-lg pt-lg-xl">
-            <div class="container d-flex align-items-center no-padding">
-                <div class="col">
-                    <div class="row cols-xs-space align-items-center text-center text-md-left justify-content-center">
-                        <div class="col-7">
-                            <div class="text-center mt-5">
-                                <img th:src="@{/static/seu_hotel/image/index/icon.png}" style="width: 200px;"
-                                     class="img-fluid animated" data-animation-in="jackInTheBox"
-                                     data-animation-delay="1000" alt="设计图" src="">
-                                <h2 class="heading display-4 font-weight-400 text-white mt-5 animated"
-                                    data-animation-in="fadeInUp" data-animation-delay="2000">
-                                    <span class="font-weight-700">SEU</span> Hotel Booking
-                                </h2>
-                                <p class="lead text-white mt-3 lh-180 c-white animated" data-animation-in="fadeInUp"
-                                   data-animation-delay="2500">
-                                    SEU Hotel Booking based on SSM Framework by <strong class="text-white">SEU
-                                    09020</strong>
-                                </p>
+        <span class="mask bg-primary alpha-6"></span>
+        <div class="container d-flex align-items-center no-padding">
+            <div class="col">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <span class="clearfix"></span>
+                                <img th:src="@{/static/seu_hotel/image/index/icon.png}" style="width: 50px;" src=""
+                                     alt="">
+                                <h4 class="heading h3 text-white pt-3 pb-5">欢迎回来，<br>
+                                    登陆您的账号</h4>
+                                <form class="form-primary">
+                                    <div class="form-group">
+                                        <label for="email"></label>
+                                        <input type="email" class="form-control" id="email" placeholder="Your email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password"></label>
+                                        <input type="password" class="form-control" id="password" placeholder="密码">
+                                    </div>
+                                    <div class="text-right mt-4"><a href="/user/forget" class="text-white">忘记密码？</a>
+                                    </div>
+                                    <button type="submit" class="btn btn-block btn-lg bg-white mt-4">登陆</button>
+                                </form>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--搜索界面-->
-    <section class="slice slice-lg">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-10">
-                    <div class="row text-left">
-                        <h1>酒店查询</h1>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <select class="selectpicker" title="Simple select" data-live-search="true"
-                                    data-live-search-placeholder="目的地.." id="dest">
-                                <option>南京市</option>
-                                <option>临沂市</option>
-                                <option>江宁区</option>
-                                <option>河南省</option>
-                                <option>郑州市</option>
-                                <option>日照市</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-primary">查酒店</button>
                         </div>
                     </div>
                 </div>
@@ -119,14 +92,14 @@
     </section>
 </main>
 
-
 <!--Boomerang theme js-->
+
+
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/bootstrap-select/js/bootstrap-select.js}"></script>
 
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
-
 </body>
 </html>

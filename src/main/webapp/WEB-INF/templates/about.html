@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/bootstrap-select/css/bootstrap-select.css}"/>
 </head>
 <body>
 <!-- 菜单栏 -->
@@ -50,156 +51,187 @@
         </div>
     </div>
 </nav>
-
-<br>
-<div class="border-bottom"></div>
-<h1 class="text-center">团队介绍</h1>
-
-<div class="row">
-    <div class="col-md">
-        <div class="card">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-8">
-                        <span class="avatar avatar-sm bg-blue">SW</span>
-                        <span class="avatar-content">Shuxin Wang</span>
+<main class="main">
+    <section class="slice slice-lg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="text-center">团队介绍</h1>
+                        </div>
                     </div>
-                    <div class="col">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item pr-2">
-                                <a class="nav-link" href="https://github.com/A-BigTree">
-                                    <i class="fa-brands fa-github fa-2x"></i>
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <span class="avatar avatar-sm bg-blue">SW</span>
+                                            <span class="avatar-content">Shuxin Wang</span>
+                                        </div>
+                                        <div class="col">
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item pr-2">
+                                                    <a class="nav-link" href="https://github.com/A-BigTree">
+                                                        <i class="fa-brands fa-github fa-2x"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item pr-2">
+                                                    <a class="nav-link" href="https://blog.csdn.net/weixin_53580595">
+                                                        <i class="fa-solid fa-blog fa-2x"></i>
+                                                        <span class="ml-2 d-lg-none">CSDN</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <h5 class="heading heading-5 strong-600">组长CTO</h5>
+                                    <h6 class="heading heading-sm strong-400 text-muted mb-4">
+                                        SEU计科 090202
+                                    </h6>
+                                    <p class="card-text"><i class="fa-solid fa-envelope"></i> shuxinwang662@gmail.com</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <span class="avatar avatar-sm bg-purple">HC</span>
+                                            <span class="avatar-content">Haoyang Chen</span>
+                                        </div>
+                                        <div class="col">
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item pr-2">
+                                                    <a class="nav-link" href="https://github.com/Haoyang-Chen">
+                                                        <i class="fa-brands fa-github fa-2x"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <h5 class="heading heading-5 strong-600">组员CEO</h5>
+                                    <h6 class="heading heading-sm strong-400 text-muted mb-4">
+                                        SEU计科 090203
+                                    </h6>
+                                    <p class="card-text"><i class="fa-solid fa-envelope"></i> haoyang.chen5@icloud.com</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <span class="avatar avatar-sm bg-red">JL</span>
+                                            <span class="avatar-content">Jincheng Li</span>
+                                        </div>
+                                        <div class="col text-right text-xs-right">
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item pr-2">
+                                                    <a class="nav-link" href="https://github.com/ljcyyds">
+                                                        <i class="fa-brands fa-github fa-2x"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <h5 class="heading heading-5 strong-600">组员CEO</h5>
+                                    <h6 class="heading heading-sm strong-400 text-muted mb-4">
+                                        SEU计科 090202
+                                    </h6>
+                                    <p class="card-text"><i class="fa-solid fa-envelope"></i> 1635461341@qq.com</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <span class="avatar avatar-sm bg-orange">ZY</span>
+                                            <span class="avatar-content">Zesen Yun</span>
+                                        </div>
+                                        <div class="col text-right text-xs-right">
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item pr-2">
+                                                    <a class="nav-link" href="https://github.com/GoodGoodLearnDayUp">
+                                                        <i class="fa-brands fa-github fa-2x"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <h5 class="heading heading-5 strong-600">组员CEO</h5>
+                                    <h6 class="heading heading-sm strong-400 text-muted mb-4">
+                                        SEU计科 090201
+                                    </h6>
+                                    <p class="card-text"><i class="fa-solid fa-envelope"></i> yunzesen@163.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slice slice-lg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="text-center">项目介绍</h1>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-lg-2"></div>
+                        <div class="col-md-auto">
+                            <div class="card bg-secondary px-4 py-4 border-0 mb-0" style="width: 30rem;">
+                                <img class="card-img-top img-fluid" th:src="@{/static/seu_hotel/image/index/about.png}" alt="技术路线" src=""
+                                     height="600">
+                                <div class="card-body">
+                                    <h4 class="card-title">技术路线</h4>
+                                    <p class="card-text">Spring6➕SpringMVC➕Mybatis➕Thymeleaf3➕Vue3➕Nginx...</p>
+                                    <a href="https://github.com/A-BigTree/seu_hotel_Booking#%E6%8A%80%E6%9C%AF%E6%B5%81%E7%A8%8B%E5%9B%BE"
+                                       class="btn btn-sm btn-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <h5 class="heading heading-5 strong-600">组长CTO</h5>
-                <h6 class="heading heading-sm strong-400 text-muted mb-4">
-                    SEU计科 090202
-                </h6>
-                <p class="card-text"><i class="fa-solid fa-envelope"></i> shuxinwang662@gmail.com</p>
-            </div>
-
         </div>
-    </div>
-    <div class="col-md">
-        <div class="card">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-8">
-                        <span class="avatar avatar-sm bg-purple">HC</span>
-                        <span class="avatar-content">Haoyang Chen</span>
-                    </div>
-                    <div class="col">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item pr-2">
-                                <a class="nav-link" href="https://github.com/Haoyang-Chen">
-                                    <i class="fa-brands fa-github fa-2x"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <h5 class="heading heading-5 strong-600">组员CEO</h5>
-                <h6 class="heading heading-sm strong-400 text-muted mb-4">
-                    SEU计科 090203
-                </h6>
-                <p class="card-text"><i class="fa-solid fa-envelope"></i> haoyang.chen5@icloud.com</p>
-            </div>
+    </section>
+</main>
 
-        </div>
-    </div>
-    <div class="col-md">
-        <div class="card">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <span class="avatar avatar-sm bg-red">JL</span>
-                        <span class="avatar-content">Jincheng Li</span>
-                    </div>
-                    <div class="col text-right text-xs-right">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item pr-2">
-                                <a class="nav-link" href="https://github.com/ljcyyds">
-                                    <i class="fa-brands fa-github fa-2x"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <h5 class="heading heading-5 strong-600">组员CEO</h5>
-                <h6 class="heading heading-sm strong-400 text-muted mb-4">
-                    SEU计科 090202
-                </h6>
-                <p class="card-text"><i class="fa-solid fa-envelope"></i> 1635461341@qq.com</p>
-            </div>
-
-        </div>
-    </div>
-    <div class="col-md">
-        <div class="card">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <span class="avatar avatar-sm bg-orange">ZY</span>
-                        <span class="avatar-content">Zesen Yun</span>
-                    </div>
-                    <div class="col text-right text-xs-right">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item pr-2">
-                                <a class="nav-link" href="https://github.com/GoodGoodLearnDayUp">
-                                    <i class="fa-brands fa-github fa-2x"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <h5 class="heading heading-5 strong-600">组员CEO</h5>
-                <h6 class="heading heading-sm strong-400 text-muted mb-4">
-                    SEU计科 090201
-                </h6>
-                <p class="card-text"><i class="fa-solid fa-envelope"></i> yunzesen@163.com</p>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<br>
-<div class="border-bottom"></div>
-<h1 class="text-center">项目介绍</h1>
-<div class="row justify-content-md-center">
-    <div class="col-lg-2"></div>
-    <div class="col-md-auto">
-        <div class="card bg-secondary px-4 py-4 border-0 mb-0" style="width: 30rem;">
-            <img class="card-img-top img-fluid" th:src="@{/static/seu_hotel/image/index/about.png}" alt="技术路线" src=""
-                 height="600">
-            <div class="card-body">
-                <h4 class="card-title">技术路线</h4>
-                <p class="card-text">Spring6➕SpringMVC➕Mybatis➕Thymeleaf3➕Vue3➕Nginx...</p>
-                <a href="https://github.com/A-BigTree/seu_hotel_Booking#%E6%8A%80%E6%9C%AF%E6%B5%81%E7%A8%8B%E5%9B%BE"
-                   class="btn btn-sm btn-primary">Learn More</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2"></div>
-</div>
 
 
 <!--Boomerang theme js-->
-<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
+
 
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/bootstrap-select/js/bootstrap-select.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
 </body>
 </html>
