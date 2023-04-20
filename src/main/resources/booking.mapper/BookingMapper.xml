@@ -8,7 +8,7 @@
 
     </insert>
     <update id="modifyBooking">
-        
+
     </update>
     <delete id="removeBooking">
 
