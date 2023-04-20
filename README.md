@@ -142,14 +142,13 @@ static.image.suffix=.jpg
 
 
 
-# 需求分析
+# 技术流程图
 
-<img src="README.assets/image-20230416202234246.png" alt="image-20230416202234246" style="zoom:50%;" />
+<img src="README.assets/image-20230418153227604.png" alt="image-20230418153227604" style="zoom:50%;" />
 
-- 要使用Cookie🍪保持用户登陆状态；
-- 酒店页面的房间预定要在登陆状态下进行，否则跳转到登陆界面，同时登陆成功后返回原界面；
-
-- ...
+- 前端组件：BootStrap5；Ajax；Vue3；Thymeleaf3；
+- 后端组件：Spring6；SpringMVC；MyBatis；
+- 服务器组件：Nginx；Tomcat；
 
 
 
@@ -241,11 +240,94 @@ province，city，county
 
 为了更好的图片资源寻找路径，创建类`ImagePath`进行专门管理；
 
-# 技术流程图
 
-<img src="README.assets/image-20230418153227604.png" alt="image-20230418153227604" style="zoom:50%;" />
 
-- 前端组件：BootStrap5；Ajax；Vue3；Thymeleaf3；
-- 后端组件：Spring6；SpringMVC；MyBatis；
-- 服务器组件：Nginx；Tomcat；
+# 需求分析
+
+<img src="README.assets/image-20230416202234246.png" alt="image-20230416202234246" style="zoom:50%;" />
+
+- 要使用Cookie🍪保持用户登陆状态；
+- 酒店页面的房间预定要在登陆状态下进行，否则跳转到登陆界面，同时登陆成功后返回原界面；
+
+- ...
+
+
+
+## 用户模块
+
+### UserMapper接口
+
+| 方法名              | 标签值 | 返回值  | 参数                                 | 说明                                                |
+| ------------------- | ------ | ------- | ------------------------------------ | --------------------------------------------------- |
+| selectUserById      | select | User    | Integer userId                       | 根据用户ID返回User对象，密码不正确返回null          |
+| selectUserByAccount | select | User    | String userAccount<br/>String passwd | 根据账号密码返回User对象，密码不正确返回null        |
+| hasUser             | select | Integer | String user_account                  | 根据账号判断是否存在用户，存在返回1，不存在返回null |
+| addUser             | insert | Integer | User user                            | 添加用户条目                                        |
+| removeUSer          | delete | Integer | Integer userId                       | 根据用户ID删除用户信息                              |
+| modifyUser          | update | Integer | User                                 | 修改用户信息，需要用到动态SQL                       |
+
+### UserService接口
+
+| 方法名        | 调用Mapper          | 事务     | 返回值  | 参数                                 | 说明               |
+| ------------- | ------------------- | -------- | ------- | ------------------------------------ | ------------------ |
+| selectUser    | selectUserById      | 只读     | User    | Integer userId                       | 根据ID查询用户     |
+| login         | selectUserByAccount | 只读     | User    | String userAccount<br/>String passwd | 登陆               |
+| findUser      | hasUser             | 只读     | Integer | String user_account                  | 寻找是否存在该用户 |
+| signUp        | addUser             | 读前提交 | Integer | User user                            | 注册               |
+| deleteAccount | removeUSer          | 读前提交 | Integer | Integer userId                       | 删除账户           |
+| modifyInfo    | modifyUser          | 读前提交 | Integer | User                                 | 修改账户信息       |
+
+
+
+## 酒店模块
+
+### HotelInfoMapper接口
+
+| 方法名             | 标签值 | 返回值             | 参数            | 说明                     |
+| ------------------ | ------ | ------------------ | --------------- | ------------------------ |
+| selectHotelByDest  | select | List\<HotelInfo>   | Object..args    | 根据相关参数查询酒店列表 |
+| selectHotelById    | select | HotelInfo          | Integer hotelId | 根据酒店ID查询酒店       |
+| 其他条件查询代定义 |        |                    |                 |                          |
+| selectDesById      | select | Lsit\<Description> | Integer hotelId | 根据酒店ID查询具体描述   |
+| selectRoomById     | select | List\<Room>        | Integer hotelId | 根据酒店ID查询房间       |
+| selectPoliciesById | select | List\<Policy>      | Integer hotelId | 根据酒店ID查询政策       |
+
+### HotelInfoService接口
+
+| 方法名             | 调用Mapper接口     | 事务 | 返回值             | 参数            | 说明                   |
+| ------------------ | ------------------ | ---- | ------------------ | --------------- | ---------------------- |
+| queryHotels        | selectHotelByDest  | 只读 | List\<HotelInfo>   | Object..args    | 根据参数查询酒店       |
+| getHotel           | selectHotelById    | 只读 | HotelInfo          | Integer hotelId | 获取带个酒店实体       |
+| 其他条件查询代定义 |                    |      |                    |                 |                        |
+| getDescriptions    | selectDesById      | 只读 | Lsit\<Description> | Integer hotelId | 根据酒店ID查询具体描述 |
+| getRooms           | selectRoomById     | 只读 | List\<Room>        | Integer hotelId | 根据酒店ID查询房间     |
+| getPolicies        | selectPoliciesById | 只读 | List\<Policy>      | Integer hotelId | 根据酒店ID查询政策     |
+
+
+
+## 预定模块
+
+### BookingMapper接口
+
+| 方法名               | 标签值 | 返回值                | 参数                                                  | 说明                                       |
+| -------------------- | ------ | --------------------- | ----------------------------------------------------- | ------------------------------------------ |
+| selectBookingByUser  | select | List\<BookingManager> | Integer userId                                        | 根据用户ID查询预定记录                     |
+| selectBookingByHotel | select | List\<BookingManager> | Integer hotelId<br>Integer roomIndex<br>Date bookDate | 根据酒店ID、房间索引和预定时间查询预定记录 |
+| addBooking           | insert | Integer               | BookingManager                                        | 添加预定条目                               |
+| removeBooking        | delete | Integer               | Integer bookId                                        | 根据预定ID删除预定条目                     |
+| modifyBooking        | update | Integer               | BookingManager                                        | 修改入住时间                               |
+
+### BookingService接口
+
+| 方法名            | 调用Mapper           | 事务     | 返回值                | 参数                                                  | 说明                                       |
+| ----------------- | -------------------- | -------- | --------------------- | ----------------------------------------------------- | ------------------------------------------ |
+| getUserBooking    | selectBookingByUser  | 只读     | List\<BookingManager> | Integer userId                                        | 根据用户ID查询预定记录                     |
+| getHotelBooking   | selectBookingByHotel | 只读     | List\<BookingManager> | Integer hotelId<br>Integer roomIndex<br>Date bookDate | 根据酒店ID、房间索引和预定时间查询预定记录 |
+| toBooking         | addBooking           | 读前提交 | Integer               | BookingManager                                        | 添加预定条目                               |
+| cancelBooking     | removeBooking        | 读前提交 | Integer               | Integer bookId                                        | 根据预定ID删除预定条目                     |
+| changeBookingDate | modifyBooking        | 读前提交 | Integer               | BookingManager                                        | 修改入住时间                               |
+
+
+
+# 交互Handdler
 
