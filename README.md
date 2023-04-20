@@ -261,7 +261,7 @@ province，city，county
 | ------------------- | ------ | ------- | ------------------------------------ | --------------------------------------------------- |
 | selectUserById      | select | User    | Integer userId                       | 根据用户ID返回User对象，密码不正确返回null          |
 | selectUserByAccount | select | User    | String userAccount<br/>String passwd | 根据账号密码返回User对象，密码不正确返回null        |
-| hasUser             | select | Integer | String user_account                  | 根据账号判断是否存在用户，存在返回1，不存在返回null |
+| hasUser             | select | Integer | String userAccount                   | 根据账号判断是否存在用户，存在返回1，不存在返回null |
 | addUser             | insert | Integer | User user                            | 添加用户条目                                        |
 | removeUSer          | delete | Integer | Integer userId                       | 根据用户ID删除用户信息                              |
 | modifyUser          | update | Integer | User                                 | 修改用户信息，需要用到动态SQL                       |
