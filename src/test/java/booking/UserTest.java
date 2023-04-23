@@ -46,7 +46,7 @@ public class UserTest {
         if(userService.findUser(user.getAccountNumber())==0){
             log.info(userService.signUp(user).toString());
         }else{
-            log.info("User: " + user.getAccountNumber() + "has existed.");
+            log.info("User: " + user.getAccountNumber() + " has existed.");
         }
     }
 
