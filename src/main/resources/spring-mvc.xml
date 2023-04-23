@@ -39,7 +39,7 @@
     <mvc:view-controller path="/index.html" view-name="index"/>
     <!--下方添加跳转-->
     <mvc:view-controller path="/about" view-name="about"/>
-    <mvc:view-controller path="/user/login" view-name="login"/>
+    <mvc:view-controller path="/user" view-name="login"/>
 
 
 </beans>

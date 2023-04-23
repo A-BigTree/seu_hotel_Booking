@@ -21,12 +21,12 @@
     </select>
 
     <select id="selectUserByAccount" resultType="booking.entity.User">
-
+        SELECT user_id userId,account_number accountAumber,passwd,user_name userName,email,phone_number phoneNumber,balance
+        FROM user WHERE account_number=#{account} AND passwd=#{passwd};
     </select>
 
     <select id="hasUser" resultType="java.lang.Integer">
-
+        SELECT 1 FROM user WHERE account_number=#{userAccount};
     </select>
-
 
 </mapper>

@@ -9,9 +9,9 @@ since 2023.04.09
 
 ---
 
-# 环境配置
+# 1 环境配置
 
-## 软件安装
+## 1.1 软件安装
 
 IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`➕Github Desktop
 
@@ -21,21 +21,21 @@ IDEA➕JDK`17`➕MySQL`8.0.32`➕Tomcat`10.1.7`➕Maven`3.9.1`➕Github Desktop
 
 安装完成后用IDEA打开项目⭐
 
-## IDEA配置
+## 1.2 IDEA配置
 
 ❗前提先把上面要求的软件和环境都配置好了❗
 
-### Maven配置
+### 1.2.1 Maven配置
 
 文件👉设置👉构建、执行、部署👉构建工具👉Maven👉把Maven主路径改成自己下载的Maven路径👉**应用**
 
-### Tomcat配置
+### 1.2.2 Tomcat配置
 
 运行👉编辑配置👉左上角加号选择Tomcat服务器👉本地👉如果没有配置过在选择配置，选择自己下载的Tomcat的文件夹👉部署👉加号选择工件，一般情况有两个，开发阶段选择该项目热部署**后面有war:exploded**的那个👉返回服务器👉可以选择浏览器，**执行更新操作选择<u>更新类和资源</u>，切换出IDEA时选择<u>更新类和资源</u>**，为了分辨配置可以修改上方的名称，也可以不改👉**确定**
 
-## 配置文件
+## 1.3 配置文件
 
-### 数据库配置
+### 1.3.1 数据库配置
 
 ❗在路径`src/main/resources`新建数据库配置文件`druid.properties`，❗文件后缀名就是`*.properties`❗
 
@@ -56,7 +56,7 @@ jdbc.maxActive=40
 jdbc.maxWait=10000
 ```
 
-### 静态资源路径配置
+### 1.3.2 静态资源路径配置
 
 ❗在路径`src/main/resources`新建静态资源配置文件`static.properties`❗
 
@@ -75,7 +75,7 @@ static.image.suffix=.jpg
 
 
 
-# 项目路径说明
+# 2 项目路径说明
 
 ```bash
 `--pom.xml（Maven配置文件）
@@ -142,7 +142,7 @@ static.image.suffix=.jpg
 
 
 
-# 技术流程图
+# 3 技术流程图
 
 <img src="README.assets/image-20230418153227604.png" alt="image-20230418153227604" style="zoom:50%;" />
 
@@ -152,17 +152,17 @@ static.image.suffix=.jpg
 
 
 
-# 设计建模
+# 4 设计建模
 
-## 数据库物理建模
+## 4.1 数据库物理建模
 
-### 地区表
+### 4.1.1 地区表
 
 province，city，county
 
 该部分后续可以在前端完成，这里先不确定；
 
-### 酒店信息表info
+### 4.1.2 酒店信息表info
 
 |  字段名称  |     类型     |   含义   |            备注            |
 | :--------: | :----------: | :------: | :------------------------: |
@@ -176,7 +176,7 @@ province，city，county
 | desciption | varchar(800) | 简要描述 |      “null”表示无描述      |
 |  can_book  |   tinyint    | 可否预定 | 1表示可预定；0表示不可预定 |
 
-### 酒店描述表desc
+### 4.1.3 酒店描述表desc
 
 |  字段名称   |     类型     |   含义   |        备注        |
 | :---------: | :----------: | :------: | :----------------: |
@@ -184,7 +184,7 @@ province，city，county
 |    index    |     int      | 段落索引 |      主键2；       |
 | description | varchar(800) | 详细描述 |                    |
 
-### 房间记录表rooms
+### 4.1.4 房间记录表rooms
 
 |  字段名称   |     类型     |   含义   |        备注        |
 | :---------: | :----------: | :------: | :----------------: |
@@ -196,7 +196,7 @@ province，city，county
 |    price    |   decimal    |   价格   |                    |
 |  room_num   |     int      | 房间数量 |     默认都为10     |
 
-### 酒店政策表policies
+### 4.1.5 酒店政策表policies
 
 | 字段名称 |     类型     |   含义   |    备注     |
 | :------: | :----------: | :------: | :---------: |
@@ -204,7 +204,7 @@ province，city，county
 | p_title  | varchar(20)  | 政策标题 |             |
 |  p_desc  | varchar(300) | 政策描述 |             |
 
-### 用户注册表user
+### 4.1.6 用户注册表user
 
 |    字段名称    |    类型     |   含义   |      备注       |
 | :------------: | :---------: | :------: | :-------------: |
@@ -216,7 +216,7 @@ province，city，county
 |  phone_number  | varchar(20) | 电话号码 |                 |
 |    balance     |   decimal   | 账户余额 |                 |
 
-### 酒店预定表booking
+### 4.1.7 酒店预定表booking
 
 |  字段名称  |   类型   |     含义     |      备注      |
 | :--------: | :------: | :----------: | :------------: |
@@ -227,7 +227,7 @@ province，city，county
 | book_date  |   date   |   到达日期   |                |
 | check_time | datetime |   下单时间   | 时间戳自动填写 |
 
-## 实体类逻辑建模
+## 4.2 实体类逻辑建模
 
 逆向构建实体类
 
@@ -242,7 +242,7 @@ province，city，county
 
 
 
-# 需求分析
+# 5 需求分析
 
 <img src="README.assets/image-20230416202234246.png" alt="image-20230416202234246" style="zoom:50%;" />
 
@@ -253,7 +253,7 @@ province，city，county
 
 
 
-## 用户模块
+## 5.1 用户模块
 
 ### UserMapper接口
 
@@ -279,7 +279,7 @@ province，city，county
 
 
 
-## 酒店模块
+## 5.2 酒店模块
 
 ### HotelInfoMapper接口
 
@@ -305,7 +305,7 @@ province，city，county
 
 
 
-## 预定模块
+## 5.3 预定模块
 
 ### BookingMapper接口
 
@@ -329,5 +329,7 @@ province，city，county
 
 
 
-# 交互Handdler
+# 6 交互Handdler
+
+## 6.1 用户模块
 
