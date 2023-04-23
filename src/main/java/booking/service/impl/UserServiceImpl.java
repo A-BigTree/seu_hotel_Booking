@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public Integer findUser(String userAccount) {
-        return null;
+        return userMapper.hasUser(userAccount);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

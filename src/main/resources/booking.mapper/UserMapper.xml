@@ -5,8 +5,8 @@
 
 <mapper namespace="booking.mapper.UserMapper">
     <insert id="addUser">
-        INSERT INTO user (passwd, user_name, email, phone_number, balance)
-        VALUES (#{passwd}, #{userName}, #{email}, #{phoneNumber}, #{balance})
+        INSERT INTO user (account_number,passwd, user_name, email, phone_number, balance)
+        VALUES (#{accountNumber},#{passwd}, #{userName}, #{email}, #{phoneNumber}, #{balance});
     </insert>
 
     <update id="modifyUser">
@@ -15,8 +15,8 @@
                         passwd = #{passwd},
                         email = #{email},
                         phone_number = #{phoneNumber},
-                        balance = #{balance},
-        WHERE user_id = #{userId}
+                        balance = #{balance}
+        WHERE user_id = #{userId};
     </update>
 
     <delete id="removeUser">
@@ -34,7 +34,7 @@
     </select>
 
     <select id="hasUser" resultType="java.lang.Integer">
-        SELECT 1 FROM user WHERE account_number=#{userAccount};
+        SELECT COUNT(*) FROM user WHERE account_number=#{userAccount} LIMIT 1;
     </select>
 
 </mapper>
