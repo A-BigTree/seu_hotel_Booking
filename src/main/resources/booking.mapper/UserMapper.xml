@@ -5,19 +5,27 @@
 
 <mapper namespace="booking.mapper.UserMapper">
     <insert id="addUser">
-
+        INSERT INTO user (passwd, user_name, email, phone_number, balance)
+        VALUES (#{passwd}, #{userName}, #{email}, #{phoneNumber}, #{balance})
     </insert>
 
     <update id="modifyUser">
-
+        UPDATE user SET
+                        user_name = #{userName},
+                        passwd = #{passwd},
+                        email = #{email},
+                        phone_number = #{phoneNumber},
+                        balance = #{balance},
+        WHERE user_id = #{userId}
     </update>
 
     <delete id="removeUser">
-
+        DELETE FROM user WHERE user_id = #{userId};
     </delete>
 
     <select id="selectUserById" resultType="booking.entity.User">
-
+        SELECT user_id userId,account_number accountAumber,passwd,user_name userName,email,phone_number phoneNumber,balance
+        FROM user WHERE user_id=#{userId};
     </select>
 
     <select id="selectUserByAccount" resultType="booking.entity.User">
