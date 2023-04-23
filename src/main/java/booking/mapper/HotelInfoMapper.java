@@ -25,7 +25,7 @@ import java.util.List;
 
 public interface HotelInfoMapper {
 
-    List<HotelInfo> selectHotelByParams(HotelInfo hotelInfo);
+    List<HotelInfo> selectHotelByParams(HotelInfo hotelInfo, Integer page);
 
     HotelInfo selectHotelById(Integer hotelId);
 

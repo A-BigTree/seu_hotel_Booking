@@ -16,5 +16,21 @@
 
 package booking.service.api;
 
+import booking.entity.Description;
+import booking.entity.HotelInfo;
+import booking.entity.Policy;
+import booking.entity.Room;
+
+import java.util.List;
+
 public interface HotelInfoService {
+    List<HotelInfo> queryHotels(HotelInfo hotelInfo, Integer page);
+
+    HotelInfo getHotel(Integer hotelId);
+
+    List<Description> getDescriptions(Integer hotelId);
+
+    List<Room> getRooms(Integer hotelId);
+
+    List<Policy> getPolicies(Integer hotelId);
 }

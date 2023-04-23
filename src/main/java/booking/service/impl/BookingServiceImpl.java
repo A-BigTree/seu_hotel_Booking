@@ -15,15 +15,51 @@
 
 package booking.service.impl;
 
+import booking.entity.BookingManager;
 import booking.mapper.BookingMapper;
 import booking.service.api.BookingService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Date;
+import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
-    private BookingMapper bookingMapper;
+    private final BookingMapper bookingMapper;
 
     public BookingServiceImpl(BookingMapper bookingMapper){
         this.bookingMapper = bookingMapper;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<BookingManager> getUserBooking(Integer userId) {
+        return bookingMapper.selectBookingByUser(userId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<BookingManager> getHotelBooking(Integer hotelId, Integer roomIndex, Date bookDate) {
+        return bookingMapper.selectBookingByHotel(hotelId, roomIndex, bookDate);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Override
+    public Integer toBooking(BookingManager bookingManager) {
+        return bookingMapper.addBooking(bookingManager);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Override
+    public Integer cancelBooking(Integer bookId) {
+        return bookingMapper.removeBooking(bookId);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Override
+    public Integer changeBooking(BookingManager bookingManager) {
+        return bookingMapper.modifyBooking(bookingManager);
     }
 }

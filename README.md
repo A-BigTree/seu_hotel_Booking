@@ -272,9 +272,9 @@ province，city，county
 | ------------- | ------------------- | -------- | ------- | ------------------------------------ | ------------------ |
 | getUser       | selectUserById      | 只读     | User    | Integer userId                       | 根据ID查询用户     |
 | login         | selectUserByAccount | 只读     | User    | String userAccount<br/>String passwd | 登陆               |
-| findUser      | hasUser             | 只读     | Integer | String user_account                  | 寻找是否存在该用户 |
+| findUser      | hasUser             | 只读     | Integer | String userAccount                   | 寻找是否存在该用户 |
 | signUp        | addUser             | 读前提交 | Integer | User user                            | 注册               |
-| deleteAccount | removeUSer          | 读前提交 | Integer | Integer userId                       | 删除账户           |
+| deleteAccount | removeUser          | 读前提交 | Integer | Integer userId                       | 删除账户           |
 | modifyInfo    | modifyUser          | 读前提交 | Integer | User                                 | 修改账户信息       |
 
 
@@ -283,25 +283,25 @@ province，city，county
 
 ### HotelInfoMapper接口
 
-| 方法名              | 标签值 | 返回值             | 参数                | 说明                     |
-| ------------------- | ------ | ------------------ | ------------------- | ------------------------ |
-| selectHotelByParams | select | List\<HotelInfo>   | HotelInfo hotelInfo | 根据相关参数查询酒店列表 |
-| selectHotelById     | select | HotelInfo          | Integer hotelId     | 根据酒店ID查询酒店       |
-| 其他条件查询代定义  |        |                    |                     |                          |
-| selectDesById       | select | Lsit\<Description> | Integer hotelId     | 根据酒店ID查询具体描述   |
-| selectRoomById      | select | List\<Room>        | Integer hotelId     | 根据酒店ID查询房间       |
-| selectPoliciesById  | select | List\<Policy>      | Integer hotelId     | 根据酒店ID查询政策       |
+| 方法名              | 标签值 | 返回值             | 参数                                 | 说明                     |
+| ------------------- | ------ | ------------------ | ------------------------------------ | ------------------------ |
+| selectHotelByParams | select | List\<HotelInfo>   | HotelInfo hotelInfo<br/>Integer page | 根据相关参数查询酒店列表 |
+| selectHotelById     | select | HotelInfo          | Integer hotelId                      | 根据酒店ID查询酒店       |
+| 其他条件查询代定义  |        |                    |                                      |                          |
+| selectDesById       | select | Lsit\<Description> | Integer hotelId                      | 根据酒店ID查询具体描述   |
+| selectRoomById      | select | List\<Room>        | Integer hotelId                      | 根据酒店ID查询房间       |
+| selectPoliciesById  | select | List\<Policy>      | Integer hotelId                      | 根据酒店ID查询政策       |
 
 ### HotelInfoService接口
 
-| 方法名             | 调用Mapper接口     | 事务 | 返回值             | 参数            | 说明                   |
-| ------------------ | ------------------ | ---- | ------------------ | --------------- | ---------------------- |
-| queryHotels        | selectHotelByDest  | 只读 | List\<HotelInfo>   | Object..args    | 根据参数查询酒店       |
-| getHotel           | selectHotelById    | 只读 | HotelInfo          | Integer hotelId | 获取带个酒店实体       |
-| 其他条件查询代定义 |                    |      |                    |                 |                        |
-| getDescriptions    | selectDesById      | 只读 | Lsit\<Description> | Integer hotelId | 根据酒店ID查询具体描述 |
-| getRooms           | selectRoomById     | 只读 | List\<Room>        | Integer hotelId | 根据酒店ID查询房间     |
-| getPolicies        | selectPoliciesById | 只读 | List\<Policy>      | Integer hotelId | 根据酒店ID查询政策     |
+| 方法名             | 调用Mapper接口     | 事务 | 返回值             | 参数                                | 说明                   |
+| ------------------ | ------------------ | ---- | ------------------ | ----------------------------------- | ---------------------- |
+| queryHotels        | selectHotelByDest  | 只读 | List\<HotelInfo>   | HotelInfo hotelInfo<br>Integer page | 根据参数查询酒店       |
+| getHotel           | selectHotelById    | 只读 | HotelInfo          | Integer hotelId                     | 获取带个酒店实体       |
+| 其他条件查询代定义 |                    |      |                    |                                     |                        |
+| getDescriptions    | selectDesById      | 只读 | Lsit\<Description> | Integer hotelId                     | 根据酒店ID查询具体描述 |
+| getRooms           | selectRoomById     | 只读 | List\<Room>        | Integer hotelId                     | 根据酒店ID查询房间     |
+| getPolicies        | selectPoliciesById | 只读 | List\<Policy>      | Integer hotelId                     | 根据酒店ID查询政策     |
 
 
 

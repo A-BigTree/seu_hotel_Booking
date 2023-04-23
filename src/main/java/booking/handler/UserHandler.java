@@ -15,6 +15,7 @@
 
 package booking.handler;
 
+import booking.entity.Message;
 import booking.service.api.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,16 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserHandler {
-    private UserService userService;
+    private final UserService userService;
 
     public UserHandler(UserService userService){
         this.userService = userService;
     }
 
     @RequestMapping("/user/login")
-    public @ResponseBody String loginUser(Model model){
+    public @ResponseBody Message loginUser(Model model){
 
 
-        return "";
+        return null;
     }
 }

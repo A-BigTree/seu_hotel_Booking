@@ -16,6 +16,18 @@
 
 package booking.service.api;
 
-public interface UserService {
+import booking.entity.User;
 
+public interface UserService {
+    User getUser(Integer userId);
+
+    User login(String userAccount, String passwd);
+
+    Integer findUser(String userAccount);
+
+    Integer signUp(User user);
+
+    Integer removeUser(Integer userId);
+
+    Integer modifyInfo(User user);
 }
