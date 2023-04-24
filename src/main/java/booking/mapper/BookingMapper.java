@@ -17,6 +17,7 @@
 package booking.mapper;
 
 import booking.entity.BookingManager;
+import org.apache.ibatis.annotations.Param;
 
 import java.sql.Date;
 import java.util.List;
@@ -24,9 +25,9 @@ import java.util.List;
 public interface BookingMapper {
     List<BookingManager> selectBookingByUser(Integer userId);
 
-    List<BookingManager> selectBookingByHotel(Integer hotelId,
-                                              Integer roomIndex,
-                                              Date bookDate);
+    List<BookingManager> selectBookingByHotel(@Param("hotelId") Integer hotelId,
+                                              @Param("roomIndex") Integer roomIndex,
+                                              @Param("bookDate") Date bookDate);
 
     Integer addBooking(BookingManager bookingManager);
 

@@ -17,12 +17,13 @@
 package booking.mapper;
 
 import booking.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
 
     User selectUserById(Integer userId);
 
-    User selectUserByAccount(String account, String passwd);
+    User selectUserByAccount(@Param("userAccount") String userAccount, @Param("passwd") String passwd);
 
     Integer hasUser(String userAccount);
 

@@ -52,8 +52,15 @@ public class UserTest {
 
     @Test
     public void testUserLogin(){
-        Integer re = userService.findUser("1234@gmail.com");
+        Integer re = userService.findUser("123456@gmail.com");
         log.info(re.toString());
+        log.info(userService.login("123456@seu.edu.cn", "wsx20020312").toString());
     }
+
+    @Test
+    public void testGetUser(){
+        log.info(userService.getUser(2).toString());
+    }
+
 
 }

@@ -24,13 +24,13 @@
     </delete>
 
     <select id="selectUserById" resultType="booking.entity.User">
-        SELECT user_id userId,account_number accountAumber,passwd,user_name userName,email,phone_number phoneNumber,balance
+        SELECT user_id userId,account_number accountNumber,passwd,user_name userName,email,phone_number phoneNumber,balance
         FROM user WHERE user_id=#{userId};
     </select>
 
     <select id="selectUserByAccount" resultType="booking.entity.User">
-        SELECT user_id userId,account_number accountAumber,passwd,user_name userName,email,phone_number phoneNumber,balance
-        FROM user WHERE account_number=#{account} AND passwd=#{passwd};
+        SELECT user_id userId,account_number accountNumber,passwd,user_name userName,email,phone_number phoneNumber,balance
+        FROM user WHERE account_number=#{userAccount} AND passwd=#{passwd};
     </select>
 
     <select id="hasUser" resultType="java.lang.Integer">

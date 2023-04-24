@@ -37,7 +37,7 @@ public class HotelInfoServiceImpl implements HotelInfoService {
     @Transactional(readOnly = true)
     @Override
     public List<HotelInfo> queryHotels(HotelInfo hotelInfo, Integer page) {
-        return hotelInfoMapper.selectHotelByParams(hotelInfo, page);
+        return hotelInfoMapper.selectHotelByParams(hotelInfo);
     }
 
     @Transactional(readOnly = true)
