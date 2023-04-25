@@ -16,10 +16,12 @@
 package booking.handler;
 
 import booking.entity.Message;
+import booking.entity.User;
 import booking.service.api.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -31,7 +33,25 @@ public class UserHandler {
     }
 
     @RequestMapping("/user/login")
-    public @ResponseBody Message loginUser(Model model){
+    public @ResponseBody Message loginUser(@RequestParam("account") String account,
+                                           @RequestParam("passwd") String passwd,
+                                           HttpSession session){
+        // 用户不存在
+        if(userService.findUser(account)==0){
+            return new Message(account + "@Login", 202);
+        }
+        User user = userService.login(account, passwd);
+        int code = 201;
+        // 密码正确
+        if (user!=null){
+            session.setAttribute("user", user);
+            code = 200;
+        }
+        return new Message(account + "@login", code);
+    }
+
+    @RequestMapping("/user/sign/in")
+    public @ResponseBody Message signInUser(){
 
 
         return null;

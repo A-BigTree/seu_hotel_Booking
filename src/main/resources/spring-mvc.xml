@@ -40,6 +40,7 @@
     <!--下方添加跳转-->
     <mvc:view-controller path="/about" view-name="about"/>
     <mvc:view-controller path="/user" view-name="login"/>
+    <mvc:view-controller path="/user/sign" view-name="sign"/>
 
 
 </beans>
