@@ -41,6 +41,7 @@
     <mvc:view-controller path="/about" view-name="about"/>
     <mvc:view-controller path="/user" view-name="login"/>
     <mvc:view-controller path="/user/sign" view-name="sign"/>
+    <mvc:view-controller path="/user/forget" view-name="forget"/>
 
 
 </beans>

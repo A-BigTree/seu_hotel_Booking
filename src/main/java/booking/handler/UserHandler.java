@@ -19,12 +19,16 @@ import booking.entity.Message;
 import booking.entity.User;
 import booking.service.api.BookingService;
 import booking.service.api.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 @Controller
@@ -117,4 +121,19 @@ public class UserHandler {
         return "redirect:/";
     }
 
+    @RequestMapping("/user/passwd/forget")
+    public @ResponseBody Message findUser(HttpServletRequest request,
+                                          @RequestParam("account") String account){
+        if(userService.findUser(account)==0){
+            return new Message("用户不存在!请重试!", 201);
+        }
+        return new Message(request.getContextPath() + "/user/password?account=" + account, 200);
+    }
+
+    @RequestMapping("/user/password")
+    public String mappingToPasswdPage(@RequestParam("account") String account,
+                                      Model model){
+        model.addAttribute("account", account);
+        return "password";
+    }
 }
