@@ -29,11 +29,31 @@
                         <span>登陆/注册</span>
                     </a>
                 </li>
-                <li class="nav-item" th:if="${session.user != null}">
-                    <a class="nav-link" th:href="@{/user/info}">
+                <li class="nav-item dropdown" th:if="${session.user != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbar_1_dropdown_3"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
                         <i class="fa-solid fa-user"></i>
                         <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" th:href="@{/user/booking}">
+                            <span class="float-right badge badge-primary" th:text="${session.bookNum}">0</span>
+                            <i class="fa-solid fa-envelope text-primary"></i>订单
+                        </a>
+                        <a class="dropdown-item" th:href="@{/user/info}">
+                            <i class="fa-solid fa-gear text-primary"></i>设置
+                        </a>
+                        <div class="dropdown-divider" role="presentation"></div>
+                        <a class="dropdown-item" th:href="@{/user/logout}">
+                            <i class="fas fa-sign-out-alt text-primary"></i>退出登陆
+                        </a>
+                    </div>
+                    <!--
+                    <a class="nav-link" th:href="@{/user/info}">
+                        <i class="fa-solid fa-user"></i>
+                        <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
+                    </a>-->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/about}">关于我们</a>
@@ -149,6 +169,8 @@
                     const button = document.getElementById("submit");
                     button.innerText = '';
                     button.innerHTML = '<li class="fa-solid fa-spinner fa-spin"></li>'
+                    button.setAttribute("disabled","true");
+                    this.infoMessage="正在登陆...";
                     axios({
                         method: "post",
                         url: url,
@@ -161,6 +183,7 @@
                             window.location.replace(document.getElementById("home").href);
                         }
                         else if(response.data.code===201) {
+                            button.removeAttribute("disabled")
                             this.isNormal = false;
                             this.isWarn = false;
                             this.isDanger = true;
@@ -169,6 +192,7 @@
                             button.innerText='登陆';
                         }
                         else{
+                            button.removeAttribute("disabled")
                             this.isNormal = false;
                             this.isWarn = false;
                             this.isDanger = true;

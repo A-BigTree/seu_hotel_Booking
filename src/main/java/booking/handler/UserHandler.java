@@ -17,6 +17,7 @@ package booking.handler;
 
 import booking.entity.Message;
 import booking.entity.User;
+import booking.service.api.BookingService;
 import booking.service.api.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,24 @@ import java.math.BigDecimal;
 @Controller
 public class UserHandler {
     private final UserService userService;
+    private final BookingService bookingService;
 
-    public UserHandler(UserService userService) {
+    public UserHandler(UserService userService,
+                       BookingService bookingService) {
         this.userService = userService;
+        this.bookingService = bookingService;
+    }
+
+    private void setSessionUser(HttpSession session, User user) {
+        if (session.getAttribute("user") != null) {
+            session.removeAttribute("user");
+        }
+        if (session.getAttribute("bookNum")!=null){
+            session.removeAttribute("bookNum");
+        }
+        session.setAttribute("user", user);
+        session.setAttribute("bookNum",
+                bookingService.getUserBooking(user.getUserId()).size());
     }
 
     /**
@@ -54,10 +70,7 @@ public class UserHandler {
         int code = 201;
         // 密码正确
         if (user != null) {
-            if (session.getAttribute("user") != null) {
-                session.removeAttribute("user");
-            }
-            session.setAttribute("user", user);
+            setSessionUser(session, user);
             code = 200;
         }
         return new Message(account + "@login", code);
@@ -89,10 +102,19 @@ public class UserHandler {
             return new Message("注册失败!服务器错误!", 201);
         }
         // 注册成功
+        setSessionUser(session, user);
+        return new Message("注册成功!", 200);
+    }
+
+    @RequestMapping("/user/logout")
+    public String logoutUser(HttpSession session){
         if (session.getAttribute("user") != null) {
             session.removeAttribute("user");
         }
-        session.setAttribute("user", user);
-        return new Message("注册成功!", 200);
+        if (session.getAttribute("bookNum")!=null){
+            session.removeAttribute("bookNum");
+        }
+        return "redirect:/";
     }
+
 }

@@ -15,7 +15,9 @@
     </delete>
 
     <select id="selectBookingByUser" resultType="booking.entity.BookingManager">
-
+        SELECT book_id bookId,user_id userId,hotel_id hotelId,
+               room_index roomIndex,book_date bookDate,check_time checkTime
+        FROM booking WHERE user_id=#{userId};
     </select>
     <select id="selectBookingByHotel" resultType="booking.entity.BookingManager">
 
