@@ -5,36 +5,76 @@
 
 <mapper namespace="booking.mapper.UserMapper">
     <insert id="addUser">
-        INSERT INTO user (account_number,passwd, user_name, email, phone_number, balance)
-        VALUES (#{accountNumber},#{passwd}, #{userName}, #{email}, #{phoneNumber}, #{balance});
+        INSERT INTO user (account_number, passwd, user_name, email, phone_number, balance)
+        VALUES (#{accountNumber}, #{passwd}, #{userName}, #{email}, #{phoneNumber}, #{balance});
     </insert>
 
     <update id="modifyUser">
-        UPDATE user SET
-                        user_name = #{userName},
-                        passwd = #{passwd},
-                        email = #{email},
-                        phone_number = #{phoneNumber},
-                        balance = #{balance}
-        WHERE user_id = #{userId};
+        UPDATE user
+        <set>
+            <if test="userName!=null">
+                user_name = #{userName},
+            </if>
+            <if test="passwd!=null">
+                passwd = #{passwd},
+            </if>
+            <if test="email!=null">
+                email = #{email},
+            </if>
+            <if test="phoneNumber!=null">
+                phone_number = #{phoneNumber},
+            </if>
+            <if test="balance!=null">
+                balance = #{balance},
+            </if>
+        </set>
+        <where>
+            <if test="userId!=null">
+                OR user_id = #{userId}
+            </if>
+            <if test="accountNumber!=null">
+                OR account_number = #{accountNumber}
+            </if>
+        </where>
+        ;
     </update>
 
     <delete id="removeUser">
-        DELETE FROM user WHERE user_id = #{userId};
+        DELETE
+        FROM user
+        WHERE user_id = #{userId};
     </delete>
 
     <select id="selectUserById" resultType="booking.entity.User">
-        SELECT user_id userId,account_number accountNumber,passwd,user_name userName,email,phone_number phoneNumber,balance
-        FROM user WHERE user_id=#{userId};
+        SELECT user_id        userId,
+               account_number accountNumber,
+               passwd,
+               user_name      userName,
+               email,
+               phone_number   phoneNumber,
+               balance
+        FROM user
+        WHERE user_id = #{userId};
     </select>
 
     <select id="selectUserByAccount" resultType="booking.entity.User">
-        SELECT user_id userId,account_number accountNumber,passwd,user_name userName,email,phone_number phoneNumber,balance
-        FROM user WHERE account_number=#{userAccount} AND passwd=#{passwd};
+        SELECT user_id        userId,
+               account_number accountNumber,
+               passwd,
+               user_name      userName,
+               email,
+               phone_number   phoneNumber,
+               balance
+        FROM user
+        WHERE account_number = #{userAccount}
+          AND passwd = #{passwd};
     </select>
 
     <select id="hasUser" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM user WHERE account_number=#{userAccount} LIMIT 1;
+        SELECT COUNT(*)
+        FROM user
+        WHERE account_number = #{userAccount}
+        LIMIT 1;
     </select>
 
 </mapper>

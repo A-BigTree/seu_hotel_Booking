@@ -96,24 +96,28 @@
                                         <label for="account">登陆邮箱</label>
                                         <input type="email" class="form-control"
                                                :class="{'is-valid':isAcc, 'is-invalid':!isAcc}"
+                                               :disabled="isDis"
                                                id="account" placeholder="邮箱" v-model="acc">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">密码</label>
                                         <input type="password" class="form-control"
                                                :class="{'is-valid':isPwd, 'is-invalid':!isPwd}"
+                                               :disabled="isDis"
                                                id="password" placeholder="密码" v-model="pwd">
                                     </div>
                                     <div class="form-group">
                                         <label for="password2">确认密码</label>
                                         <input type="password" class="form-control"
                                                :class="{'is-valid':isPwd2, 'is-invalid':!isPwd2}"
+                                               :disabled="isDis"
                                                id="password2" placeholder="确认密码" v-model="pwd2">
                                     </div>
                                     <div class="form-group">
                                         <label for="name">姓名</label>
                                         <input type="text" class="form-control"
                                                :class="{'is-valid':isName, 'is-invalid':!isName}"
+                                               :disabled="isDis"
                                                id="name" placeholder="用户姓名" v-model="userName">
                                     </div>
                                     <div class="form-group">
@@ -125,16 +129,18 @@
                                         <label for="phone">电话号码</label>
                                         <input type="text" class="form-control"
                                                :class="{'is-valid':isPhone, 'is-invalid':!isPhone}"
+                                               :disabled="isDis"
                                                id="phone" placeholder="确认密码" v-model="phoneNumber">
                                     </div>
 
                                     <div class="alert alert-shadow alert-dismissible fade show"
-                                         :class="{'alert-info':isNormal,'alert-warning':isWarn,'alert-danger':isDanger}"
+                                         :class="{'alert-info':isNormal,'alert-warning':isWarn,'alert-danger':isDanger, 'alert-success':isSuccess}"
                                          role="alert">
                                         <span class="alert-inner--text"><i class="fa-solid fa-exclamation"></i>&nbsp;{{infoMessage}}</span>
                                     </div>
                                     <button type="button" id="submit"
                                             class="btn btn-block btn-lg bg-white mt-4"
+                                            :disabled="isDis"
                                             @click="signInUser">注册
                                     </button>
                                 </div>
@@ -163,12 +169,18 @@
     const email_verify = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
     const phone_verify = /^[0-9]+$/;
 
+    function sleep(time){
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
     const app = createApp({
         data() {
             return {
                 isNormal: true,
                 isWarn: false,
                 isDanger: false,
+                isSuccess:false,
+                isDis:false,
                 infoMessage: "请输入注册信息",
                 isAcc: false,
                 isPwd: false,
@@ -213,10 +225,10 @@
             },
             signInUser: function () {
                 if (this.isAcc && this.isPwd && this.isPwd2 && this.isName && this.isPhone) {
+                    this.isDis=true;
                     const button = document.getElementById("submit");
                     button.innerText = '';
                     button.innerHTML = '<li class="fa-solid fa-spinner fa-spin"></li>'
-                    button.setAttribute("disabled","true")
                     this.infoMessage="正在注册..."
                     axios({
                         method: "post",
@@ -229,10 +241,25 @@
                         }
                     }).then((response) => {
                         if (response.data.code === 200) {
-                            window.location.replace(document.getElementById("home").href);
+                            this.isNormal = false;
+                            this.isWarn = false;
+                            this.isDanger = false;
+                            this.isSuccess = true;
+                            const messageInfo = "注册登陆成功!正在返回首页...";
+                            this.infoMessage = messageInfo + "3s";
+                            sleep(1000).then(() => {
+                                this.infoMessage = messageInfo + "2s";
+                                sleep(1000).then(()=>{
+                                    this.infoMessage = messageInfo + "1s";
+                                    sleep(1000).then(()=>{
+                                        this.infoMessage = messageInfo + "0s";
+                                        window.location.replace(response.data.message);
+                                    });
+                                });
+                            });
                         }
                         else {
-                            button.removeAttribute("disabled")
+                            this.isDis=false;
                             button.innerHTML='';
                             button.innerText='登陆';
                             this.isNormal = false;
@@ -263,6 +290,7 @@
             pwd:function (inputValue){
                 if(this.pwd!==""){
                     this.isPwd=true;
+                    this.isPwd2 = this.pwd2 !== "" && this.pwd2 === this.pwd;
                     this.checkInput();
                 }
                 else{

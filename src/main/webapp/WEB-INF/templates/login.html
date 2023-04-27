@@ -97,15 +97,17 @@
                                     <div class="form-group">
                                         <label for="account"></label>
                                         <input type="email" class="form-control" id="account" placeholder="邮箱"
+                                               :disabled="isDis"
                                                v-model="acc">
                                     </div>
                                     <div class="form-group">
                                         <label for="password"></label>
                                         <input type="password" class="form-control" id="password" placeholder="密码"
+                                               :disabled="isDis"
                                                v-model="pwd">
                                     </div>
                                     <div class="alert alert-shadow alert-dismissible fade show"
-                                         v-bind:class="{'alert-info':isNormal,'alert-warning':isWarn,'alert-danger':isDanger}"
+                                         :class="{'alert-info':isNormal,'alert-warning':isWarn,'alert-danger':isDanger, 'alert-success':isSuccess}"
                                          role="alert">
                                         <span class="alert-inner--text"><i class="fa-solid fa-exclamation"></i>&nbsp;{{infoMessage}}</span>
                                     </div>
@@ -117,6 +119,7 @@
 
                                     <button type="button" id="submit"
                                             class="btn btn-block btn-lg bg-white mt-4"
+                                            :disabled="isDis"
                                             @click="loginUser">登陆
                                     </button>
                                 </div>
@@ -144,12 +147,18 @@
     const {createApp} = Vue;
     const email_verify = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
 
+    function sleep(time){
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
     const app = createApp({
         data() {
             return {
                 isNormal: true,
                 isWarn: false,
                 isDanger: false,
+                isSuccess:false,
+                isDis:false,
                 infoMessage: "请输入账号密码",
                 isAcc: false,
                 isPwd: false,
@@ -166,10 +175,10 @@
                     this.isPwd = true;
                 }
                 if (this.isAcc && this.isPwd) {
+                    this.isDis=true;
                     const button = document.getElementById("submit");
                     button.innerText = '';
                     button.innerHTML = '<li class="fa-solid fa-spinner fa-spin"></li>'
-                    button.setAttribute("disabled","true");
                     this.infoMessage="正在登陆...";
                     axios({
                         method: "post",
@@ -180,10 +189,25 @@
                         }
                     }).then((response) => {
                         if (response.data.code === 200) {
-                            window.location.replace(document.getElementById("home").href);
+                            this.isNormal = false;
+                            this.isWarn = false;
+                            this.isDanger = false;
+                            this.isSuccess = true;
+                            const messageInfo = "登陆成功!正在返回首页...";
+                            this.infoMessage = messageInfo + "3s";
+                            sleep(1000).then(() => {
+                                this.infoMessage = messageInfo + "2s";
+                                sleep(1000).then(()=>{
+                                    this.infoMessage = messageInfo + "1s";
+                                    sleep(1000).then(()=>{
+                                        this.infoMessage = messageInfo + "0s";
+                                        window.location.replace(response.data.message);
+                                    });
+                                });
+                            });
                         }
                         else if(response.data.code===201) {
-                            button.removeAttribute("disabled")
+                            this.isDis=false;
                             this.isNormal = false;
                             this.isWarn = false;
                             this.isDanger = true;
@@ -192,7 +216,7 @@
                             button.innerText='登陆';
                         }
                         else{
-                            button.removeAttribute("disabled")
+                            this.isDis=false;
                             this.isNormal = false;
                             this.isWarn = false;
                             this.isDanger = true;

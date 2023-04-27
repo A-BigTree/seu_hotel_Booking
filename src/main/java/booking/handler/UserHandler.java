@@ -20,7 +20,6 @@ import booking.entity.User;
 import booking.service.api.BookingService;
 import booking.service.api.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 @Controller
@@ -42,13 +40,17 @@ public class UserHandler {
         this.bookingService = bookingService;
     }
 
-    private void setSessionUser(HttpSession session, User user) {
+    private void removeSessionUser(HttpSession session){
         if (session.getAttribute("user") != null) {
             session.removeAttribute("user");
         }
         if (session.getAttribute("bookNum")!=null){
             session.removeAttribute("bookNum");
         }
+    }
+
+    private void setSessionUser(HttpSession session, User user) {
+        removeSessionUser(session);
         session.setAttribute("user", user);
         session.setAttribute("bookNum",
                 bookingService.getUserBooking(user.getUserId()).size());
@@ -77,7 +79,7 @@ public class UserHandler {
             setSessionUser(session, user);
             code = 200;
         }
-        return new Message(account + "@login", code);
+        return new Message(session.getServletContext().getContextPath() + "/", code);
     }
 
     /**
@@ -107,17 +109,12 @@ public class UserHandler {
         }
         // 注册成功
         setSessionUser(session, user);
-        return new Message("注册成功!", 200);
+        return new Message(session.getServletContext().getContextPath() + "/", 200);
     }
 
     @RequestMapping("/user/logout")
     public String logoutUser(HttpSession session){
-        if (session.getAttribute("user") != null) {
-            session.removeAttribute("user");
-        }
-        if (session.getAttribute("bookNum")!=null){
-            session.removeAttribute("bookNum");
-        }
+        removeSessionUser(session);
         return "redirect:/";
     }
 
@@ -135,5 +132,24 @@ public class UserHandler {
                                       Model model){
         model.addAttribute("account", account);
         return "password";
+    }
+
+    @RequestMapping("/user/password/change")
+    public @ResponseBody Message changePasswd(@RequestParam("account") String account,
+                                              @RequestParam("passwd") String newPasswd,
+                                              HttpSession session){
+        User user = new User();
+        user.setAccountNumber(account);
+        user.setPasswd(newPasswd);
+        try{
+            Integer result = userService.modifyInfo(user);
+            if(result==-1){
+                return new Message("用户错误!请联系管理员!", 201);
+            }
+        }catch (Exception e){
+            return new Message("服务器错误!请联系管理员!", 201);
+        }
+        removeSessionUser(session);
+        return new Message(session.getServletContext().getContextPath() + "/user", 200);
     }
 }
