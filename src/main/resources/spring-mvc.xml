@@ -42,6 +42,9 @@
     <mvc:view-controller path="/user" view-name="login"/>
     <mvc:view-controller path="/user/sign" view-name="sign"/>
     <mvc:view-controller path="/user/forget" view-name="forget"/>
+    <mvc:view-controller path="/user/info" view-name="info-user"/>
+    <mvc:view-controller path="/user/info/change" view-name="info-change-user"/>
+    <mvc:view-controller path="/user/booking" view-name="booking-user"/>
 
 
 </beans>

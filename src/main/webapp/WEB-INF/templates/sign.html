@@ -160,8 +160,8 @@
 <script type="text/javascript" th:src="@{/static/seu_hotel/bootstrap-select/js/bootstrap-select.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
 <!--Vue3 + Axios-->
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
+<script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
 <!--自定义函数区-->
 <script type="text/javascript">
     const url = document.getElementById("urlSubmit").value;
@@ -261,7 +261,7 @@
                         else {
                             this.isDis=false;
                             button.innerHTML='';
-                            button.innerText='登陆';
+                            button.innerText='注册';
                             this.isNormal = false;
                             this.isWarn = false;
                             this.isDanger = true;

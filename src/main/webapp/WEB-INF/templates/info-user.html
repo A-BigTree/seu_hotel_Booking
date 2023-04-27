@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/bootstrap-select/css/bootstrap-select.css}"/>
+</head>
+<body>
+<!-- 菜单栏 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded py-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}"><strong>SEU </strong>Booking</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_example_1"
+                aria-controls="navbar_example_1" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar_example_1">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">首页</a>
+                </li>
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="nav-link" th:href="@{/user}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>登陆/注册</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown" th:if="${session.user != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbar_1_dropdown_3"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                        <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" th:href="@{/user/booking}">
+                            <span class="float-right badge badge-primary" th:text="${session.bookNum}">0</span>
+                            <i class="fa-solid fa-envelope text-primary"></i>订单
+                        </a>
+                        <a class="dropdown-item" th:href="@{/user/info}">
+                            <i class="fa-solid fa-gear text-primary"></i>设置
+                        </a>
+                        <div class="dropdown-divider" role="presentation"></div>
+                        <a class="dropdown-item" th:href="@{/user/logout}">
+                            <i class="fas fa-sign-out-alt text-primary"></i>退出登陆
+                        </a>
+                    </div>
+                    <!--
+                    <a class="nav-link" th:href="@{/user/info}">
+                        <i class="fa-solid fa-user"></i>
+                        <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
+                    </a>-->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">关于我们</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/A-BigTree">
+                        <i class="fa-brands fa-github fa-2x"></i>
+                        <span class="ml-2 d-lg-none">GitHub</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://blog.csdn.net/weixin_53580595">
+                        <i class="fa-solid fa-blog fa-2x"></i>
+                        <span class="ml-2 d-lg-none">CSDN</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--主体内容-->
+<main class="main">
+    <section class="slice slice-lg">
+        <div class="container">
+            <div class="row align-items-center" th:if="${session.user!=null}">
+                <!--个人信息卡片-->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header py-4">
+                            <div class="d-flex align-items-center">
+                                <h4 class="heading h5 mb-0">
+                                    <i class="fa-solid fa-user"></i>
+                                    <span th:text="${session.user.userName + ', 您好!'}"></span>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="list-group">
+                            <div class="list-group">
+                                <div class="list-group-item align-items-center">
+                                    <div class="list-group-content">
+                                        <div class="list-group-heading">
+                                            <i class="fa-solid fa-comment"></i>
+                                            <span><strong>账号:</strong></span>
+                                            <span th:text="${session.user.accountNumber}">用户账户</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item align-items-center">
+                                    <div class="list-group-content">
+                                        <div class="list-group-heading">
+                                            <i class="fa-solid fa-phone"></i>
+                                            <span><strong>电话:</strong></span>
+                                            <span th:text="${session.user.phoneNumber}">用户电话</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item align-items-center">
+                                    <div class="list-group-content">
+                                        <div class="list-group-heading">
+                                            <i class="fa-solid fa-envelope"></i>
+                                            <span><strong>邮箱:</strong></span>
+                                            <span th:text="${session.user.email}">用户邮箱</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item pr-2">
+                                    <a th:href="@{/user/password(account=${session.user.accountNumber})}">
+                                        <i class="fa-solid fa-key"></i>
+                                        <span>修改密码</span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a th:href="@{/user/info/change}">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        <span>修改信息</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--个人余额信息-->
+                <div class="col-lg-4">
+                    <div class="card card-pricing popular text-center px-3 mb-4 z-depth-3">
+                        <div class="card-header py-4">
+                            <h2 class="mb-4">账户余额</h2>
+                            <h4 class="text-primary text-center" th:text="${'￥' + session.user.balance}">
+                                余额
+                            </h4>
+                        </div>
+                        <div class="card-body" id="app">
+                            <label>
+                                <input type="hidden" id="urlSubmit" th:value="@{/user/balance/add}">
+                            </label>
+                            <div class="input-group mb-3">
+                                <label for="money_text"></label>
+                                <input type="text" class="form-control"
+                                       placeholder="充值金额" id="money_text"
+                                       v-model="money"
+                                       :disabled="isDis">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary"
+                                            type="button"
+                                            :disabled="isDis"
+                                            @click="addMoney" id="submit">
+                                        充值
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="alert alert-shadow alert-dismissible fade show"
+                                 :class="{'alert-info':isNormal,'alert-warning':isWarn,'alert-danger':isDanger, 'alert-success':isSuccess}"
+                                 role="alert">
+                                <span class="alert-inner--text"><i class="fa-solid fa-exclamation"></i>&nbsp;{{infoMessage}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center" th:if="${session.user==null}">
+                <div class="col align-content-center">
+                    <h2>
+                        用户未登陆/注册
+                    </h2>
+                    <form th:action="@{/user}">
+                        <button type="submit"
+                                class="btn btn-primary btn-animated btn-animated-y">
+                            <span class="btn-inner--visible">登陆</span>
+                            <span class="btn-inner--hidden">
+                            <i class="fa-solid fa-globe"></i>
+                        </span>
+                        </button>
+                    </form>
+                    <br>
+                    <form th:action="@{/user/sign}">
+                        <button type="submit"
+                                class="btn btn-primary btn-animated btn-animated-y">
+                            <span class="btn-inner--visible">注册</span>
+                            <span class="btn-inner--hidden">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<!--Boomerang theme js-->
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/bootstrap-select/js/bootstrap-select.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
+<!--Vue3 + Axios-->
+<script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
+<script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
+<!--自定义函数区-->
+<script type="text/javascript">
+    const url = document.getElementById("urlSubmit").value;
+    const {createApp} = Vue;
+    const money_verify =/(^[1-9][0-9]{0,3}$)|(^(0|([1-9][0-9]{0,3}))\.[0-9]{1,2}$)/
+
+    const app = createApp({
+        data() {
+            return {
+                isNormal: true,
+                isWarn: false,
+                isDanger: false,
+                isSuccess:false,
+                isDis:false,
+                infoMessage: "请输入充值金额",
+                isMoney: false,
+                money:""
+            }
+        },
+        methods: {
+            checkInput:function (){
+                if(this.isMoney){
+                    this.isNormal = true;
+                    this.isWarn = false;
+                    this.isDanger = false;
+                    this.isSuccess=false;
+                    this.infoMessage="请确认充值!"
+                }
+                else{
+                    this.isNormal = true;
+                    this.isWarn = true;
+                    this.isDanger = false;
+                    this.isSuccess=false;
+                    this.infoMessage="请输入正确格式!(金额<10000,比如666.66)";
+                }
+            },
+            addMoney: function () {
+                if (this.isMoney) {
+                    this.isDis=true;
+                    const button = document.getElementById("submit");
+                    button.innerText = '';
+                    button.innerHTML = '<li class="fa-solid fa-spinner fa-spin"></li>'
+                    this.infoMessage="正在充值..."
+                    axios({
+                        method: "post",
+                        url: url,
+                        params: {
+                            moneyAdd:this.money
+                        }
+                    }).then((response) => {
+                        if (response.data.code === 200) {
+                            this.isDis=false;
+                            this.isNormal = false;
+                            this.isWarn = false;
+                            this.isDanger = false;
+                            this.isSuccess = true;
+                            this.infoMessage = "充值成功!";
+                            location.reload();
+                        }
+                        else {
+                            this.isDis=false;
+                            button.innerHTML='';
+                            button.innerText='登陆';
+                            this.isNormal = false;
+                            this.isWarn = false;
+                            this.isDanger = true;
+                            this.infoMessage = response.data.message;
+                        }
+                    }).catch(function (error) {
+                        console.log(error)
+                    });
+                }
+                else {
+                    this.checkInput();
+                }
+            }
+        },
+        watch:{
+            money:function (inputValue){
+                this.isMoney = money_verify.test(this.money);
+                this.checkInput();
+            }
+        }
+    });
+    app.mount("#app");
+</script>
+</body>
+</html>

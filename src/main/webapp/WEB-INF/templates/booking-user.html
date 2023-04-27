@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>关于我们</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/bootstrap-select/css/bootstrap-select.css}"/>
+</head>
+<body>
+<!-- 菜单栏 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded py-4">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/}"><strong>SEU </strong>Booking</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_example_1"
+            aria-controls="navbar_example_1" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar_example_1">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/}">首页</a>
+        </li>
+        <li class="nav-item" th:if="${session.user == null}">
+          <a class="nav-link" th:href="@{/user}">
+            <i class="fa-solid fa-user"></i>
+            <span>登陆/注册</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown" th:if="${session.user != null}">
+          <a class="nav-link dropdown-toggle" href="#" id="navbar_1_dropdown_3"
+             role="button" data-toggle="dropdown" aria-haspopup="true"
+             aria-expanded="false">
+            <i class="fa-solid fa-user"></i>
+            <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" th:href="@{/user/booking}">
+              <span class="float-right badge badge-primary" th:text="${session.bookNum}">0</span>
+              <i class="fa-solid fa-envelope text-primary"></i>订单
+            </a>
+            <a class="dropdown-item" th:href="@{/user/info}">
+              <i class="fa-solid fa-gear text-primary"></i>设置
+            </a>
+            <div class="dropdown-divider" role="presentation"></div>
+            <a class="dropdown-item" th:href="@{/user/logout}">
+              <i class="fas fa-sign-out-alt text-primary"></i>退出登陆
+            </a>
+          </div>
+          <!--
+          <a class="nav-link" th:href="@{/user/info}">
+              <i class="fa-solid fa-user"></i>
+              <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
+          </a>-->
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/about}">关于我们</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/A-BigTree">
+            <i class="fa-brands fa-github fa-2x"></i>
+            <span class="ml-2 d-lg-none">GitHub</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://blog.csdn.net/weixin_53580595">
+            <i class="fa-solid fa-blog fa-2x"></i>
+            <span class="ml-2 d-lg-none">CSDN</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<main class="main">
+  <section class="slice slice-lg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-11">
+          <h1>正在开发！🎉</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slice slice-lg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-11">
+          <div class="row">
+            <div class="col">
+              <h1 class="text-center">项目介绍</h1>
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-2"></div>
+            <div class="col-md-auto">
+              <div class="card bg-secondary px-4 py-4 border-0 mb-0" style="width: 30rem;">
+                <img class="card-img-top img-fluid" th:src="@{/static/seu_hotel/image/index/about.png}"
+                     alt="技术路线" src=""
+                     height="600">
+                <div class="card-body">
+                  <h4 class="card-title">技术路线</h4>
+                  <p class="card-text">Spring6➕SpringMVC➕Mybatis➕Thymeleaf3➕Vue3➕Nginx...</p>
+                  <a href="https://github.com/A-BigTree/seu_hotel_Booking#%E6%8A%80%E6%9C%AF%E6%B5%81%E7%A8%8B%E5%9B%BE"
+                     class="btn btn-sm btn-primary">Learn More</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+<!--Boomerang theme js-->
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/bootstrap-select/js/bootstrap-select.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
+</body>
+</html>

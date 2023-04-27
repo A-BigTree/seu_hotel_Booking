@@ -112,12 +112,25 @@ public class UserHandler {
         return new Message(session.getServletContext().getContextPath() + "/", 200);
     }
 
+    /**
+     * 用户登出
+     *
+     * @param session 会话域对象
+     * @return 转到首页
+     */
     @RequestMapping("/user/logout")
     public String logoutUser(HttpSession session){
         removeSessionUser(session);
         return "redirect:/";
     }
 
+    /**
+     * 找回密码查看用户是否存在
+     *
+     * @param request 请求域对象
+     * @param account 找回密码账户
+     * @return 成功code为200，返回下一步页面；不存在返回code为201
+     */
     @RequestMapping("/user/passwd/forget")
     public @ResponseBody Message findUser(HttpServletRequest request,
                                           @RequestParam("account") String account){
@@ -127,6 +140,13 @@ public class UserHandler {
         return new Message(request.getContextPath() + "/user/password?account=" + account, 200);
     }
 
+    /**
+     * 渲染修改密码页面
+     *
+     * @param account 修改密码账户
+     * @param model 视图对象
+     * @return 返回passwd页面
+     */
     @RequestMapping("/user/password")
     public String mappingToPasswdPage(@RequestParam("account") String account,
                                       Model model){
@@ -134,6 +154,14 @@ public class UserHandler {
         return "password";
     }
 
+    /**
+     * 修改密码提交
+     *
+     * @param account 修改密码账户
+     * @param newPasswd 新设置密码
+     * @param session 会话域对象
+     * @return 成功返回code=200；失败返回code=201
+     */
     @RequestMapping("/user/password/change")
     public @ResponseBody Message changePasswd(@RequestParam("account") String account,
                                               @RequestParam("passwd") String newPasswd,
@@ -153,5 +181,61 @@ public class UserHandler {
         return new Message(session.getServletContext().getContextPath() + "/user", 200);
     }
 
+    /**
+     * 修改用户信息
+     *
+     * @param userName 用户姓名
+     * @param email 邮箱
+     * @param phoneNumber 电话号码
+     * @param session 会话域
+     * @return 成功返回code=200；失败返回code=201；
+     */
+    @RequestMapping("/user/info/change/submit")
+    public @ResponseBody Message changeUserInfo(@RequestParam("userName") String userName,
+                                                @RequestParam("email") String email,
+                                                @RequestParam("phoneNumber")String phoneNumber,
+                                                HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user==null){
+            removeSessionUser(session);
+            return new Message("连接出错!请重新登陆!", 201);
+        }
+        try{
+            Integer result= userService.modifyInfo(new User(user.getUserId(),
+                    null, null, userName, email, phoneNumber, null));
+            if(result<0){
+                return new Message("服务器出错!请联系管理员", 201);
+            }
+            // 刷新会话域用户对象
+            setSessionUser(session, userService.getUser(user.getUserId()));
+        }catch (Exception e){
+            return new Message("服务器出错!请联系管理员", 201);
+        }
+        return new Message(session.getServletContext().getContextPath() + "/user/info", 200);
+    }
 
+    @RequestMapping("/user/balance/add")
+    public @ResponseBody Message addUserMoney(@RequestParam("moneyAdd") Double money,
+                                              HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user==null){
+            removeSessionUser(session);
+            return new Message("连接出错!请重新登陆!", 201);
+        }
+        try{
+            User newUser = new User();
+            newUser.setUserId(user.getUserId());
+            newUser.setBalance(user.getBalance().add(BigDecimal.valueOf(money)));
+            Integer result= userService.modifyInfo(newUser);
+            if(result<0){
+                return new Message("服务器出错!请联系管理员", 201);
+            }
+            // 刷新会话域用户对象
+            setSessionUser(session, userService.getUser(user.getUserId()));
+        }catch (Exception e){
+            return new Message("服务器出错!请联系管理员", 201);
+        }
+
+        return new Message(session.getServletContext().getContextPath() + "/user/info", 200);
+    }
 }
