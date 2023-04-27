@@ -17,6 +17,7 @@ package booking;
 
 import booking.service.api.HotelInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,4 +30,8 @@ public class HotelInfoTest {
     @Autowired
     private HotelInfoService hotelInfoService;
 
+    @Test
+    public void testApp(){
+        log.debug("Testing...");
+    }
 }
