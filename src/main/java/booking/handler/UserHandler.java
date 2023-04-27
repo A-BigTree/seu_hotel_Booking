@@ -152,4 +152,6 @@ public class UserHandler {
         removeSessionUser(session);
         return new Message(session.getServletContext().getContextPath() + "/user", 200);
     }
+
+
 }

@@ -3,13 +3,13 @@
  * Project: seu_hotel_Booking
  * Package: booking.entity
  * =====================================================
- * Title: BookingManager.java
- * Created: [2023/4/17 21:25] by Shuxin-Wang
+ * Title: BookingInfo.java
+ * Created: [2023/4/27 13:57] by Shuxin-Wang
  * =====================================================
  * Description: description here
  * =====================================================
  * Revised History:
- * 1. 2023/4/17, created by Shuxin-Wang.
+ * 1. 2023/4/27, created by Shuxin-Wang.
  * 2.
  */
 
@@ -26,15 +26,15 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingManager {
+public class BookingInfo {
     // 预定ID
     private Integer bookId;
     //用户ID
     private Integer userId;
     // 预定酒店ID
-    private Integer hotelId;
+    private HotelInfo hotelInfo;
     // 预定房间
-    private Integer roomIndex;
+    private Room room;
     // 入住日期
     private Date checkInDate;
     // 离店日期
