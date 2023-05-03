@@ -109,7 +109,6 @@
             </div>
         </div>
     </section>
-
     <!--搜索界面-->
     <section class="slice slice-lg">
         <div class="container">
@@ -119,27 +118,26 @@
                         <h1>酒店查询</h1>
                     </div>
                     <div class="row mb-4">
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="dest">
+                            <input type="hidden" th:value="@{static/seu_hotel/json/city.json}" id="cityJson">
                             <select class="selectpicker" title="Simple select" data-live-search="true"
-                                    data-live-search-placeholder="目的地.." id="dest">
-                                <option>南京市</option>
-                                <option>临沂市</option>
-                                <option>江宁区</option>
-                                <option>河南省</option>
-                                <option>郑州市</option>
-                                <option>日照市</option>
+                                    data-live-search-placeholder="目的地..">
+                                <option v-for="city in cityList"
+                                        v-bind:value="city.key">
+                                    {{city.name}}
+                                </option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <button type="button" class="btn btn-primary">查酒店</button>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </main>
-
 
 <!--Boomerang theme js-->
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
@@ -150,5 +148,22 @@
 <!--Vue3 + Axios-->
 <script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
 <script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
+<!--自定义函数-->
+<script type="text/javascript">
+    const city_json = document.getElementById("cityJson").value;
+    const {createApp} = Vue;
+    const app = createApp({
+        data() {
+            return {
+                cityList: []
+            }
+        },
+        mounted() {
+            axios()
+        }
+    });
+    app.mount("#dest");
+
+</script>
 </body>
 </html>
