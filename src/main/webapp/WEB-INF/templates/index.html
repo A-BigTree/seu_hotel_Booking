@@ -118,14 +118,14 @@
                         <h1>酒店查询</h1>
                     </div>
                     <div class="row mb-4">
-                        <div class="col-md-6" id="dest">
+                        <div class="col-md-6">
                             <input type="hidden" th:value="@{static/seu_hotel/json/city.json}" id="cityJson">
-                            <select class="selectpicker" title="Simple select" data-live-search="true"
-                                    data-live-search-placeholder="目的地..">
-                                <option v-for="city in cityList"
-                                        v-bind:value="city.key">
-                                    {{city.name}}
-                                </option>
+                            <label for="search_dest"></label>
+                            <select class="selectpicker"
+                                    data-live-search="true"
+                                    title="目的地"
+                                    data-live-search-placeholder="搜索.."
+                                    id="search_dest">
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -151,19 +151,24 @@
 <!--自定义函数-->
 <script type="text/javascript">
     const city_json = document.getElementById("cityJson").value;
-    const {createApp} = Vue;
-    const app = createApp({
-        data() {
-            return {
-                cityList: []
+    $(window).on('load', function (){
+        $.ajax({
+            method: 'POST',
+            url: city_json,
+            dataType:'json',
+            success:function (res){
+                let html = "";
+                console.log(res);
+                for (let i = 0; i < res.length; i++){
+                    html += "<option value='" + res[i].key +
+                        "' data-name='" + res[i].city + "a'>" +
+                        res[i].city + "</option>";
+                }
+                $("#search_dest").html(html);
+                $('.selectpicker').selectpicker('refresh');//加载select框选择器
             }
-        },
-        mounted() {
-            axios()
-        }
+        });
     });
-    app.mount("#dest");
-
 </script>
 </body>
 </html>
