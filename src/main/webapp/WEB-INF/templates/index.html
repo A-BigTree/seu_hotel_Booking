@@ -126,7 +126,7 @@
                                            class="form-control"
                                            placeholder="目的地"
                                            v-model="dest_input"
-                                           id="search_dest">
+                                           id="search_dest" @click="clickInput()">
                                 </div>
                             </div>
                             <div class="card mt-0 pre-scrollable">
@@ -150,7 +150,6 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
                                     </div>
-
                                     <label for="date_input"></label>
                                     <input id="date_input"
                                            type="text" class="form-control"
@@ -224,7 +223,7 @@
                         res_list.push(this.city_data[i]);
                     }
                 }
-                if (res_list.length === 0) {
+                if (res_list.length < 0) {
                     for (let i = 0; i < this.city_data.length; i++) {
                         if (patten2.test(this.city_data[i].city)) {
                             res_list.push(this.city_data[i]);
@@ -241,6 +240,16 @@
                 this.cities.splice(0, this.cities.length);
                 this.dest_input = city.city + " " + city.desc;
                 this.selected_key = city.key;
+            },
+            clickInput: function (){
+                if (this.dest_input === ""){
+                    this.cities = [
+                        {"city": "北京市", "desc": "北京市", "key": 1101},
+                        {"city": "上海市", "desc": "上海市", "key": 3101},
+                        {"city": "深圳市", "desc": "广东省", "key": 4403},
+                        {"city": "杭州市", "desc": "浙江省", "key": 3301}
+                    ];
+                }
             }
         },
         watch: {
