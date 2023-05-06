@@ -105,27 +105,29 @@
     <!--搜索界面-->
     <section class="slice slice-lg">
         <div class="container">
+            <!--搜索界面-->
             <div class="row justify-content-center">
                 <div class="col">
                     <div class="row text-left mb-2">
                         <div class="col">
                             <h1>酒店查询</h1>
                         </div>
-
                     </div>
                     <div class="row mb-4" id="search">
                         <input type="hidden" th:value="@{static/seu_hotel/json/city.json}" id="cityJson">
+
                         <div class="col-md-4">
                             <div class="form-group mb-0">
                                 <div class="input-group input-group-transparent mb-0">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                                                    <span class="input-group-text"><i
+                                                            class="fa-solid fa-search"></i></span>
                                     </div>
                                     <label for="search_dest"></label>
                                     <input type="text"
                                            class="form-control"
                                            placeholder="目的地"
-                                           v-model="dest_input"
+                                           v-model="dest_input" @blur="clickInputOut()"
                                            id="search_dest" @click="clickInput()">
                                 </div>
                             </div>
@@ -142,13 +144,16 @@
                                     </a>
                                 </div>
                             </div>
+                            <div class="mb-4"></div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <div class="input-group input-group-transparent mb-4"
                                      id="timeBucket">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                                        <span class="input-group-text">
+                                            <i class="fa-solid fa-calendar"></i>
+                                        </span>
                                     </div>
                                     <label for="date_input"></label>
                                     <input id="date_input"
@@ -158,17 +163,182 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-transparent mb-4">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </span>
+                                            </div>
+                                            <label for="people_num"></label>
+                                            <input type="text" class="form-control text-center"
+                                                   placeholder="居住人数" v-model="peo_num"
+                                                   id="people_num" readonly>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="peo_plus()">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="peo_minus()">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group input-group-transparent mb-4">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa-solid fa-bed"></i>
+                                                </span>
+                                            </div>
+                                            <label for="room_num"></label>
+                                            <input type="text" class="form-control text-center"
+                                                   placeholder="房间人数" v-model="room_num"
+                                                   id="room_num" readonly>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="room_plus()">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="room_minus()">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <button type="button"
-                                    class="btn btn-primary btn-animated btn-animated-y">
-                                <span class="btn-inner--visible">查酒店</span>
+                                    class="btn btn-primary btn-lg btn-animated btn-animated-y mt-0">
+                                            <span class="btn-inner--visible">
+                                                查酒店
+                                            </span>
                                 <span class="btn-inner--hidden">
-                                    <i class="fa-solid fa-search"></i>
-                                </span>
+                                                <i class="fa-solid fa-search"></i>
+                                            </span>
                             </button>
                         </div>
-
                     </div>
+                </div>
+            </div>
+            <!--推荐界面-->
+            <div class="row justify-content-center">
+                <div class="col">
+                    <div class="row text-left mb-2">
+                        <div class="col">
+                            <h1>热门中国</h1>
+                            <p>这些热门目的地精彩纷呈</p>
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col">
+                            <a href="">
+                                <div class="card h-100 z-depth-3">
+                                    <img th:src="@{/static/seu_hotel/image/index/re1.jpg}"
+                                         class="card-img-top" alt="..." src="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">重庆</h5>
+                                        <p class="card-text">640家住宿</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="">
+                            <div class="card h-100 z-depth-3">
+                                <img th:src="@{/static/seu_hotel/image/index/re2.jpg}" src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">成都</h5>
+                                    <p class="card-text">1380家住宿</p>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="">
+                            <div class="card h-100 z-depth-3">
+                                <img th:src="@{/static/seu_hotel/image/index/re3.jpg}" src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">上海</h5>
+                                    <p class="card-text">1839家住宿</p>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="">
+                            <div class="card h-100 z-depth-3">
+                                <img th:src="@{/static/seu_hotel/image/index/re4.jpg}" src="" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">北京</h5>
+                                    <p class="card-text">1352家住宿</p>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+                        <div class="col">
+                            <a href="">
+                                <div class="card h-100 z-depth-3">
+                                    <img th:src="@{/static/seu_hotel/image/index/re5.jpg}"
+                                         class="card-img-top" alt="..." src="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">西昌</h5>
+                                        <p class="card-text">58家住宿</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="">
+                                <div class="card h-100 z-depth-3">
+                                    <img th:src="@{/static/seu_hotel/image/index/re6.jpg}" src="" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">阳朔</h5>
+                                        <p class="card-text">300家住宿</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="">
+                                <div class="card h-100 z-depth-3">
+                                    <img th:src="@{/static/seu_hotel/image/index/re7.jpg}" src="" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">长沙</h5>
+                                        <p class="card-text">347家住宿</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="">
+                                <div class="card h-100 z-depth-3">
+                                    <img th:src="@{/static/seu_hotel/image/index/re8.jpg}" src="" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">三亚</h5>
+                                        <p class="card-text">425家住宿</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -190,6 +360,10 @@
 <script type="text/javascript">
     const city_json = document.getElementById("cityJson").value;
 
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
     const {createApp} = Vue;
     const app = createApp({
         data() {
@@ -198,7 +372,11 @@
                 city_data: [],
                 selected_key: -1,
                 dest_input: "",
-                isComplete: false
+                isComplete: false,
+                peo_num: "2 人",
+                room_num: "1 间",
+                peo_key: 2,
+                room_key: 1
             }
         },
         mounted() {
@@ -237,18 +415,51 @@
             selectedDest: function (index) {
                 this.isComplete = true;
                 const city = this.cities[index];
+                this.selected_key = city.key;
                 this.cities.splice(0, this.cities.length);
                 this.dest_input = city.city + " " + city.desc;
-                this.selected_key = city.key;
+
             },
-            clickInput: function (){
-                if (this.dest_input === ""){
+            clickInput: function () {
+                if (this.dest_input === "") {
                     this.cities = [
                         {"city": "北京市", "desc": "北京市", "key": 1101},
                         {"city": "上海市", "desc": "上海市", "key": 3101},
                         {"city": "深圳市", "desc": "广东省", "key": 4403},
                         {"city": "杭州市", "desc": "浙江省", "key": 3301}
                     ];
+                } else {
+                    this.searchDest(this.dest_input);
+                }
+            },
+            clickInputOut: function () {
+                sleep(500).then(() => {
+                    if(this.cities.length!==0)
+                        this.cities.splice(0, this.cities.length);
+                });
+            },
+            peo_plus: function () {
+                if (this.peo_key < 20) {
+                    this.peo_key++;
+                    this.peo_num = this.peo_key + " 人";
+                }
+            },
+            peo_minus: function () {
+                if (this.peo_key > 1) {
+                    this.peo_key--;
+                    this.peo_num = this.peo_key + " 人";
+                }
+            },
+            room_plus: function () {
+                if (this.room_key < 10) {
+                    this.room_key++;
+                    this.room_num = this.room_key + " 间";
+                }
+            },
+            room_minus: function () {
+                if (this.room_key > 1) {
+                    this.room_key--;
+                    this.room_num = this.room_key + " 间";
                 }
             }
         },
@@ -272,22 +483,22 @@
 <script type="text/javascript">
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
-    $(function() {
+    $(function () {
         $('input[name="datefilter"]').daterangepicker({
-            autoUpdateInput:false,
-            minDate:today,
-            autoApply:true,
+            autoUpdateInput: false,
+            minDate: today,
+            autoApply: true,
             locale: {
-                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
-                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
-                    '七月', '八月', '九月', '十月', '十一月', '十二月' ]
+                daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月']
             }
         });
 
-        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') +' - '+picker.endDate.format('MM/DD/YYYY'));
+        $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         });
-        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+        $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
             $(this).val('');
         });
     });
