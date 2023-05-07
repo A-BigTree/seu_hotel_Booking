@@ -16,16 +16,16 @@
 
 package booking.mapper;
 
-import booking.entity.Description;
-import booking.entity.HotelInfo;
-import booking.entity.Policy;
-import booking.entity.Room;
+import booking.entity.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface HotelInfoMapper {
 
-    List<HotelInfo> selectHotelByParams(HotelInfo hotelInfo);
+    List<HotelInfo> selectHotelByParams(QueryOptions options);
+
+    Integer selectHotelSumByParams(QueryOptions options);
 
     HotelInfo selectHotelById(Integer hotelId);
 

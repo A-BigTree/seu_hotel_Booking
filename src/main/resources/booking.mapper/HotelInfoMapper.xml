@@ -6,12 +6,68 @@
 <mapper namespace="booking.mapper.HotelInfoMapper">
 
     <select id="selectHotelByParams" resultType="booking.entity.HotelInfo">
-        SELECT hotel_id hotelId, hotel_name hotelName, dest_id destId,
-               address, point, star, description simpleDesc, can_book canBook
+        SELECT hotel_id hotelId, hotel_name hotelName, dest_id destId, image_num imageNum,
+        address, point, star, description simpleDesc, can_book canBook
         FROM info
-        WHERE dest_id &gt;=#{destId}
-          AND dest_id &lt;#{destParentId}
+        <where>
+            <!--目的地-->
+            <if test="startDest!=null">
+                AND dest_id &gt;=#{startDest}
+            </if>
+            <if test="endDest!=null">
+                AND dest_id &lt;#{endDest}
+            </if>
+            <!--评分-->
+            <if test="startPoint!=null">
+                AND point &gt;=#{startPoint}
+            </if>
+            <if test="endPoint!=null">
+                AND point &lt;#{endPoint}
+            </if>
+            <!--星级范围-->
+            <if test="stars!=null">
+                AND star IN
+                <foreach collection="stars" open="(" separator="," close=")" item="star">
+                    #{star}
+                </foreach>
+            </if>
+            <!--可选目的地范围-->
+            <if test="destList!=null">
+                AND dest_id IN
+                <foreach collection="destList" open="(" separator="," close=")" item="dest">
+                    #{dest}
+                </foreach>
+            </if>
+            <!--是否查询订单记录-->
+            <if test="isQueryRecord">
+
+            </if>
+            <!--是否查询房间表-->
+            <if test="isQueryRoom">
+                AND EXISTS(
+                SELECT *
+                FROM rooms
+                <where>
+                    info.hotel_id=rooms.hotel_id
+                    <if test="peopleNum!=null">
+                        AND people_num &gt;=#{peopleNum}
+                    </if>
+                    <if test="roomNum!=null">
+                        AND room_num &gt;=#{roomNum}
+                    </if>
+                    <if test="startPrice!=null">
+                        AND price &gt;#{startPrice}
+                    </if>
+                    <if test="endPrice!=null">
+                        AND price &lt;#{endPrice}
+                    </if>
+                </where>
+                )
+            </if>
+        </where>
+
     </select>
+
     <select id="selectHotelById" resultType="booking.entity.HotelInfo">
 
     </select>
@@ -23,5 +79,65 @@
     </select>
     <select id="selectPoliesById" resultType="booking.entity.Policy">
 
+    </select>
+    <select id="selectHotelSumByParams" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM info
+        <where>
+            <!--目的地-->
+            <if test="startDest!=null">
+                AND dest_id &gt;=#{startDest}
+            </if>
+            <if test="endDest!=null">
+                AND dest_id &lt;#{endDest}
+            </if>
+            <!--评分-->
+            <if test="startPoint!=null">
+                AND point &gt;=#{startPoint}
+            </if>
+            <if test="endPoint!=null">
+                AND point &lt;#{endPoint}
+            </if>
+            <!--星级范围-->
+            <if test="stars!=null">
+                AND star IN
+                <foreach collection="stars" open="(" separator="," close=")" item="star">
+                    #{star}
+                </foreach>
+            </if>
+            <!--可选目的地范围-->
+            <if test="destList!=null">
+                AND dest_id IN
+                <foreach collection="destList" open="(" separator="," close=")" item="dest">
+                    #{dest}
+                </foreach>
+            </if>
+            <!--是否查询订单记录-->
+            <if test="isQueryRecord">
+
+            </if>
+            <!--是否查询房间表-->
+            <if test="isQueryRoom">
+                AND EXISTS(
+                SELECT *
+                FROM rooms
+                <where>
+                    info.hotel_id=rooms.hotel_id
+                    <if test="peopleNum!=null">
+                        AND people_num &gt;=#{peopleNum}
+                    </if>
+                    <if test="roomNum!=null">
+                        AND room_num &gt;=#{roomNum}
+                    </if>
+                    <if test="startPrice!=null">
+                        AND price &gt;#{startPrice}
+                    </if>
+                    <if test="endPrice!=null">
+                        AND price &lt;#{endPrice}
+                    </if>
+                </where>
+                )
+            </if>
+        </where>
     </select>
 </mapper>

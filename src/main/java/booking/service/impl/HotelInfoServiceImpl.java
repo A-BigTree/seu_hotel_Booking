@@ -15,10 +15,7 @@
 
 package booking.service.impl;
 
-import booking.entity.Description;
-import booking.entity.HotelInfo;
-import booking.entity.Policy;
-import booking.entity.Room;
+import booking.entity.*;
 import booking.mapper.HotelInfoMapper;
 import booking.service.api.HotelInfoService;
 import com.github.pagehelper.PageHelper;
@@ -37,9 +34,15 @@ public class HotelInfoServiceImpl implements HotelInfoService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<HotelInfo> queryHotels(HotelInfo hotelInfo, Integer page) {
+    public List<HotelInfo> queryHotels(QueryOptions options, Integer page) {
         PageHelper.startPage(page, 25);
-        return hotelInfoMapper.selectHotelByParams(hotelInfo);
+        return hotelInfoMapper.selectHotelByParams(options);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Integer queryHotelsSum(QueryOptions options) {
+        return hotelInfoMapper.selectHotelSumByParams(options);
     }
 
     @Transactional(readOnly = true)

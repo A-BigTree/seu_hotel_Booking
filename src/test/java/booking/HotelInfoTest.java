@@ -16,7 +16,9 @@
 package booking;
 
 import booking.entity.HotelInfo;
+import booking.entity.QueryOptions;
 import booking.service.api.HotelInfoService;
+import booking.utils.QueryUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -40,10 +43,16 @@ public class HotelInfoTest {
 
     @Test
     public void testSearchHotel(){
-        HotelInfo hotelInfo = new HotelInfo();
-        hotelInfo.setDestId(110118);
-        hotelInfo.setDestParentId(110119);
-        List<HotelInfo> hotelInfos = hotelInfoService.queryHotels(hotelInfo, 1);
+        QueryOptions options = QueryUtils.getSearchDestId(11);
+        options.setQueryRoom(true);
+        options.setPeopleNum(2);
+        options.setRoomNum(1);
+        ArrayList<Integer> stars = new ArrayList<>();
+        stars.add(4);
+        stars.add(2);
+        options.setStars(stars);
+        log.info(hotelInfoService.queryHotelsSum(options).toString());
+        List<HotelInfo> hotelInfos = hotelInfoService.queryHotels(options, 1);
         log.info(String.valueOf(hotelInfos.size()));
         log.info(hotelInfos.toString());
     }

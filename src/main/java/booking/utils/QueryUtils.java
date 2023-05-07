@@ -15,17 +15,17 @@
 
 package booking.utils;
 
-import booking.entity.HotelInfo;
+import booking.entity.QueryOptions;
 
-public class HotelUtils {
+public class QueryUtils {
     /**
      * 将目的地ID规范为6为并得到范围Id
      *
      * @param queryDestId 查询目的地Id
      * @return 目的地Id与范围Id的HotelInfo对象
      */
-    public static HotelInfo getSearchDestId(Integer queryDestId){
-        HotelInfo hotelInfo = new HotelInfo();
+    public static QueryOptions getSearchDestId(Integer queryDestId){
+        QueryOptions options = new QueryOptions();
         int destId, destParentId;
         if(queryDestId < 100){
             destId = queryDestId * 10000;
@@ -37,8 +37,8 @@ public class HotelUtils {
             destId = queryDestId;
             destParentId = queryDestId + 1;
         }
-        hotelInfo.setDestId(destId);
-        hotelInfo.setDestParentId(destParentId);
-        return hotelInfo;
+        options.setStartDest(destId);
+        options.setEndDest(destParentId);
+        return options;
     }
 }

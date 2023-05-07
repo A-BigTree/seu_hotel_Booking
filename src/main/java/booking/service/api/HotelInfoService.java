@@ -16,15 +16,16 @@
 
 package booking.service.api;
 
-import booking.entity.Description;
-import booking.entity.HotelInfo;
-import booking.entity.Policy;
-import booking.entity.Room;
+import booking.entity.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface HotelInfoService {
-    List<HotelInfo> queryHotels(HotelInfo hotelInfo, Integer page);
+
+    List<HotelInfo> queryHotels(QueryOptions options, Integer page);
+
+    Integer queryHotelsSum(QueryOptions options);
 
     HotelInfo getHotel(Integer hotelId);
 
