@@ -17,15 +17,14 @@
 package booking.service.api;
 
 import booking.entity.*;
+import com.github.pagehelper.PageInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface HotelInfoService {
 
-    List<HotelInfo> queryHotels(QueryOptions options, Integer page);
-
-    Integer queryHotelsSum(QueryOptions options);
+    PageInfo<HotelInfo> queryHotels(QueryOptions options, Integer page, String orderStr);
 
     HotelInfo getHotel(Integer hotelId);
 

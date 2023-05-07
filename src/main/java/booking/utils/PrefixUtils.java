@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 @Slf4j
@@ -85,7 +86,7 @@ public class PrefixUtils {
      * @author Shuxin-Wang
      * @param hotelInfo 待初始化酒店对象
      */
-    public static void initHotelsImages(@NonNull HotelInfo hotelInfo){
+    public static void initHotelImages(@NonNull HotelInfo hotelInfo){
         int hotelId = hotelInfo.getHotelId();
         String prefixPath = PREFIX_PATH + PREFIX_HOTELS_IMAGE +
                 getIndexPath(hotelId, 1000) +
@@ -96,6 +97,12 @@ public class PrefixUtils {
                     prefixPath + hotelId + "_" + i + SUFFIX_IMAGE));
         }
         hotelInfo.setHotelImages(imagePaths);
+    }
+
+    public static void initHotelsPageImage(List<HotelInfo> hotelInfos){
+        for (HotelInfo hotelInfo:hotelInfos){
+            initPageImage(hotelInfo);
+        }
     }
 
 }

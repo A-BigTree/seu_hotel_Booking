@@ -25,8 +25,6 @@ public interface HotelInfoMapper {
 
     List<HotelInfo> selectHotelByParams(QueryOptions options);
 
-    Integer selectHotelSumByParams(QueryOptions options);
-
     HotelInfo selectHotelById(Integer hotelId);
 
     List<Description> selectDesById(Integer hotelId);

@@ -19,6 +19,7 @@ import booking.entity.*;
 import booking.mapper.HotelInfoMapper;
 import booking.service.api.HotelInfoService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,15 +35,13 @@ public class HotelInfoServiceImpl implements HotelInfoService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<HotelInfo> queryHotels(QueryOptions options, Integer page) {
-        PageHelper.startPage(page, 25);
-        return hotelInfoMapper.selectHotelByParams(options);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Integer queryHotelsSum(QueryOptions options) {
-        return hotelInfoMapper.selectHotelSumByParams(options);
+    public PageInfo<HotelInfo> queryHotels(QueryOptions options, Integer page, String orderStr) {
+        if(orderStr==null){
+            PageHelper.startPage(page, 25);
+        }else{
+            PageHelper.startPage(page, 25, orderStr);
+        }
+        return new PageInfo<>(hotelInfoMapper.selectHotelByParams(options));
     }
 
     @Transactional(readOnly = true)

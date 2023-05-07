@@ -19,6 +19,7 @@ import booking.entity.HotelInfo;
 import booking.entity.QueryOptions;
 import booking.service.api.HotelInfoService;
 import booking.utils.QueryUtils;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,13 +48,8 @@ public class HotelInfoTest {
         options.setQueryRoom(true);
         options.setPeopleNum(2);
         options.setRoomNum(1);
-        ArrayList<Integer> stars = new ArrayList<>();
-        stars.add(4);
-        stars.add(2);
-        options.setStars(stars);
-        log.info(hotelInfoService.queryHotelsSum(options).toString());
-        List<HotelInfo> hotelInfos = hotelInfoService.queryHotels(options, 1);
-        log.info(String.valueOf(hotelInfos.size()));
+        PageInfo<HotelInfo> hotelInfos = hotelInfoService.queryHotels(options, 1, "roomPrice desc");
+        log.info(String.valueOf(hotelInfos.getTotal()));
         log.info(hotelInfos.toString());
     }
 }
