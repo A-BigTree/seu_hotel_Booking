@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>搜索结果</title>
+    <!-- CSS模板-->
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/datepicker/daterangepicker.css}"/>
+</head>
+<body>
+<!--菜单-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded py-4 fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}"><strong>SEU </strong>Booking</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_example_1"
+                aria-controls="navbar_example_1" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar_example_1">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">首页</a>
+                </li>
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="nav-link" th:href="@{/user}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>登陆/注册</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown" th:if="${session.user != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbar_1_dropdown_3"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                        <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" th:href="@{/user/booking}">
+                            <span class="float-right badge badge-primary" th:text="${session.bookNum}">0</span>
+                            <i class="fa-solid fa-envelope text-primary"></i>订单
+                        </a>
+                        <a class="dropdown-item" th:href="@{/user/info}">
+                            <i class="fa-solid fa-gear text-primary"></i>设置
+                        </a>
+                        <div class="dropdown-divider" role="presentation"></div>
+                        <a class="dropdown-item" th:href="@{/user/logout}">
+                            <i class="fas fa-sign-out-alt text-primary"></i>退出登陆
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">关于我们</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/A-BigTree">
+                        <i class="fa-brands fa-github fa-2x"></i>
+                        <span class="ml-2 d-lg-none">GitHub</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://blog.csdn.net/weixin_53580595">
+                        <i class="fa-solid fa-blog fa-2x"></i>
+                        <span class="ml-2 d-lg-none">CSDN</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="main">
+    <!--主界面-->
+    <section class="slice slice-lg">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col">
+                    <p>搜索条件</p>
+                    <p th:text="${city} + ' ID:' +${dest}">城市+ID</p>
+                    <p th:text="'预定时间:' + ${dateInOut}">预定时间</p>
+                    <p th:text="'人数:' + ${peopleNum} + ',房间数:' + ${roomsNum}">预定信息</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!--Boomerang theme js-->
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/datepicker/moment.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/datepicker/daterangepicker.js}"></script>
+
+<!--Vue3 + Axios-->
+<script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
+<script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
+<!--Vue绑定函数-->
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

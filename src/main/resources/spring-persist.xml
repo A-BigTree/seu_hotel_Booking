@@ -27,6 +27,19 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="mapperLocations" value="classpath:booking.mapper/*Mapper.xml"/>
         <property name="dataSource" ref="druidDataSource"/>
+        <!--分页插件-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <prop key="reasonable">true</prop>
+                            <prop key="helperDialect">mysql</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
     <!--Mybatis Mapper接口扫描配置-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

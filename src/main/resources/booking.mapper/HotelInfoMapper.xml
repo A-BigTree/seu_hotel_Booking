@@ -6,7 +6,11 @@
 <mapper namespace="booking.mapper.HotelInfoMapper">
 
     <select id="selectHotelByParams" resultType="booking.entity.HotelInfo">
-
+        SELECT hotel_id hotelId, hotel_name hotelName, dest_id destId,
+               address, point, star, description simpleDesc, can_book canBook
+        FROM info
+        WHERE dest_id &gt;=#{destId}
+          AND dest_id &lt;#{destParentId}
     </select>
     <select id="selectHotelById" resultType="booking.entity.HotelInfo">
 

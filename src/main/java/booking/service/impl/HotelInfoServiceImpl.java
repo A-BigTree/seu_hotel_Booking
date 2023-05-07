@@ -21,6 +21,7 @@ import booking.entity.Policy;
 import booking.entity.Room;
 import booking.mapper.HotelInfoMapper;
 import booking.service.api.HotelInfoService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class HotelInfoServiceImpl implements HotelInfoService {
     @Transactional(readOnly = true)
     @Override
     public List<HotelInfo> queryHotels(HotelInfo hotelInfo, Integer page) {
+        PageHelper.startPage(page, 25);
         return hotelInfoMapper.selectHotelByParams(hotelInfo);
     }
 

@@ -15,6 +15,7 @@
 
 package booking;
 
+import booking.entity.HotelInfo;
 import booking.service.api.HotelInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -22,6 +23,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 @Slf4j
 @ContextConfiguration(value = {"classpath:spring-persist.xml"})
@@ -33,5 +36,15 @@ public class HotelInfoTest {
     @Test
     public void testApp(){
         log.debug("Testing...");
+    }
+
+    @Test
+    public void testSearchHotel(){
+        HotelInfo hotelInfo = new HotelInfo();
+        hotelInfo.setDestId(110118);
+        hotelInfo.setDestParentId(110119);
+        List<HotelInfo> hotelInfos = hotelInfoService.queryHotels(hotelInfo, 1);
+        log.info(String.valueOf(hotelInfos.size()));
+        log.info(hotelInfos.toString());
     }
 }

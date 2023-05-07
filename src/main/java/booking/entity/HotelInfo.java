@@ -31,14 +31,20 @@ public class HotelInfo {
     private String hotelName;
     // 地区编码
     private Integer destId;
+    // 上级地区编码
+    private Integer destParentId;
     //具体地址
     private String address;
+    //评分
+    private Double point;
     // 星级
     private Integer star;
     // 图片数量
     private Integer imageNum;
     // 简要描述
     private String simpleDesc;
+    // 是否可预定
+    private Boolean canBook;
     // 详细描述
     private List<Description> descriptions;
     // 政策
