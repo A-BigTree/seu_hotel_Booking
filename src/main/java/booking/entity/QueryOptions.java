@@ -28,6 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 public class QueryOptions {
     //目的地范围
+    private Integer dest;
     private Integer startDest;
     private Integer endDest;
     // 星级范围
@@ -40,14 +41,17 @@ public class QueryOptions {
     // 是否查询订单记录
     private boolean isQueryRecord;
     // 时间范围
+    private String dateInOut;
     private Date dateIn;
     private Date dateOut;
-    //是否查询房间表
-    private boolean isQueryRoom;
     // 房间选择
     private Integer peopleNum;
     private Integer roomNum;
     // 价格范围
     private BigDecimal startPrice;
     private BigDecimal endPrice;
+    // 排序字符
+    private String orderBy;
+    // 页数
+    private Integer pageNum;
 }

@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>搜索结果</title>
     <!-- CSS模板-->
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
@@ -10,6 +9,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/datepicker/daterangepicker.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/example.css}"/>
 </head>
 <body>
 <!--菜单-->
@@ -75,12 +75,171 @@
     <!--主界面-->
     <section class="slice slice-lg">
         <div class="container">
+            <!--地点导航-->
             <div class="row mt-5">
                 <div class="col">
-                    <p>搜索条件</p>
-                    <p th:text="${city} + ' ID:' +${dest}">城市+ID</p>
-                    <p th:text="'预定时间:' + ${dateInOut}">预定时间</p>
-                    <p th:text="'人数:' + ${peopleNum} + ',房间数:' + ${roomsNum}">预定信息</p>
+                    <ul style="display: inline-block">
+                        <li style="display: inline-block">
+                            <a th:href="@{/}">首页&gt;</a>
+                        </li>
+                        <li style="display: inline-block" th:each="cityP:${parentCities}">
+                            <a th:href="@{/hotel/search(dest=${cityP.cityId},date=${options.dateInOut},people=${options.peopleNum},rooms=${options.roomNum},page=1)}"
+                               th:text="${cityP.cityName} + '&gt;'">
+                                城市名称
+                            </a>
+                        </li>
+                        <li style="display: inline-block">
+                            <a th:text="${city.cityName}">
+                                现在城市
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--结果主页-->
+            <div class="row mt-2">
+                <div class="col-4">
+                    <div class="flex-column">
+                        <div class="row mb-4" id="search">
+                            <input type="hidden" th:value="@{/static/seu_hotel/json/city.json}" id="cityJson">
+                            <input type="hidden" th:value="@{/hotel/search}" id="submitUrl">
+                            <div class="col">
+                                <div class="card text-center card-pricing popular">
+                                    <div class="card-header">
+                                        酒店特价搜不停
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group mb-0">
+                                            <div class="input-group input-group-transparent mb-0">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fa-solid fa-search"></i></span>
+                                                </div>
+                                                <label for="search_dest"></label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       placeholder="目的地"
+                                                       v-model="dest_input" @blur="clickInputOut()"
+                                                       id="search_dest" @click="clickInput()">
+                                            </div>
+                                        </div>
+                                        <div class="card mt-0 pre-scrollable" v-if="isSearch">
+                                            <div class="list-group" v-for="(city, index) in cities">
+                                                <a href="javascript:void(0)" @click="selectedDest(index)"
+                                                   class="list-group-item list-group-item-action d-flex align-items-center">
+                                                    <div class="list-group-content">
+                                                        <div class="list-group-heading">
+                                                            {{city.city}}
+                                                            <span><small>{{city.desc}}</small></span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div v-if="isOk">
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <span class="alert-inner--icon"><i class="fas fa-times"></i></span>
+                                                <span class="alert-inner--text">&nbsp;请选择目的地！</span>
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4"></div>
+                                        <div class="form-group">
+                                            <div class="input-group input-group-transparent mb-4"
+                                                 id="timeBucket">
+                                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa-solid fa-calendar"></i>
+                                        </span>
+                                                </div>
+                                                <label for="date_input"></label>
+                                                <input id="date_input"
+                                                       type="text" class="form-control"
+                                                       name="datefilter"
+                                                       placeholder="入住日期-退房日期">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group input-group-transparent mb-4">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </span>
+                                                </div>
+                                                <label for="people_num"></label>
+                                                <input type="text" class="form-control text-center"
+                                                       placeholder="居住人数" v-model="peo_num"
+                                                       id="people_num" readonly>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary"
+                                                            type="button" @click="peo_plus()">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary"
+                                                            type="button" @click="peo_minus()">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group input-group-transparent mb-4">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa-solid fa-bed"></i>
+                                                </span>
+                                                </div>
+                                                <label for="room_num"></label>
+                                                <input type="text" class="form-control text-center"
+                                                       placeholder="房间人数" v-model="room_num"
+                                                       id="room_num" readonly>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary"
+                                                            type="button" @click="room_plus()">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary"
+                                                            type="button" @click="room_minus()">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <button type="button" @click="searchHotels()"
+                                                class="btn btn-primary">
+                                            查酒店
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                        <div class="row text-left">
+                                <div class="col">
+                                    <h3 th:text="${city.cityName} + ':共' + ${hotelResult.total} + '家住宿'">
+                                        结果概述</h3>
+                                </div>
+                            </div>
+                        <div class="row mb-2">
+                            <div class="col-4">
+                                <label for="selectSort"></label>
+                                <select class="custom-select" id="selectSort">
+                                    <option value="0" selected>推荐排序</option>
+                                    <option value="1">价格从高到低</option>
+                                    <option value="2">价格从低到高</option>
+                                    <option value="3">评分从高到低</option>
+                                    <option value="3">评分从低到高</option>
+                                </select>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -100,7 +259,179 @@
 <script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
 <!--Vue绑定函数-->
 <script type="text/javascript">
+    const city_json = document.getElementById("cityJson").value;
+    const url_goto = document.getElementById("submitUrl").value;
 
+    function searchHotel(city, dest, dateInOut, people_num, room_num, page) {
+        window.location.href = url_goto + "?city=" + city + "&dest=" + dest +
+            "&date=" + dateInOut + "&people=" + people_num +
+            "&rooms=" + room_num + "&page=" + page;
+    }
+
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
+    const {createApp} = Vue;
+    const app = createApp({
+        data() {
+            return {
+                cities: [],
+                city_data: [],
+                selected_key: -1,
+                dest_input: "",
+                dest_city: "",
+                isComplete: false,
+                peo_num: "2 人",
+                room_num: "1 间",
+                peo_key: 2,
+                room_key: 1,
+                isSearch: false,
+                isOk: false
+            }
+        },
+        mounted() {
+            axios({
+                method: 'post',
+                url: city_json
+            }).then((response) => {
+                if (response.status === 200) {
+                    this.city_data = response.data;
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        methods: {
+            searchDest: function (dest) {
+                const res_list = [];
+                const patten1 = new RegExp(dest);
+                const patten2 = new RegExp("[" + dest + "]");
+                for (let i = 0; i < this.city_data.length; i++) {
+                    if (patten1.test(this.city_data[i].city)) {
+                        res_list.push(this.city_data[i]);
+                    }
+                }
+                if (res_list.length < 0) {
+                    for (let i = 0; i < this.city_data.length; i++) {
+                        if (patten2.test(this.city_data[i].city)) {
+                            res_list.push(this.city_data[i]);
+                        }
+                    }
+                }
+                res_list.push("#");
+                this.cities = res_list;
+                this.cities.pop();
+            },
+            selectedDest: function (index) {
+                this.isComplete = true;
+                const city = this.cities[index];
+                this.selected_key = city.key;
+                this.dest_city = city.city + "," + city.desc;
+                this.cities.splice(0, this.cities.length);
+                this.dest_input = city.city + " " + city.desc;
+
+            },
+            clickInput: function () {
+                this.isSearch = true;
+                this.isOk = false;
+                if (this.dest_input === "") {
+                    this.cities = [
+                        {"city": "北京市", "desc": "北京市", "key": 1101},
+                        {"city": "上海市", "desc": "上海市", "key": 3101},
+                        {"city": "深圳市", "desc": "广东省", "key": 4403},
+                        {"city": "杭州市", "desc": "浙江省", "key": 3301}
+                    ];
+                } else {
+                    this.searchDest(this.dest_input);
+                }
+            },
+            clickInputOut: function () {
+                sleep(500).then(() => {
+                    this.isSearch = false;
+                    if (!this.isComplete && this.dest_input !== "") {
+                        if (this.cities.length > 0) {
+                            const city = this.cities[0];
+                            this.selected_key = city.key;
+                            this.dest_city = city.city + "," + city.desc;
+                        }
+                    }
+                });
+            },
+            peo_plus: function () {
+                if (this.peo_key < 20) {
+                    this.peo_key++;
+                    this.peo_num = this.peo_key + " 人";
+                }
+            },
+            peo_minus: function () {
+                if (this.peo_key > 1) {
+                    this.peo_key--;
+                    this.peo_num = this.peo_key + " 人";
+                }
+            },
+            room_plus: function () {
+                if (this.room_key < 10) {
+                    this.room_key++;
+                    this.room_num = this.room_key + " 间";
+                }
+            },
+            room_minus: function () {
+                if (this.room_key > 1) {
+                    this.room_key--;
+                    this.room_num = this.room_key + " 间";
+                }
+            },
+            searchHotels: function () {
+                if (this.selected_key !== -1) {
+                    searchHotel(this.dest_city, this.selected_key,
+                        document.getElementById("date_input").value,
+                        this.peo_key, this.room_key, 1);
+                } else {
+                    this.dest_input = '';
+                    this.isOk = true;
+                }
+            }
+        },
+        watch: {
+            dest_input: function (input) {
+                if (!this.isComplete && this.dest_input !== "") {
+                    this.searchDest(this.dest_input);
+                }
+                if (this.dest_input === "") {
+                    this.cities = [];
+                    this.isComplete = false;
+                    this.selected_key = -1;
+                }
+            }
+        }
+    });
+    app.mount("#search");
+
+</script>
+<!--日期选择函数-->
+<script type="text/javascript">
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    $(function () {
+        $('input[name="datefilter"]').daterangepicker({
+            autoUpdateInput: false,
+            minDate: today,
+            autoApply: true,
+            locale: {
+                daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月']
+            }
+        });
+
+        $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + '-' + picker.endDate.format('MM/DD/YYYY'));
+        });
+        $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+    });
 </script>
 </body>
 </html>

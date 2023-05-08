@@ -35,13 +35,25 @@ public class HotelInfoServiceImpl implements HotelInfoService {
 
     @Transactional(readOnly = true)
     @Override
-    public PageInfo<HotelInfo> queryHotels(QueryOptions options, Integer page, String orderStr) {
-        if(orderStr==null){
+    public PageInfo<HotelInfo> queryHotels(QueryOptions options, Integer page) {
+        if(options.getOrderBy()==null){
             PageHelper.startPage(page, 25);
         }else{
-            PageHelper.startPage(page, 25, orderStr);
+            PageHelper.startPage(page, 25, options.getOrderBy());
         }
         return new PageInfo<>(hotelInfoMapper.selectHotelByParams(options));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public City getCity(Integer cityId) {
+        return hotelInfoMapper.selectCityById(cityId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<City> getLevelCity(Integer cityId) {
+        return hotelInfoMapper.selectCityByLevel(cityId);
     }
 
     @Transactional(readOnly = true)

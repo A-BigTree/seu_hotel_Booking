@@ -68,4 +68,14 @@
     <select id="selectPoliesById" resultType="booking.entity.Policy">
 
     </select>
+    <select id="selectCityById" resultType="booking.entity.City">
+        SELECT city_id cityId,city_name cityName,p_id levelId
+        FROM city
+        WHERE city_id=#{cityId};
+    </select>
+    <select id="selectCityByLevel" resultType="booking.entity.City">
+        SELECT city_id cityId,city_name cityName,p_id levelId
+        FROM city
+        WHERE p_id=#{cityId}
+    </select>
 </mapper>

@@ -33,4 +33,8 @@ public interface HotelInfoMapper {
 
     List<Policy> selectPoliesById(Integer hotelId);
 
+    City selectCityById(Integer cityId);
+
+    List<City> selectCityByLevel(Integer cityId);
+
 }

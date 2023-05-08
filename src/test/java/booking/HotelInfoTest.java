@@ -27,9 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Slf4j
 @ContextConfiguration(value = {"classpath:spring-persist.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,11 +42,17 @@ public class HotelInfoTest {
     @Test
     public void testSearchHotel(){
         QueryOptions options = QueryUtils.getSearchDestId(11);
-        options.setQueryRoom(true);
         options.setPeopleNum(2);
         options.setRoomNum(1);
-        PageInfo<HotelInfo> hotelInfos = hotelInfoService.queryHotels(options, 1, "roomPrice desc");
+        options.setOrderBy("roomPrice");
+        PageInfo<HotelInfo> hotelInfos = hotelInfoService.queryHotels(options, 1);
         log.info(String.valueOf(hotelInfos.getTotal()));
         log.info(hotelInfos.toString());
+    }
+
+    @Test
+    public void testCityQuery(){
+        log.info(hotelInfoService.getCity(1101).toString());
+        log.info(hotelInfoService.getLevelCity(1101).toString());
     }
 }

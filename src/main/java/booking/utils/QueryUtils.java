@@ -17,6 +17,10 @@ package booking.utils;
 
 import booking.entity.QueryOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class QueryUtils {
     /**
      * 将目的地ID规范为6为并得到范围Id
@@ -26,6 +30,7 @@ public class QueryUtils {
      */
     public static QueryOptions getSearchDestId(Integer queryDestId){
         QueryOptions options = new QueryOptions();
+        options.setDest(queryDestId);
         int destId, destParentId;
         if(queryDestId < 100){
             destId = queryDestId * 10000;
@@ -40,5 +45,19 @@ public class QueryUtils {
         options.setStartDest(destId);
         options.setEndDest(destParentId);
         return options;
+    }
+
+    public static void initDateInOut(QueryOptions options, String dateInOut){
+        options.setDateInOut(dateInOut);
+        String[] dates = dateInOut.split("-");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        try{
+            Date parse1 = sdf.parse(dates[0]);
+            Date parse2 = sdf.parse(dates[1]);
+            options.setDateIn(new java.sql.Date(parse1.getTime()));
+            options.setDateOut(new java.sql.Date(parse2.getTime()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -5,3 +5,9 @@
     background-color: yellow;
     margin-top: 5px;
 }
+
+/* Reset the container */
+.container {
+    width: 1100px;
+    max-width: none !important;
+}

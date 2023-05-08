@@ -24,7 +24,11 @@ import java.util.List;
 
 public interface HotelInfoService {
 
-    PageInfo<HotelInfo> queryHotels(QueryOptions options, Integer page, String orderStr);
+    PageInfo<HotelInfo> queryHotels(QueryOptions options, Integer page);
+
+    City getCity(Integer cityId);
+
+    List<City> getLevelCity(Integer cityId);
 
     HotelInfo getHotel(Integer hotelId);
 
