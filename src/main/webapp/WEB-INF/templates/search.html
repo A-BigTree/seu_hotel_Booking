@@ -76,14 +76,14 @@
     <section class="slice slice-lg">
         <div class="container">
             <!--地点导航-->
-            <div class="row mt-5">
+            <div class="row mt-3">
                 <div class="col">
                     <ul style="display: inline-block">
                         <li style="display: inline-block">
                             <a th:href="@{/}">首页&gt;</a>
                         </li>
                         <li style="display: inline-block" th:each="cityP:${parentCities}">
-                            <a th:href="@{/hotel/search(dest=${cityP.cityId},date=${options.dateInOut},people=${options.peopleNum},rooms=${options.roomNum},page=1)}"
+                            <a th:href="@{/hotel/search(dest=${cityP.cityId},date=${optionsO.dateInOut},people=${optionsO.peopleNum},rooms=${optionsO.roomNum},page=1)}"
                                th:text="${cityP.cityName} + '&gt;'">
                                 城市名称
                             </a>
@@ -99,175 +99,361 @@
             <!--结果主页-->
             <div class="row mt-2">
                 <!--左侧菜单-->
-                <div class="col-4">
-                    <div class="flex-column">
-                        <!--搜索框-->
-                        <div class="row mb-4" id="search">
-                            <input type="hidden" th:value="@{/static/seu_hotel/json/city.json}" id="cityJson">
-                            <input type="hidden" th:value="@{/hotel/search}" id="submitUrl">
-                            <input type="hidden" th:value="${options.dest}" id="cityId">
-                            <input type="hidden" th:value="${options.dateInOut}" id="dateGet">
-                            <input type="hidden" th:value="${options.peopleNum}" id="peopleNum">
-                            <input type="hidden" th:value="${options.roomNum}" id="roomNum">
-                            <div class="col">
-                                <div class="card text-center card-pricing popular">
-                                    <div class="card-header text-left">
-                                        <h4>酒店特价搜不停</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group mb-0">
-                                            <div class="input-group input-group-transparent mb-0">
-                                                <div class="input-group-prepend">
+                <div class="col-4" id="search">
+                    <input type="hidden" th:value="${options}" id="options">
+                    <input type="hidden" th:value="@{/static/seu_hotel/json/city.json}" id="cityJson">
+                    <input type="hidden" th:value="@{/hotel/search}" id="submitUrl">
+                    <input type="hidden" th:value="@{/hotel/search/options}" id="submitUrl2">
+                    <input type="hidden" th:value="${city.cityName}" id="cityName">
+                    <!--搜索框-->
+                    <div class="row mb-4">
+
+
+                        <div class="col">
+                            <div class="card text-center card-pricing popular">
+                                <div class="card-header text-left">
+                                    <h4>酒店特价搜不停</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group mb-0">
+                                        <div class="input-group input-group-transparent mb-0">
+                                            <div class="input-group-prepend">
                                                     <span class="input-group-text"><i
                                                             class="fa-solid fa-search"></i></span>
-                                                </div>
-                                                <label for="search_dest"></label>
-                                                <input type="text"
-                                                       class="form-control"
-                                                       placeholder="目的地"
-                                                       v-model="dest_input" @blur="clickInputOut()"
-                                                       id="search_dest" @click="clickInput()">
                                             </div>
+                                            <label for="search_dest"></label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   placeholder="目的地"
+                                                   v-model="dest_input" @blur="clickInputOut()"
+                                                   id="search_dest" @click="clickInput()">
                                         </div>
-                                        <div class="card mt-0 pre-scrollable" v-if="isSearch">
-                                            <div class="list-group" v-for="(city, index) in cities">
-                                                <a href="javascript:void(0)" @click="selectedDest(index)"
-                                                   class="list-group-item list-group-item-action d-flex align-items-center">
-                                                    <div class="list-group-content">
-                                                        <div class="list-group-heading">
-                                                            {{city.city}}
-                                                            <span><small>{{city.desc}}</small></span>
-                                                        </div>
+                                    </div>
+                                    <div class="card mt-0 pre-scrollable" v-if="isSearch">
+                                        <div class="list-group" v-for="(city, index) in cities">
+                                            <a href="javascript:void(0)" @click="selectedDest(index)"
+                                               class="list-group-item list-group-item-action d-flex align-items-center">
+                                                <div class="list-group-content">
+                                                    <div class="list-group-heading">
+                                                        {{city.city}}
+                                                        <span><small>{{city.desc}}</small></span>
                                                     </div>
-                                                </a>
-                                            </div>
+                                                </div>
+                                            </a>
                                         </div>
-                                        <div v-if="isOk">
-                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                <span class="alert-inner--icon"><i class="fas fa-times"></i></span>
-                                                <span class="alert-inner--text">&nbsp;请选择目的地！</span>
-                                                <button type="button" class="close" data-dismiss="alert"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
+                                    </div>
+                                    <div v-if="isOk">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <span class="alert-inner--icon"><i class="fas fa-times"></i></span>
+                                            <span class="alert-inner--text">&nbsp;请选择目的地！</span>
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div class="mb-4"></div>
-                                        <div class="form-group">
-                                            <div class="input-group input-group-transparent mb-4"
-                                                 id="timeBucket">
-                                                <div class="input-group-prepend">
+                                    </div>
+                                    <div class="mb-4"></div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-transparent mb-4"
+                                             id="timeBucket">
+                                            <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             <i class="fa-solid fa-calendar"></i>
                                         </span>
-                                                </div>
-                                                <label for="date_input"></label>
-                                                <input id="date_input"
-                                                       type="text" class="form-control"
-                                                       name="datefilter"
-                                                       placeholder="入住日期-退房日期">
                                             </div>
+                                            <label for="date_input"></label>
+                                            <input id="date_input"
+                                                   type="text" class="form-control"
+                                                   name="datefilter"
+                                                   placeholder="入住日期-退房日期">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="input-group input-group-transparent mb-4">
-                                                <div class="input-group-prepend">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-transparent mb-4">
+                                            <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fa-solid fa-user"></i>
                                                 </span>
-                                                </div>
-                                                <label for="people_num"></label>
-                                                <input type="text" class="form-control text-center"
-                                                       placeholder="居住人数" v-model="peo_num"
-                                                       id="people_num" readonly>
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary"
-                                                            type="button" @click="peo_plus()">
-                                                        <i class="fa-solid fa-plus"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-secondary"
-                                                            type="button" @click="peo_minus()">
-                                                        <i class="fa-solid fa-minus"></i>
-                                                    </button>
-                                                </div>
+                                            </div>
+                                            <label for="people_num"></label>
+                                            <input type="text" class="form-control text-center"
+                                                   placeholder="居住人数" v-model="peo_num"
+                                                   id="people_num" readonly>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="peo_plus()">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="peo_minus()">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="input-group input-group-transparent mb-4">
-                                                <div class="input-group-prepend">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-transparent mb-4">
+                                            <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fa-solid fa-bed"></i>
                                                 </span>
-                                                </div>
-                                                <label for="room_num"></label>
-                                                <input type="text" class="form-control text-center"
-                                                       placeholder="房间人数" v-model="room_num"
-                                                       id="room_num" readonly>
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary"
-                                                            type="button" @click="room_plus()">
-                                                        <i class="fa-solid fa-plus"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-secondary"
-                                                            type="button" @click="room_minus()">
-                                                        <i class="fa-solid fa-minus"></i>
-                                                    </button>
-                                                </div>
-
                                             </div>
-                                        </div>
-                                        <button type="button" @click="searchHotels()"
-                                                class="btn btn-primary">
-                                            查酒店
-                                        </button>
-                                    </div>
-                                </div>
+                                            <label for="room_num"></label>
+                                            <input type="text" class="form-control text-center"
+                                                   placeholder="房间人数" v-model="room_num"
+                                                   id="room_num" readonly>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="room_plus()">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
+                                                <button class="btn btn-outline-secondary"
+                                                        type="button" @click="room_minus()">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
+                                            </div>
 
+                                        </div>
+                                    </div>
+                                    <button type="button" @click="searchHotels()"
+                                            class="btn btn-primary">
+                                        查酒店
+                                    </button>
+                                </div>
                             </div>
 
                         </div>
-                        <!--价格范围-->
-                        <div class="row mb-4" id="priceRange">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>缩小搜索范围</h4>
+
+                    </div>
+                    <!--筛选条件-->
+                    <div class="row mb-4" id="priceRange">
+                        <div class="col">
+                            <div class="card z-depth-2">
+                                <div class="card-header">
+                                    <h4>缩小搜索范围</h4>
+                                </div>
+                                <!--预算范围-->
+                                <div class="card-body">
+                                    <div class="row text-left mb-2">
+                                        <h5>您的预算</h5>
                                     </div>
-                                    <!--预算范围-->
-                                    <div class="card-body">
-                                        <div class="row text-left mb-2">
-                                            <h5>您的预算</h5>
-                                        </div>
-                                        <div class="row mb-2">
-                                            100￥-2000+￥
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col">
-                                            <div class="range-slider-wrapper ">
-                                                <!-- Range slider container -->
-                                                <div id="input-slider-range" data-range-value-min="100" data-range-value-max="2000"></div>
-                                                <!-- Range slider values -->
+                                    <div class="row mb-2">
+                                        100￥-2000+￥
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="range-slider-wrapper">
+                                                <div id="input-slider-range"></div>
+
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <span class="range-slider-value value-low" data-range-value-low="100"
+                                                        <span class="range-slider-value value-low"
                                                               id="input-slider-range-value-low"></span>
                                                     </div>
                                                     <div class="col-6 text-right">
-                                                        <span class="range-slider-value value-high" data-range-value-high="2000"
+                                                        <span class="range-slider-value value-high"
                                                               id="input-slider-range-value-high"></span>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--住宿星级-->
+                                <div class="card-header"></div>
+                                <div class="card-body">
+                                    <div class="row text-left mb-2">
+                                        <h5>住宿评级</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="star2">
+                                                <label class="custom-control-label" for="star2">
+                                                    经济型
+                                                    <span>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                        </span>
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="star3">
+                                                <label class="custom-control-label" for="star3">
+                                                    舒适型
+                                                    <span>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                        </span>
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="star4">
+                                                <label class="custom-control-label" for="star4">
+                                                    豪华型
+                                                    <span>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                        </span>
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="star5">
+                                                <label class="custom-control-label" for="star5">
+                                                    尊贵型
+                                                    <span>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                        </span>
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="star1">
+                                                <label class="custom-control-label" for="star1">
+                                                    未评级
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--住宿星级-->
-                                    <div class="card-body">
-
+                                </div>
+                                <!--评分范围-->
+                                <div class="card-header"></div>
+                                <div class="card-body">
+                                    <div class="row text-left mb-2">
+                                        <h5>评分</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="point1">
+                                                <label class="custom-control-label" for="point1">
+                                                    好极了:9分以上
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input"
+                                                       id="point2">
+                                                <label class="custom-control-label" for="point2">
+                                                    非常好:8分以上
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input"
+                                                       id="point3">
+                                                <label class="custom-control-label" for="point3">
+                                                    好:7分以上
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"
+                                                       id="point4">
+                                                <label class="custom-control-label" for="point4">
+                                                    令人愉悦:6分以上
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--细分区域-->
+                                <div class="card-header"></div>
+                                <div class="card-body" th:if="${levelCities!=null}">
+                                    <div class="row text-left mb-2">
+                                        <h5>细分区域</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="custom-control custom-checkbox mb-3"
+                                                 th:each="cityL:${levelCities}">
+                                                <input type="checkbox" class="custom-control-input"
+                                                       th:id="'dest' + ${cityL.cityId}"
+                                                       th:value="${cityL.cityId}">
+                                                <label class="custom-control-label"
+                                                       th:for="'dest' + ${cityL.cityId}"
+                                                       th:text="${cityL.cityName}">
+                                                    区域名称
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row sticky-top mb-4 mt-5">
+                        <div class="col mt-5">
+                            <div class="card z-depth-2 mt-5">
+                                <div class="card-header">
+                                    <h4>热门筛选</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="point1_1">
+                                                <label class="custom-control-label" for="point1_1">
+                                                    好极了:9分以上
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input"
+                                                       id="point2_1">
+                                                <label class="custom-control-label" for="point2_1">
+                                                    非常好:8分以上
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="star2_1">
+                                                <label class="custom-control-label" for="star2_1">
+                                                    经济型
+                                                    <span>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                        </span>
+                                                </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="star3_1">
+                                                <label class="custom-control-label" for="star3_1">
+                                                    舒适型
+                                                    <span>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                            <i class="fa-solid fa-star"
+                                                               style="color: #e7cb13;"></i>
+                                                        </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-8">
                     <div class="row text-left">
@@ -291,28 +477,61 @@
                     <div class="row mb-2" th:each="hotel:${hotelResult.list}">
                         <div class="col">
                             <a th:href="@{/hotel/info(hotelId=${hotel.hotelId})}" class="text-dark">
-                            <div class="card h-100">
-                                <div class="row align-items-center">
-                                    <div class="col-4" style="width: 100%;height: 80%;">
-                                        <img class="rounded ml-2" th:src="${hotel.pageImage.path}"
-                                             alt="" src="" style="width: 100%;height: 100%;">
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="card-header">
-                                            <h4 th:text="${hotel.hotelName}">酒店名字</h4>
-                                            <span th:if="${hotel.star&gt;0}">
+                                <div class="card h-100 z-depth-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-4" style="width: 100%;height: 80%;">
+                                            <img class="rounded ml-2" th:src="${hotel.pageImage.path}"
+                                                 alt="" src="" style="width: 100%;height: 100%;">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <h4 th:text="${hotel.hotelName}">酒店名字</h4>
+                                                        <span th:if="${hotel.star&gt;0}">
                                                 <i class="fa-solid fa-star"
                                                    style="color: #e7cb13;"
-                                                   th:each="i:${#numbers.sequence(1,hotel.star)}"></i>
-                                            </span>
-                                        </div>
-                                        <div class="card-body">
-                                            <p th:text="${hotel.simpleDesc}">酒店简单描述</p>
+                                                   th:each="i:${#numbers.sequence(1,hotel.star)}"></i></span>
+                                                    </div>
+                                                    <div class="col-4 text-right"
+                                                         th:switch="${#numbers.formatInteger(hotel.point,0)}">
+                                                        <h5 th:case="9" style="font-weight:normal;">
+                                                            好极了&nbsp;
+                                                            <span class="float-right badge badge-primary"
+                                                                  th:text="${hotel.point}">评分</span>
+                                                        </h5>
+                                                        <h5 th:case="8" style="font-weight:normal;">
+                                                            非常好&nbsp;
+                                                            <span class="float-right badge badge-primary"
+                                                                  th:text="${hotel.point}">评分</span>
+                                                        </h5>
+                                                        <h5 th:case="7" style="font-weight:normal;">
+                                                            好&nbsp;
+                                                            <span class="float-right badge badge-primary"
+                                                                  th:text="${hotel.point}">评分</span>
+                                                        </h5>
+                                                        <h5 th:case="6" style="font-weight:normal;">
+                                                            令人愉悦&nbsp;
+                                                            <span class="float-right badge badge-primary"
+                                                                  th:text="${hotel.point}">评分</span>
+                                                        </h5>
+                                                        <h5 th:case="*">
+                                                            &nbsp;
+                                                            <span class="float-right badge badge-primary"
+                                                                  th:text="${hotel.point}">评分</span>
+                                                        </h5>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="card-body">
+                                                <p th:text="${hotel.simpleDesc}">酒店简单描述</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
+                                </div>
                             </a>
                         </div>
                     </div>
@@ -327,18 +546,18 @@
                                     </li>
                                     <li class="page-item">
                                         <a class="page-link" href="#">
-                                        <i class="fa-solid fa-angle-left"></i>
+                                            <i class="fa-solid fa-angle-left"></i>
                                         </a>
                                     </li>
                                     <li class="page-item" th:if="${hotelResult.pages&lt;13}"
-                                        th:each="i:${#numbers.sequence(1,hotelResult.pages)}" >
+                                        th:each="i:${#numbers.sequence(1,hotelResult.pages)}">
                                         <a class="page-link" href="#" th:text="${i}">
                                             页数
                                         </a>
                                     </li>
                                     <li class="page-item" th:if="${hotelResult.pages&gt;=13}"
                                         th:each="i:${#numbers.sequence(1,11)}">
-                                        <a class="page-link" href="#"th:text="${i}">
+                                        <a class="page-link" href="#" th:text="${i}">
                                             页数
                                         </a>
                                     </li>
@@ -368,13 +587,13 @@
 </main>
 
 <!--Boomerang theme js-->
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/nouislider.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/datepicker/moment.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/datepicker/daterangepicker.js}"></script>
-<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/nouislider.min.js}"></script>
 <!--Vue3 + Axios-->
 <script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
 <script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
@@ -382,12 +601,37 @@
 <script type="text/javascript">
     const city_json = document.getElementById("cityJson").value;
     const url_goto = document.getElementById("submitUrl").value;
+    const url_submit = document.getElementById("submitUrl2").value;
+    const options = JSON.parse(document.getElementById("options").value);
 
     function searchHotel(city, dest, dateInOut, people_num, room_num, page) {
         window.location.href = url_goto + "?city=" + city + "&dest=" + dest +
             "&date=" + dateInOut + "&people=" + people_num +
             "&rooms=" + room_num + "&page=" + page;
     }
+
+    function searchHotelByOptions(options) {
+        window.location.href = url_submit + "?options=" + options;
+    }
+
+    const rangeSlider = document.getElementById("input-slider-range");
+    noUiSlider.create(rangeSlider, {
+        start: [100, 2000],
+        connect: true,
+        step: 1,
+        range: {
+            "min": 100,
+            "max": 2000
+        }
+    });
+    const valueChange = [
+        document.getElementById("input-slider-range-value-low"),
+        document.getElementById("input-slider-range-value-high")
+    ];
+    rangeSlider.noUiSlider.on("update", function (values, handle) {
+        valueChange[handle].innerText = values[handle];
+        valueChange[handle].innerText = values[handle];
+    });
 
     function sleep(time) {
         return new Promise((resolve) => setTimeout(resolve, time));
@@ -422,6 +666,19 @@
             }).catch(function (error) {
                 console.log(error);
             });
+
+            this.selected_key = options.dest;
+            this.dest_input = document.getElementById("cityName").value;
+            this.dest_city = document.getElementById("cityName").value;
+            this.isComplete = true;
+            this.peo_num = options.peopleNum + " 人"
+            this.room_num = options.roomNum + " 间";
+            this.peo_key = options.peopleNum;
+            this.room_key = options.roomNum;
+            document.getElementById("date_input").value = options.dateInOut;
+            if (options.dateInOut !== '') {
+                document.getElementById("date_input").setAttribute("placeholder", options.dateInOut);
+            }
         },
         methods: {
             searchDest: function (dest) {

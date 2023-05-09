@@ -21,6 +21,8 @@ import booking.entity.QueryOptions;
 import booking.service.api.HotelInfoService;
 import booking.utils.PrefixUtils;
 import booking.utils.QueryUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -68,7 +70,7 @@ public class HotelHandler {
                                @RequestParam("people") Integer peopleNum,
                                @RequestParam("rooms") Integer roomsNum,
                                @RequestParam("page") Integer page,
-                               Model model) {
+                               Model model) throws JsonProcessingException {
         QueryOptions options = QueryUtils.getSearchDestId(dest);
         City city = hotelInfoService.getCity(dest);
         model.addAttribute("city", city);
@@ -83,7 +85,8 @@ public class HotelHandler {
         options.setPageNum(page);
         PageInfo<HotelInfo> hotelInfoPageInfo = hotelInfoService.queryHotels(options, page);
         PrefixUtils.initHotelsPageImage(hotelInfoPageInfo.getList());
-        model.addAttribute("options", options);
+        model.addAttribute("optionsO", options);
+        model.addAttribute("options", new ObjectMapper().writeValueAsString(options));
         model.addAttribute("hotelResult", hotelInfoPageInfo);
         return "search";
     }
