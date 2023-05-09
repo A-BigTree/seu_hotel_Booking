@@ -98,15 +98,21 @@
             </div>
             <!--结果主页-->
             <div class="row mt-2">
+                <!--左侧菜单-->
                 <div class="col-4">
                     <div class="flex-column">
+                        <!--搜索框-->
                         <div class="row mb-4" id="search">
                             <input type="hidden" th:value="@{/static/seu_hotel/json/city.json}" id="cityJson">
                             <input type="hidden" th:value="@{/hotel/search}" id="submitUrl">
+                            <input type="hidden" th:value="${options.dest}" id="cityId">
+                            <input type="hidden" th:value="${options.dateInOut}" id="dateGet">
+                            <input type="hidden" th:value="${options.peopleNum}" id="peopleNum">
+                            <input type="hidden" th:value="${options.roomNum}" id="roomNum">
                             <div class="col">
                                 <div class="card text-center card-pricing popular">
-                                    <div class="card-header">
-                                        酒店特价搜不停
+                                    <div class="card-header text-left">
+                                        <h4>酒店特价搜不停</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group mb-0">
@@ -219,6 +225,48 @@
                             </div>
 
                         </div>
+                        <!--价格范围-->
+                        <div class="row mb-4" id="priceRange">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>缩小搜索范围</h4>
+                                    </div>
+                                    <!--预算范围-->
+                                    <div class="card-body">
+                                        <div class="row text-left mb-2">
+                                            <h5>您的预算</h5>
+                                        </div>
+                                        <div class="row mb-2">
+                                            100￥-2000+￥
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                            <div class="range-slider-wrapper ">
+                                                <!-- Range slider container -->
+                                                <div id="input-slider-range" data-range-value-min="100" data-range-value-max="2000"></div>
+                                                <!-- Range slider values -->
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <span class="range-slider-value value-low" data-range-value-low="100"
+                                                              id="input-slider-range-value-low"></span>
+                                                    </div>
+                                                    <div class="col-6 text-right">
+                                                        <span class="range-slider-value value-high" data-range-value-high="2000"
+                                                              id="input-slider-range-value-high"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--住宿星级-->
+                                    <div class="card-body">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-8">
@@ -242,10 +290,11 @@
                     </div>
                     <div class="row mb-2" th:each="hotel:${hotelResult.list}">
                         <div class="col">
+                            <a th:href="@{/hotel/info(hotelId=${hotel.hotelId})}" class="text-dark">
                             <div class="card h-100">
                                 <div class="row align-items-center">
-                                    <div class="col-4" style="width: 100%;height: 100%;">
-                                        <img class="rounded" th:src="${hotel.pageImage.path}"
+                                    <div class="col-4" style="width: 100%;height: 80%;">
+                                        <img class="rounded ml-2" th:src="${hotel.pageImage.path}"
                                              alt="" src="" style="width: 100%;height: 100%;">
                                     </div>
                                     <div class="col-8">
@@ -253,7 +302,8 @@
                                             <h4 th:text="${hotel.hotelName}">酒店名字</h4>
                                             <span th:if="${hotel.star&gt;0}">
                                                 <i class="fa-solid fa-star"
-                                                   style="color: #e7cb13;" th:each="i:${#numbers.sequence(1,hotel.star)}"></i>
+                                                   style="color: #e7cb13;"
+                                                   th:each="i:${#numbers.sequence(1,hotel.star)}"></i>
                                             </span>
                                         </div>
                                         <div class="card-body">
@@ -263,6 +313,52 @@
                                 </div>
 
                             </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <nav aria-label="Page navigation example" th:if="${hotelResult.pages&gt;1}">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fa-solid fa-angles-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item" th:if="${hotelResult.pages&lt;13}"
+                                        th:each="i:${#numbers.sequence(1,hotelResult.pages)}" >
+                                        <a class="page-link" href="#" th:text="${i}">
+                                            页数
+                                        </a>
+                                    </li>
+                                    <li class="page-item" th:if="${hotelResult.pages&gt;=13}"
+                                        th:each="i:${#numbers.sequence(1,11)}">
+                                        <a class="page-link" href="#"th:text="${i}">
+                                            页数
+                                        </a>
+                                    </li>
+                                    <li class="page-item" th:if="${hotelResult.pages&gt;=13}">
+                                        <a class="page-link active" href="#">
+                                            ...
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="">
+                                            <i class="fa-solid fa-angles-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -278,7 +374,7 @@
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/datepicker/moment.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/datepicker/daterangepicker.js}"></script>
-
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/nouislider.min.js}"></script>
 <!--Vue3 + Axios-->
 <script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
 <script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
