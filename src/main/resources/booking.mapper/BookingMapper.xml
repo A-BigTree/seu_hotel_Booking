@@ -4,14 +4,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="booking.mapper.BookingMapper">
+
     <insert id="addBooking">
-
+        INSERT  INTO booking (book_id, user_id, hotel_id, room_index, check_in_date, check_out_date, book_time, price)
+        VALUES (#{bookId},#{userId},#{hotelId},#{roomIndex},#{checkInDate},#{checkOutDate},#{bookTime},#{price});
     </insert>
+
+
     <update id="modifyBooking">
-
+        UPDATE booking
+        <set>
+            <if test="userId!=null">
+                user_id=#{userId},
+            </if>
+            <if test="hotelId!=null">
+                hotel_id=#{hotelId},
+            </if>
+            <if test="roomIndex!=null">
+                room_index=#{roomIndex},
+            </if>
+            <if test="checkInDate!=null">
+                check_in_date=#{checkInDate},
+            </if>
+            <if test="checkOutDate!=null">
+                check_out_date=#{checkOutDate},
+            </if>
+            <if test="price!=null">
+                price=#{price},
+            </if>
+        </set>
+        <where>
+            book_id=#{bookId}
+        </where>
     </update>
-    <delete id="removeBooking">
 
+    <delete id="removeBooking">
+        DELETE FROM booking WHERE book_id=#{bookId}
     </delete>
 
     <select id="selectBookingByUser" resultType="booking.entity.BookingManager">
