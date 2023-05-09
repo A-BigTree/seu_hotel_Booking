@@ -57,10 +57,12 @@
     </select>
 
     <select id="selectHotelById" resultType="booking.entity.HotelInfo">
-
+        SELECT hotel_id hotelId, hotel_name hotelName,dest_id destId, address, point, star, image_num imageNum, description simpleDesc, can_book canBook
+        FROM info WHERE hotel_id=#{hotelId}
     </select>
     <select id="selectDesById" resultType="booking.entity.Description">
-
+        SELECT hotel_id hotelId, desc_index descIndex, description
+        FROM desc WHERE hotel_id=#{hotelId}
     </select>
     <select id="selectRoomById" resultType="booking.entity.Room">
 

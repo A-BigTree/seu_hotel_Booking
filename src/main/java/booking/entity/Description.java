@@ -26,7 +26,7 @@ public class Description {
     //酒店ID
     private Integer hotelId;
     //描述索引
-    private Integer index;
+    private Integer descIndex;
     //详细描述
     private String description;
 }

@@ -28,7 +28,7 @@ public class Room {
     //酒店ID
     private Integer hotelId;
     //索引
-    private Integer index;
+    private Integer roomIndex;
     //名称
     private String roomName;
     //描述
