@@ -54,4 +54,5 @@ public class QueryOptions {
     private String orderBy;
     // 页数
     private Integer pageNum;
+    private Integer totalPage;
 }

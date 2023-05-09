@@ -55,4 +55,9 @@ public class HotelInfoTest {
         log.info(hotelInfoService.getCity(1101).toString());
         log.info(hotelInfoService.getLevelCity(1101).toString());
     }
+
+    @Test
+    public void testGetPage(){
+        log.info(QueryUtils.setSearchPage(25, 1).toString());
+    }
 }

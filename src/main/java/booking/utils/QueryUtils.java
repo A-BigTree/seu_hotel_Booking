@@ -20,6 +20,8 @@ import booking.entity.QueryOptions;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QueryUtils {
     /**
@@ -59,5 +61,26 @@ public class QueryUtils {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Map<String, Integer> setSearchPage(Integer totalPage, Integer page){
+        HashMap<String, Integer> pageMap = new HashMap<>();
+        int startPage = 1, endPage = totalPage;
+        if(totalPage > 11){
+            if(page >= 6){
+                if(page + 5 >= totalPage){
+                    startPage = totalPage - 10;
+                }else {
+                    startPage = page - 5;
+                    endPage = page + 5;
+                }
+            }else{
+                endPage = 11;
+            }
+        }
+        pageMap.put("currentPage", page);
+        pageMap.put("startPage", startPage);
+        pageMap.put("endPage", endPage);
+        return pageMap;
     }
 }

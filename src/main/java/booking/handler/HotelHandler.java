@@ -27,6 +27,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -85,9 +86,29 @@ public class HotelHandler {
         options.setPageNum(page);
         PageInfo<HotelInfo> hotelInfoPageInfo = hotelInfoService.queryHotels(options, page);
         PrefixUtils.initHotelsPageImage(hotelInfoPageInfo.getList());
+        options.setTotalPage(hotelInfoPageInfo.getPages());
+        model.addAllAttributes(QueryUtils.setSearchPage(hotelInfoPageInfo.getPages(), page));
         model.addAttribute("optionsO", options);
         model.addAttribute("options", new ObjectMapper().writeValueAsString(options));
         model.addAttribute("hotelResult", hotelInfoPageInfo);
+        return "search";
+    }
+
+    @RequestMapping("/hotel/search/options")
+    public String searchHotel(@RequestBody QueryOptions options,
+                              Model model) throws JsonProcessingException {
+        log.info(options.toString());
+        PageInfo<HotelInfo> hotelInfoPageInfo = hotelInfoService.queryHotels(options, options.getPageNum());
+        PrefixUtils.initHotelsPageImage(hotelInfoPageInfo.getList());
+        City city = hotelInfoService.getCity(options.getDest());
+        model.addAttribute("city", city);
+        model.addAllAttributes(this.setLevelCities(city, options.getDest()));
+        options.setTotalPage(hotelInfoPageInfo.getPages());
+        model.addAllAttributes(QueryUtils.setSearchPage(hotelInfoPageInfo.getPages(), options.getPageNum()));
+        model.addAttribute("optionsO", options);
+        model.addAttribute("options", new ObjectMapper().writeValueAsString(options));
+        model.addAttribute("hotelResult", hotelInfoPageInfo);
+
         return "search";
     }
 }

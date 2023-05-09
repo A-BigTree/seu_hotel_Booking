@@ -97,9 +97,9 @@
                 </div>
             </div>
             <!--结果主页-->
-            <div class="row mt-2">
+            <div class="row mt-2" id="search">
                 <!--左侧菜单-->
-                <div class="col-4" id="search">
+                <div class="col-4">
                     <input type="hidden" th:value="${options}" id="options">
                     <input type="hidden" th:value="@{/static/seu_hotel/json/city.json}" id="cityJson">
                     <input type="hidden" th:value="@{/hotel/search}" id="submitUrl">
@@ -242,18 +242,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="range-slider-wrapper">
-                                                <div id="input-slider-range"></div>
+                                            <div id="input-slider-range"></div>
 
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <span class="range-slider-value value-low"
-                                                              id="input-slider-range-value-low"></span>
-                                                    </div>
-                                                    <div class="col-6 text-right">
-                                                        <span class="range-slider-value value-high"
-                                                              id="input-slider-range-value-high"></span>
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-6"
+                                                     id="input-slider-range-value-low">
+
+                                                </div>
+                                                <div class="col-6 text-right"
+                                                     id="input-slider-range-value-high">
+
                                                 </div>
                                             </div>
                                         </div>
@@ -536,43 +534,39 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col text-center">
                             <nav aria-label="Page navigation example" th:if="${hotelResult.pages&gt;1}">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a class="page-link" href="#">
+                                        <a class="page-link" href="javascript:void(0)"
+                                           @click="getFirstPage()">
                                             <i class="fa-solid fa-angles-left"></i>
                                         </a>
                                     </li>
                                     <li class="page-item">
-                                        <a class="page-link" href="#">
+                                        <a class="page-link" href="javascript:void(0)"
+                                           @click="getLastPage()">
                                             <i class="fa-solid fa-angle-left"></i>
                                         </a>
                                     </li>
-                                    <li class="page-item" th:if="${hotelResult.pages&lt;13}"
-                                        th:each="i:${#numbers.sequence(1,hotelResult.pages)}">
-                                        <a class="page-link" href="#" th:text="${i}">
+                                    <li class="page-item"
+                                        th:classappend="${(currentPage==i?'active':'')}"
+                                        th:each="i:${#numbers.sequence(startPage,endPage)}">
+                                        <a class="page-link" href="javascript:void(0)"
+                                           @click="getPage" th:data-id="${i}"
+                                           th:text="${i}">
                                             页数
-                                        </a>
-                                    </li>
-                                    <li class="page-item" th:if="${hotelResult.pages&gt;=13}"
-                                        th:each="i:${#numbers.sequence(1,11)}">
-                                        <a class="page-link" href="#" th:text="${i}">
-                                            页数
-                                        </a>
-                                    </li>
-                                    <li class="page-item" th:if="${hotelResult.pages&gt;=13}">
-                                        <a class="page-link active" href="#">
-                                            ...
                                         </a>
                                     </li>
                                     <li class="page-item">
-                                        <a class="page-link" href="">
+                                        <a class="page-link" href="javascript:void(0)"
+                                           @click="getNextPage()">
                                             <i class="fa-solid fa-angle-right"></i>
                                         </a>
                                     </li>
                                     <li class="page-item">
-                                        <a class="page-link" href="">
+                                        <a class="page-link" href="javascript:void(0)"
+                                           @click="getEndPage()">
                                             <i class="fa-solid fa-angles-right"></i>
                                         </a>
                                     </li>
@@ -602,7 +596,8 @@
     const city_json = document.getElementById("cityJson").value;
     const url_goto = document.getElementById("submitUrl").value;
     const url_submit = document.getElementById("submitUrl2").value;
-    const options = JSON.parse(document.getElementById("options").value);
+    const optionsStr = document.getElementById("options").value
+    const options = JSON.parse(optionsStr);
 
     function searchHotel(city, dest, dateInOut, people_num, room_num, page) {
         window.location.href = url_goto + "?city=" + city + "&dest=" + dest +
@@ -611,7 +606,13 @@
     }
 
     function searchHotelByOptions(options) {
-        window.location.href = url_submit + "?options=" + options;
+        axios({
+            "method":"post",
+            "url":url_submit,
+            "data":JSON.stringify(options)
+        }).catch(function (error) {
+            console.log(error);
+        });
     }
 
     const rangeSlider = document.getElementById("input-slider-range");
@@ -641,6 +642,7 @@
     const app = createApp({
         data() {
             return {
+                // 继承搜索
                 cities: [],
                 city_data: [],
                 selected_key: -1,
@@ -652,7 +654,9 @@
                 peo_key: 2,
                 room_key: 1,
                 isSearch: false,
-                isOk: false
+                isOk: false,
+                // 搜索传参
+                v_options: null
             }
         },
         mounted() {
@@ -675,6 +679,8 @@
             this.room_num = options.roomNum + " 间";
             this.peo_key = options.peopleNum;
             this.room_key = options.roomNum;
+            this.v_options = JSON.parse(optionsStr);
+            console.log(this.v_options);
             document.getElementById("date_input").value = options.dateInOut;
             if (options.dateInOut !== '') {
                 document.getElementById("date_input").setAttribute("placeholder", options.dateInOut);
@@ -769,7 +775,34 @@
                     this.dest_input = '';
                     this.isOk = true;
                 }
+            },
+            getNextPage: function () {
+                if (this.v_options.pageNum < this.v_options.totalPage) {
+                    this.v_options.pageNum = this.v_options.pageNum + 1;
+                    searchHotelByOptions(this.v_options);
+                }
+            },
+            getLastPage: function () {
+                if (this.v_options.pageNum > 1) {
+                    this.v_options.pageNum = this.v_options.pageNum - 1;
+                    searchHotelByOptions(this.v_options);
+                }
+            },
+            getFirstPage: function () {
+                this.v_options.pageNum = 1
+                searchHotelByOptions(this.v_options);
+            },
+            getEndPage: function () {
+                this.v_options.pageNum = this.v_options.totalPage;
+                searchHotelByOptions(this.v_options);
+            },
+            getPage: function (event) {
+                console.log(event.currentTarget.dataset.id);
+                console.log(this.v_options.pageNum);
+                this.v_options.pageNum = event.currentTarget.dataset.id;
+                searchHotelByOptions(this.v_options);
             }
+
         },
         watch: {
             dest_input: function (input) {
