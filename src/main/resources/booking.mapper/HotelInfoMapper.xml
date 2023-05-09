@@ -65,10 +65,12 @@
         FROM desc WHERE hotel_id=#{hotelId}
     </select>
     <select id="selectRoomById" resultType="booking.entity.Room">
-
+        SELECT hotel_id hotelId, room_index roomIndex, room_name roomName,description,capacity,price,room_num roomNum
+        FROM rooms WHERE hotel_id=#{hotelId}
     </select>
     <select id="selectPoliesById" resultType="booking.entity.Policy">
-
+        SELECT hotel_id hotelId, p_title pTitle, p_desc pDesc
+        FROM policies WHERE hotel_id=#{hotelId}
     </select>
     <select id="selectCityById" resultType="booking.entity.City">
         SELECT city_id cityId,city_name cityName,p_id levelId
