@@ -18,6 +18,7 @@ package booking.handler;
 import booking.entity.City;
 import booking.entity.HotelInfo;
 import booking.entity.QueryOptions;
+import booking.entity.Room;
 import booking.service.api.HotelInfoService;
 import booking.utils.PrefixUtils;
 import booking.utils.QueryUtils;
@@ -102,9 +103,39 @@ public class HotelHandler {
 
     @RequestMapping("/hotel/info")
     public String getHotel(@RequestParam("hotelId") Integer hotelId,
-                           HttpSession session){
+                           HttpSession session,
+                           Model model) throws JsonProcessingException {
         QueryOptions options = (QueryOptions) session.getAttribute("options");
+        // 获取酒店基本信息
+        HotelInfo hotelInfo = hotelInfoService.getHotel(hotelId);
+        if(options==null){
+            options = QueryUtils.getSearchDestId(hotelInfo.getDestId());
+            options.setDateInOut("");
+            options.setPeopleNum(2);
+            options.setRoomNum(1);
+            options.setPageNum(1);
+            session.setAttribute("options", options);
+        }
+        // 获取酒店图片
+        PrefixUtils.initHotelImages(hotelInfo);
+        // 获取酒店城市层次
+        ArrayList<City> parentCities = new ArrayList<>();
+        City city1 = hotelInfoService.getCity(hotelInfo.getDestId());
+        City city2 = hotelInfoService.getCity(city1.getLevelId());
+        City city3 = hotelInfoService.getCity(city2.getLevelId());
+        parentCities.add(city3);
+        parentCities.add(city2);
+        parentCities.add(city1);
+        model.addAttribute("parentCities", parentCities);
+        // 获取酒店详细描述
+        hotelInfo.setDescriptions(hotelInfoService.getDescriptions(hotelInfo.getHotelId()));
+        // 获取酒店政策
+        hotelInfo.setPolicies(hotelInfoService.getPolicies(hotelInfo.getHotelId()));
+        // 获取酒店房间
+        List<Room> rooms = null;
 
+        model.addAttribute("options", new ObjectMapper().writeValueAsString(options));
+        model.addAttribute("hotel", hotelInfo);
         return "hotel-info";
     }
 }

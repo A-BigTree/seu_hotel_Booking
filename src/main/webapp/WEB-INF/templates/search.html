@@ -83,7 +83,7 @@
                             <a th:href="@{/}">首页&gt;</a>
                         </li>
                         <li style="display: inline-block" th:each="cityP:${parentCities}">
-                            <a th:href="@{/hotel/search(dest=${cityP.cityId},date=${optionsO.dateInOut},people=${optionsO.peopleNum},rooms=${optionsO.roomNum},page=1)}"
+                            <a th:href="@{/hotel/search(dest=${cityP.cityId},date=${session.options.dateInOut},people=${session.options.peopleNum},rooms=${session.options.roomNum},page=1)}"
                                th:text="${cityP.cityName} + '&gt;'">
                                 城市名称
                             </a>
@@ -631,8 +631,8 @@
         connect: true,
         step: 1,
         range: {
-            min: 100,
-            max: 2000
+            "min": 100,
+            "max": 2000
         }
     });
     const valueChange = [
@@ -640,8 +640,8 @@
         document.getElementById("slider-range-value-high")
     ];
     rangeSlider.noUiSlider.on("update", function (values, handle) {
-        valueChange[handle].innerText = values[handle];
-        valueChange[handle].innerText = values[handle];
+        valueChange[handle].innerHTML = values[handle] + "￥";
+        valueChange[handle].innerHTML = values[handle] + "￥";
     });
 
     function sleep(time) {
