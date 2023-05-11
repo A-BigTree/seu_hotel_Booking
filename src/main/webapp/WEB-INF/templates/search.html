@@ -103,12 +103,11 @@
                     <input type="hidden" th:value="${options}" id="options">
                     <input type="hidden" th:value="@{/static/seu_hotel/json/city.json}" id="cityJson">
                     <input type="hidden" th:value="@{/hotel/search}" id="submitUrl">
+                    <input type="hidden" th:value="@{/hotel/info}" id="infoUrl">
                     <input type="hidden" th:value="@{/hotel/search/options}" id="submitUrl2">
                     <input type="hidden" th:value="${city.cityName}" id="cityName">
                     <!--搜索框-->
                     <div class="row mb-4">
-
-
                         <div class="col">
                             <div class="card text-center card-pricing popular">
                                 <div class="card-header text-left">
@@ -223,7 +222,6 @@
                             </div>
 
                         </div>
-
                     </div>
                     <!--筛选条件-->
                     <div class="row mb-4" id="priceRange">
@@ -242,15 +240,15 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div id="input-slider-range"></div>
+                                            <div id="slider-range"></div>
 
                                             <div class="row">
                                                 <div class="col-6"
-                                                     id="input-slider-range-value-low">
+                                                     id="slider-range-value-low">
 
                                                 </div>
                                                 <div class="col-6 text-right"
-                                                     id="input-slider-range-value-high">
+                                                     id="slider-range-value-high">
 
                                                 </div>
                                             </div>
@@ -456,8 +454,10 @@
                 <div class="col-8">
                     <div class="row text-left">
                         <div class="col">
-                            <h3 th:text="${city.cityName} + ':共' + ${hotelResult.total} + '家住宿'">
-                                结果概述</h3>
+                            <h3>
+                                <span th:text="${city.cityName}"></span>
+                                <span  v-if="hotel_result_list.length!=0">:共{{hotel_result.total}}家住宿</span>
+                            </h3>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -472,70 +472,77 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row mb-2" th:each="hotel:${hotelResult.list}">
+                    <div class="row mb-2">
                         <div class="col">
-                            <a th:href="@{/hotel/info(hotelId=${hotel.hotelId})}" class="text-dark">
-                                <div class="card h-100 z-depth-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-4" style="width: 100%;height: 80%;">
-                                            <img class="rounded ml-2" th:src="${hotel.pageImage.path}"
-                                                 alt="" src="" style="width: 100%;height: 100%;">
-                                        </div>
-                                        <div class="col-8">
-                                            <div class="card-header">
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <h4 th:text="${hotel.hotelName}">酒店名字</h4>
-                                                        <span th:if="${hotel.star&gt;0}">
-                                                <i class="fa-solid fa-star"
-                                                   style="color: #e7cb13;"
-                                                   th:each="i:${#numbers.sequence(1,hotel.star)}"></i></span>
-                                                    </div>
-                                                    <div class="col-4 text-right"
-                                                         th:switch="${#numbers.formatInteger(hotel.point,0)}">
-                                                        <h5 th:case="9" style="font-weight:normal;">
-                                                            好极了&nbsp;
-                                                            <span class="float-right badge badge-primary"
-                                                                  th:text="${hotel.point}">评分</span>
-                                                        </h5>
-                                                        <h5 th:case="8" style="font-weight:normal;">
-                                                            非常好&nbsp;
-                                                            <span class="float-right badge badge-primary"
-                                                                  th:text="${hotel.point}">评分</span>
-                                                        </h5>
-                                                        <h5 th:case="7" style="font-weight:normal;">
-                                                            好&nbsp;
-                                                            <span class="float-right badge badge-primary"
-                                                                  th:text="${hotel.point}">评分</span>
-                                                        </h5>
-                                                        <h5 th:case="6" style="font-weight:normal;">
-                                                            令人愉悦&nbsp;
-                                                            <span class="float-right badge badge-primary"
-                                                                  th:text="${hotel.point}">评分</span>
-                                                        </h5>
-                                                        <h5 th:case="*">
-                                                            &nbsp;
-                                                            <span class="float-right badge badge-primary"
-                                                                  th:text="${hotel.point}">评分</span>
-                                                        </h5>
+                            <div class="row mb-2" v-for="hotel in hotel_result_list">
+                                <div class="col">
+                                    <a :href="infoUrl + '?hotelId=' + hotel.hotelId" class="text-dark">
+                                        <div class="card h-100 z-depth-2">
+                                            <div class="row align-items-center">
+                                                <div class="col-4" style="width: 100%;height: 80%;">
+                                                    <img class="rounded ml-2" :src="hotel.pageImage.path"
+                                                         alt="" style="width: 100%;height: 100%;">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="card-header">
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <h4>{{hotel.hotelName}}</h4>
+                                                                <span v-if="hotel.star&gt;0">
+                                                                    <i class="fa-solid fa-star"
+                                                                       style="color: #e7cb13;"
+                                                                       v-for="index of hotel.star"></i></span>
+                                                            </div>
+                                                            <div class="col-4 text-right">
+                                                                <h5 v-if="hotel.point&gt;=9" style="font-weight:normal;">
+                                                                    好极了&nbsp;
+                                                                    <span class="float-right badge badge-primary">
+                                                                        {{hotel.point}}
+                                                                    </span>
+                                                                </h5>
+                                                                <h5 v-else-if="hotel.point&gt;=8" style="font-weight:normal;">
+                                                                    非常好&nbsp;
+                                                                    <span class="float-right badge badge-primary">
+                                                                        {{hotel.point}}
+                                                                    </span>
+                                                                </h5>
+                                                                <h5 v-else-if="hotel.point&gt;=7" style="font-weight:normal;">
+                                                                    好&nbsp;
+                                                                    <span class="float-right badge badge-primary">
+                                                                        {{hotel.point}}
+                                                                    </span>
+                                                                </h5>
+                                                                <h5 v-else-if="hotel.point&gt;=6" style="font-weight:normal;">
+                                                                    令人愉悦&nbsp;
+                                                                    <span class="float-right badge badge-primary">
+                                                                        {{hotel.point}}
+                                                                    </span>
+                                                                </h5>
+                                                                <h5 v-else>
+                                                                    &nbsp;
+                                                                    <span class="float-right badge badge-primary">
+                                                                        {{hotel.point}}
+                                                                    </span>
+                                                                </h5>
 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p>{{hotel.simpleDesc}}</p>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                            </div>
-                                            <div class="card-body">
-                                                <p th:text="${hotel.simpleDesc}">酒店简单描述</p>
-                                            </div>
                                         </div>
-                                    </div>
-
+                                    </a>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col text-center">
-                            <nav aria-label="Page navigation example" th:if="${hotelResult.pages&gt;1}">
+                        <div class="col text-center" v-if="page_list.length&gt;1">
+                            <nav aria-label="Page navigation example" v-if="hotel_result.pages&gt;1">
                                 <ul class="pagination">
                                     <li class="page-item">
                                         <a class="page-link" href="javascript:void(0)"
@@ -550,12 +557,11 @@
                                         </a>
                                     </li>
                                     <li class="page-item"
-                                        th:classappend="${(currentPage==i?'active':'')}"
-                                        th:each="i:${#numbers.sequence(startPage,endPage)}">
+                                        :class="{'active':hotel_result.pageNum===i}"
+                                        v-for="i in page_list">
                                         <a class="page-link" href="javascript:void(0)"
-                                           @click="getPage" th:data-id="${i}"
-                                           th:text="${i}">
-                                            页数
+                                           @click="getPage" :data-id="i">
+                                            {{i}}
                                         </a>
                                     </li>
                                     <li class="page-item">
@@ -596,7 +602,8 @@
     const city_json = document.getElementById("cityJson").value;
     const url_goto = document.getElementById("submitUrl").value;
     const url_submit = document.getElementById("submitUrl2").value;
-    const optionsStr = document.getElementById("options").value
+    const optionsStr = document.getElementById("options").value;
+    const infoUrl = document.getElementById("infoUrl").value;
     const options = JSON.parse(optionsStr);
 
     function searchHotel(city, dest, dateInOut, people_num, room_num, page) {
@@ -607,27 +614,30 @@
 
     function searchHotelByOptions(options) {
         axios({
-            "method":"post",
-            "url":url_submit,
-            "data":JSON.stringify(options)
+            "method": "post",
+            "url": url_submit,
+            "data": JSON.stringify(options),
+            "headers": {
+                'Content-Type': 'application/json;charset=UTF-8'
+            }
         }).catch(function (error) {
             console.log(error);
         });
     }
 
-    const rangeSlider = document.getElementById("input-slider-range");
+    const rangeSlider = document.getElementById("slider-range");
     noUiSlider.create(rangeSlider, {
         start: [100, 2000],
         connect: true,
         step: 1,
         range: {
-            "min": 100,
-            "max": 2000
+            min: 100,
+            max: 2000
         }
     });
     const valueChange = [
-        document.getElementById("input-slider-range-value-low"),
-        document.getElementById("input-slider-range-value-high")
+        document.getElementById("slider-range-value-low"),
+        document.getElementById("slider-range-value-high")
     ];
     rangeSlider.noUiSlider.on("update", function (values, handle) {
         valueChange[handle].innerText = values[handle];
@@ -656,7 +666,12 @@
                 isSearch: false,
                 isOk: false,
                 // 搜索传参
-                v_options: null
+                v_options: null,
+                // 返回结果
+                hotel_result_list: [],
+                hotel_result:null,
+                page_list:[],
+                infoUrl: null
             }
         },
         mounted() {
@@ -670,7 +685,6 @@
             }).catch(function (error) {
                 console.log(error);
             });
-
             this.selected_key = options.dest;
             this.dest_input = document.getElementById("cityName").value;
             this.dest_city = document.getElementById("cityName").value;
@@ -679,12 +693,16 @@
             this.room_num = options.roomNum + " 间";
             this.peo_key = options.peopleNum;
             this.room_key = options.roomNum;
+            this.infoUrl = infoUrl;
             this.v_options = JSON.parse(optionsStr);
+            this.v_options.dateIn = null;
+            this.v_options.dateOut = null;
             console.log(this.v_options);
             document.getElementById("date_input").value = options.dateInOut;
             if (options.dateInOut !== '') {
                 document.getElementById("date_input").setAttribute("placeholder", options.dateInOut);
             }
+            this.searchHotelByOption();
         },
         methods: {
             searchDest: function (dest) {
@@ -776,31 +794,68 @@
                     this.isOk = true;
                 }
             },
+            searchHotelByOption: function () {
+                axios({
+                    method: "post",
+                    url: url_submit,
+                    data: JSON.stringify(this.v_options),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((response) => {
+                    this.hotel_result = response.data;
+                    this.hotel_result_list = []
+                    this.page_list = []
+                    for(let i = 0; i < this.hotel_result.list.length; i++){
+                        this.hotel_result_list.push(this.hotel_result.list[i])
+                    }
+                    console.log(this.hotel_result)
+                    console.log(this.hotel_result_list)
+                    let startPage = 1, endPage = this.hotel_result.pages;
+                    if(this.hotel_result.pages > 11){
+                        if(this.hotel_result.pageNum >= 6){
+                            if(this.hotel_result.pageNum + 5 >= this.hotel_result.pages){
+                                startPage = this.hotel_result.pages - 10;
+                            }else {
+                                startPage = this.hotel_result.pageNum - 5;
+                                endPage = this.hotel_result.pageNum + 5;
+                            }
+                        }else{
+                            endPage = 11;
+                        }
+                    }
+                    for(let i = startPage; i < endPage + 1; i++){
+                        this.page_list.push(i)
+                    }
+                    console.log(this.page_list)
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
             getNextPage: function () {
-                if (this.v_options.pageNum < this.v_options.totalPage) {
+                if (this.v_options.pageNum < this.hotel_result.pages) {
                     this.v_options.pageNum = this.v_options.pageNum + 1;
-                    searchHotelByOptions(this.v_options);
+                    this.searchHotelByOption();
                 }
             },
             getLastPage: function () {
                 if (this.v_options.pageNum > 1) {
                     this.v_options.pageNum = this.v_options.pageNum - 1;
-                    searchHotelByOptions(this.v_options);
+                    this.searchHotelByOption();
                 }
             },
             getFirstPage: function () {
                 this.v_options.pageNum = 1
-                searchHotelByOptions(this.v_options);
+                this.searchHotelByOption();
             },
             getEndPage: function () {
-                this.v_options.pageNum = this.v_options.totalPage;
-                searchHotelByOptions(this.v_options);
+                this.v_options.pageNum = this.hotel_result.pages;
+                this.searchHotelByOption();
             },
             getPage: function (event) {
-                console.log(event.currentTarget.dataset.id);
-                console.log(this.v_options.pageNum);
                 this.v_options.pageNum = event.currentTarget.dataset.id;
-                searchHotelByOptions(this.v_options);
+                this.searchHotelByOption();
             }
 
         },

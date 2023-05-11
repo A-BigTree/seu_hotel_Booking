@@ -97,9 +97,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row cols-xs-space justify-content-start">
+            <div class="row cols-xs-space justify-content-start"
+                 th:if="${session.user==null}">
                 <div class="col-4">
-                    <form th:action="@{/user/sign}" class="align-items-end">
+                    <form th:action="@{/user/sign}"
+                          class="align-items-end">
                         <button type="submit"
                                 class="btn btn-lg btn-secondary btn-animated btn-animated-y">
                             <span class="btn-inner--visible">现在注册账号！</span>

@@ -24,12 +24,14 @@ import booking.utils.QueryUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +73,7 @@ public class HotelHandler {
                                @RequestParam("people") Integer peopleNum,
                                @RequestParam("rooms") Integer roomsNum,
                                @RequestParam("page") Integer page,
+                               HttpSession session,
                                Model model) throws JsonProcessingException {
         QueryOptions options = QueryUtils.getSearchDestId(dest);
         City city = hotelInfoService.getCity(dest);
@@ -84,31 +87,24 @@ public class HotelHandler {
         options.setPeopleNum(peopleNum);
         options.setRoomNum(roomsNum);
         options.setPageNum(page);
-        PageInfo<HotelInfo> hotelInfoPageInfo = hotelInfoService.queryHotels(options, page);
-        PrefixUtils.initHotelsPageImage(hotelInfoPageInfo.getList());
-        options.setTotalPage(hotelInfoPageInfo.getPages());
-        model.addAllAttributes(QueryUtils.setSearchPage(hotelInfoPageInfo.getPages(), page));
+        session.setAttribute("options", options);
         model.addAttribute("optionsO", options);
         model.addAttribute("options", new ObjectMapper().writeValueAsString(options));
-        model.addAttribute("hotelResult", hotelInfoPageInfo);
         return "search";
     }
 
     @RequestMapping("/hotel/search/options")
-    public String searchHotel(@RequestBody QueryOptions options,
-                              Model model) throws JsonProcessingException {
-        log.info(options.toString());
+    public @ResponseBody PageInfo<HotelInfo> searchHotel(@RequestBody QueryOptions options) {
         PageInfo<HotelInfo> hotelInfoPageInfo = hotelInfoService.queryHotels(options, options.getPageNum());
         PrefixUtils.initHotelsPageImage(hotelInfoPageInfo.getList());
-        City city = hotelInfoService.getCity(options.getDest());
-        model.addAttribute("city", city);
-        model.addAllAttributes(this.setLevelCities(city, options.getDest()));
-        options.setTotalPage(hotelInfoPageInfo.getPages());
-        model.addAllAttributes(QueryUtils.setSearchPage(hotelInfoPageInfo.getPages(), options.getPageNum()));
-        model.addAttribute("optionsO", options);
-        model.addAttribute("options", new ObjectMapper().writeValueAsString(options));
-        model.addAttribute("hotelResult", hotelInfoPageInfo);
+        return hotelInfoPageInfo;
+    }
 
-        return "search";
+    @RequestMapping("/hotel/info")
+    public String getHotel(@RequestParam("hotelId") Integer hotelId,
+                           HttpSession session){
+        QueryOptions options = (QueryOptions) session.getAttribute("options");
+
+        return "hotel-info";
     }
 }
