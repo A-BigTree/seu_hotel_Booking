@@ -31,6 +31,8 @@ public interface HotelInfoMapper {
 
     List<Room> selectRoomById(Integer hotelId);
 
+    List<Room> selectRoomByOptions(QueryOptions options);
+
     List<Policy> selectPoliesById(Integer hotelId);
 
     City selectCityById(Integer cityId);

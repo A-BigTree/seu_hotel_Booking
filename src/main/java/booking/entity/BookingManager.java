@@ -43,4 +43,6 @@ public class BookingManager {
     private Timestamp bookTime;
     //购买价格
     private BigDecimal price;
+    // 预定数量
+    private Integer bookNum;
 }

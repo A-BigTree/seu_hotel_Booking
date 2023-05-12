@@ -587,8 +587,8 @@
 </main>
 
 <!--Boomerang theme js-->
-<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/nouislider.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/seu_hotel/script/index/nouislider.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
@@ -610,19 +610,6 @@
         window.location.href = url_goto + "?city=" + city + "&dest=" + dest +
             "&date=" + dateInOut + "&people=" + people_num +
             "&rooms=" + room_num + "&page=" + page;
-    }
-
-    function searchHotelByOptions(options) {
-        axios({
-            "method": "post",
-            "url": url_submit,
-            "data": JSON.stringify(options),
-            "headers": {
-                'Content-Type': 'application/json;charset=UTF-8'
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
     }
 
     const rangeSlider = document.getElementById("slider-range");
@@ -697,7 +684,6 @@
             this.v_options = JSON.parse(optionsStr);
             this.v_options.dateIn = null;
             this.v_options.dateOut = null;
-            console.log(this.v_options);
             document.getElementById("date_input").value = options.dateInOut;
             if (options.dateInOut !== '') {
                 document.getElementById("date_input").setAttribute("placeholder", options.dateInOut);
@@ -809,8 +795,6 @@
                     for(let i = 0; i < this.hotel_result.list.length; i++){
                         this.hotel_result_list.push(this.hotel_result.list[i])
                     }
-                    console.log(this.hotel_result)
-                    console.log(this.hotel_result_list)
                     let startPage = 1, endPage = this.hotel_result.pages;
                     if(this.hotel_result.pages > 11){
                         if(this.hotel_result.pageNum >= 6){
@@ -827,7 +811,6 @@
                     for(let i = startPage; i < endPage + 1; i++){
                         this.page_list.push(i)
                     }
-                    console.log(this.page_list)
 
                 }).catch(function (error) {
                     console.log(error);

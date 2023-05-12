@@ -51,16 +51,22 @@ public class QueryUtils {
 
     public static void initDateInOut(QueryOptions options, String dateInOut){
         options.setDateInOut(dateInOut);
-        String[] dates = dateInOut.split("-");
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        try{
-            Date parse1 = sdf.parse(dates[0]);
-            Date parse2 = sdf.parse(dates[1]);
-            options.setDateIn(new java.sql.Date(parse1.getTime()));
-            options.setDateOut(new java.sql.Date(parse2.getTime()));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        if (dateInOut.equals("")){
+            options.setBookDays(1);
+        }else{
+            String[] dates = dateInOut.split("-");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            try{
+                Date parse1 = sdf.parse(dates[0]);
+                Date parse2 = sdf.parse(dates[1]);
+                options.setBookDays((int) ((parse2.getTime()-parse1.getTime())/(24*60*60*1000)));
+                options.setDateIn(new java.sql.Date(parse1.getTime()));
+                options.setDateOut(new java.sql.Date(parse2.getTime()));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
     public static Map<String, Integer> setSearchPage(Integer totalPage, Integer page){

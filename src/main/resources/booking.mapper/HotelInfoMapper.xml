@@ -57,7 +57,9 @@
     </select>
 
     <select id="selectHotelById" resultType="booking.entity.HotelInfo">
-        SELECT hotel_id hotelId, hotel_name hotelName,dest_id destId, address, point, star, image_num imageNum, description simpleDesc, can_book canBook
+        SELECT hotel_id hotelId, hotel_name hotelName,dest_id destId,
+               address, point, star, image_num imageNum, description simpleDesc,
+               can_book canBook
         FROM info WHERE hotel_id=#{hotelId}
     </select>
     <select id="selectDesById" resultType="booking.entity.Description">
@@ -67,7 +69,8 @@
         ORDER BY desc_index;
     </select>
     <select id="selectRoomById" resultType="booking.entity.Room">
-        SELECT hotel_id hotelId, room_index roomIndex, room_name roomName,description,capacity,price,room_num roomNum
+        SELECT hotel_id hotelId, room_index roomIndex, room_name roomName,
+               description,capacity,price,room_num roomNum, people_num peopleNum
         FROM rooms WHERE hotel_id=#{hotelId}
     </select>
     <select id="selectPoliesById" resultType="booking.entity.Policy">
@@ -83,5 +86,8 @@
         SELECT city_id cityId,city_name cityName,p_id levelId
         FROM city
         WHERE p_id=#{cityId}
+    </select>
+    <select id="selectRoomByOptions" resultType="booking.entity.Room">
+
     </select>
 </mapper>

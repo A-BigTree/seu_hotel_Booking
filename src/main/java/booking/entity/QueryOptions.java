@@ -27,6 +27,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QueryOptions {
+    //酒店ID
+    public Integer hotelId;
     //目的地范围
     private Integer dest;
     private Integer startDest;
@@ -44,6 +46,7 @@ public class QueryOptions {
     private String dateInOut;
     private Date dateIn;
     private Date dateOut;
+    private Integer bookDays;
     // 房间选择
     private Integer peopleNum;
     private Integer roomNum;
@@ -54,5 +57,4 @@ public class QueryOptions {
     private String orderBy;
     // 页数
     private Integer pageNum;
-    private Integer totalPage;
 }

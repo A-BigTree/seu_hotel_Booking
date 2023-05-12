@@ -116,6 +116,9 @@ public class HotelHandler {
             options.setPageNum(1);
             session.setAttribute("options", options);
         }
+        options.setHotelId(hotelId);
+        // 初始化时间
+        QueryUtils.initDateInOut(options, options.getDateInOut());
         // 获取酒店图片
         PrefixUtils.initHotelImages(hotelInfo);
         // 获取酒店城市层次
@@ -131,11 +134,16 @@ public class HotelHandler {
         hotelInfo.setDescriptions(hotelInfoService.getDescriptions(hotelInfo.getHotelId()));
         // 获取酒店政策
         hotelInfo.setPolicies(hotelInfoService.getPolicies(hotelInfo.getHotelId()));
-        // 获取酒店房间
-        List<Room> rooms = null;
-
         model.addAttribute("options", new ObjectMapper().writeValueAsString(options));
         model.addAttribute("hotel", hotelInfo);
         return "hotel-info";
+    }
+
+    @RequestMapping("/hotel/rooms")
+    public @ResponseBody List<Room> getRooms(@RequestBody QueryOptions options){
+        if(options.getDateInOut().equals("")){
+            return hotelInfoService.getRooms(options.getHotelId());
+        }
+        return null;
     }
 }

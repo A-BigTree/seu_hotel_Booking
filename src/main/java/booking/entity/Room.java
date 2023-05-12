@@ -39,4 +39,6 @@ public class Room {
     private BigDecimal price;
     // 数量
     private Integer roomNum;
+    // 人数
+    private Integer peopleNum;
 }

@@ -6,8 +6,8 @@
 <mapper namespace="booking.mapper.BookingMapper">
 
     <insert id="addBooking">
-        INSERT  INTO booking (book_id, user_id, hotel_id, room_index, check_in_date, check_out_date, book_time, price)
-        VALUES (#{bookId},#{userId},#{hotelId},#{roomIndex},#{checkInDate},#{checkOutDate},#{bookTime},#{price});
+        INSERT  INTO booking (user_id, hotel_id, room_index, check_in_date, check_out_date, price, book_num)
+        VALUES (#{userId},#{hotelId},#{roomIndex},#{checkInDate},#{checkOutDate},#{price},#{bookNum});
     </insert>
 
 
