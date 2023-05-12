@@ -20,6 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -33,6 +34,8 @@ public class Room {
     private String roomName;
     //描述
     private String description;
+    //描述列表
+    private List<Description> descriptions;
     //容量
     private String capacity;
     //价格

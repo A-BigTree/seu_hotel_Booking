@@ -235,21 +235,15 @@
                                     <div class="row text-left mb-2">
                                         <h5>您的预算</h5>
                                     </div>
-                                    <div class="row mb-2">
-                                        100￥-2000+￥
-                                    </div>
                                     <div class="row">
                                         <div class="col">
                                             <div id="slider-range"></div>
-
                                             <div class="row">
                                                 <div class="col-6"
                                                      id="slider-range-value-low">
-
                                                 </div>
                                                 <div class="col-6 text-right"
                                                      id="slider-range-value-high">
-
                                                 </div>
                                             </div>
                                         </div>
@@ -264,7 +258,8 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="star2">
+                                                <input type="checkbox" v-model="stars" value="2"
+                                                       class="custom-control-input" id="star2">
                                                 <label class="custom-control-label" for="star2">
                                                     经济型
                                                     <span>
@@ -276,7 +271,8 @@
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="star3">
+                                                <input type="checkbox" v-model="stars" value="3"
+                                                       class="custom-control-input" id="star3">
                                                 <label class="custom-control-label" for="star3">
                                                     舒适型
                                                     <span>
@@ -290,7 +286,8 @@
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="star4">
+                                                <input type="checkbox" v-model="stars" value="4"
+                                                       class="custom-control-input" id="star4">
                                                 <label class="custom-control-label" for="star4">
                                                     豪华型
                                                     <span>
@@ -306,7 +303,8 @@
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="star5">
+                                                <input type="checkbox" v-model="stars" value="5"
+                                                       class="custom-control-input" id="star5">
                                                 <label class="custom-control-label" for="star5">
                                                     尊贵型
                                                     <span>
@@ -324,7 +322,8 @@
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="star1">
+                                                <input type="checkbox" v-model="stars" value="0"
+                                                       class="custom-control-input" id="star1">
                                                 <label class="custom-control-label" for="star1">
                                                     未评级
                                                 </label>
@@ -341,27 +340,31 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="point1">
+                                                <input type="checkbox" v-model="points" value="9"
+                                                       class="custom-control-input" id="point1">
                                                 <label class="custom-control-label" for="point1">
                                                     好极了:9分以上
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input"
+                                                <input type="checkbox" v-model="points" value="8"
+                                                       class="custom-control-input"
                                                        id="point2">
                                                 <label class="custom-control-label" for="point2">
                                                     非常好:8分以上
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input"
+                                                <input type="checkbox" v-model="points" value="7"
+                                                       class="custom-control-input"
                                                        id="point3">
                                                 <label class="custom-control-label" for="point3">
                                                     好:7分以上
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input"
+                                                <input type="checkbox"  v-model="points" value="6"
+                                                       class="custom-control-input"
                                                        id="point4">
                                                 <label class="custom-control-label" for="point4">
                                                     令人愉悦:6分以上
@@ -382,7 +385,7 @@
                                                  th:each="cityL:${levelCities}">
                                                 <input type="checkbox" class="custom-control-input"
                                                        th:id="'dest' + ${cityL.cityId}"
-                                                       th:value="${cityL.cityId}">
+                                                       th:value="${cityL.cityId}" v-model="dest">
                                                 <label class="custom-control-label"
                                                        th:for="'dest' + ${cityL.cityId}"
                                                        th:text="${cityL.cityName}">
@@ -395,6 +398,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--热门筛选-->
                     <div class="row sticky-top mb-4 mt-5">
                         <div class="col mt-5">
                             <div class="card z-depth-2 mt-5">
@@ -405,20 +409,23 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="point1_1">
+                                                <input type="checkbox"  v-model="points" value="9"
+                                                       class="custom-control-input" id="point1_1">
                                                 <label class="custom-control-label" for="point1_1">
                                                     好极了:9分以上
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input"
+                                                <input type="checkbox"  v-model="points" value="8"
+                                                       class="custom-control-input"
                                                        id="point2_1">
                                                 <label class="custom-control-label" for="point2_1">
                                                     非常好:8分以上
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="star2_1">
+                                                <input type="checkbox" v-model="stars" value="2"
+                                                       class="custom-control-input" id="star2_1">
                                                 <label class="custom-control-label" for="star2_1">
                                                     经济型
                                                     <span>
@@ -430,7 +437,8 @@
                                                 </label>
                                             </div>
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input type="checkbox" class="custom-control-input" id="star3_1">
+                                                <input type="checkbox" v-model="stars" value="3"
+                                                       class="custom-control-input" id="star3_1">
                                                 <label class="custom-control-label" for="star3_1">
                                                     舒适型
                                                     <span>
@@ -449,7 +457,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-8">
                     <div class="row text-left">
@@ -463,12 +470,12 @@
                     <div class="row mb-2">
                         <div class="col-4">
                             <label for="selectSort"></label>
-                            <select class="custom-select" id="selectSort">
-                                <option value="0" selected>推荐排序</option>
-                                <option value="1">价格从高到低</option>
-                                <option value="2">价格从低到高</option>
-                                <option value="3">评分从高到低</option>
-                                <option value="3">评分从低到高</option>
+                            <select class="custom-select" id="selectSort" v-model="selectStr">
+                                <option value="" selected>推荐排序</option>
+                                <option value="roomPrice DESC">价格从高到低</option>
+                                <option value="roomPrice ASC">价格从低到高</option>
+                                <option value="point DESC">评分从高到低</option>
+                                <option value="point ASC">评分从低到高</option>
                             </select>
                         </div>
                     </div>
@@ -612,25 +619,6 @@
             "&rooms=" + room_num + "&page=" + page;
     }
 
-    const rangeSlider = document.getElementById("slider-range");
-    noUiSlider.create(rangeSlider, {
-        start: [100, 2000],
-        connect: true,
-        step: 1,
-        range: {
-            "min": 100,
-            "max": 2000
-        }
-    });
-    const valueChange = [
-        document.getElementById("slider-range-value-low"),
-        document.getElementById("slider-range-value-high")
-    ];
-    rangeSlider.noUiSlider.on("update", function (values, handle) {
-        valueChange[handle].innerHTML = values[handle] + "￥";
-        valueChange[handle].innerHTML = values[handle] + "￥";
-    });
-
     function sleep(time) {
         return new Promise((resolve) => setTimeout(resolve, time));
     }
@@ -658,7 +646,13 @@
                 hotel_result_list: [],
                 hotel_result:null,
                 page_list:[],
-                infoUrl: null
+                infoUrl: null,
+                // 条件筛选
+                stars:[],
+                points:[],
+                dest:[],
+                selectStr:""
+
             }
         },
         mounted() {
@@ -688,6 +682,47 @@
             if (options.dateInOut !== '') {
                 document.getElementById("date_input").setAttribute("placeholder", options.dateInOut);
             }
+            const rangeSlider = document.getElementById("slider-range");
+            noUiSlider.create(rangeSlider, {
+                range: {
+                    "min": 100,
+                    "max": 2000
+                },
+                start: [100, 2000],
+                connect: true,
+                step: 1
+
+            });
+            const valueChange = [
+                document.getElementById("slider-range-value-low"),
+                document.getElementById("slider-range-value-high")
+            ];
+            rangeSlider.noUiSlider.on("update", function (values, handle) {
+                if(values[handle]>1999){
+                    valueChange[handle].innerHTML = values[handle] + "+￥";
+                }
+                else if(values[handle] < 101){
+                    valueChange[handle].innerHTML = values[handle] + "-￥";
+                }
+                else{
+                    valueChange[handle].innerHTML = values[handle] + "￥";
+                }
+            });
+            rangeSlider.noUiSlider.on("change", (values, handle)=>{
+                const lowValue = values[0], highValue = values[1];
+                if(highValue > 1999){
+                    this.v_options.endPrice = null;
+                }else{
+                    this.v_options.endPrice = highValue;
+                }
+                if(lowValue < 101){
+                    this.v_options.startPrice = null;
+                }else{
+                    this.v_options.startPice = lowValue;
+                }
+                this.v_options.pageNum = 1;
+                this.searchHotelByOption();
+            });
             this.searchHotelByOption();
         },
         methods: {
@@ -815,6 +850,7 @@
                 }).catch(function (error) {
                     console.log(error);
                 });
+                scrollTo(0, 0);
             },
             getNextPage: function () {
                 if (this.v_options.pageNum < this.hotel_result.pages) {
@@ -840,7 +876,6 @@
                 this.v_options.pageNum = event.currentTarget.dataset.id;
                 this.searchHotelByOption();
             }
-
         },
         watch: {
             dest_input: function (input) {
@@ -852,6 +887,43 @@
                     this.isComplete = false;
                     this.selected_key = -1;
                 }
+            },
+            stars:function (){
+                if(this.stars.length===0){
+                    this.v_options.stars = null;
+                }else{
+                    this.v_options.stars = this.stars;
+                }
+                this.v_options.pageNum = 1;
+                this.searchHotelByOption();
+            },
+            dest:function (){
+                if(this.dest.length===0){
+                    this.v_options.destList = null;
+                }else{
+                    this.v_options.destList = this.dest;
+                }
+                this.v_options.pageNum = 1;
+                this.searchHotelByOption();
+            },
+            points:function (){
+                if(this.points.length===0){
+                    this.v_options.startPoint = null;
+                }else{
+                    this.v_options.startPoint = Math.min.apply(null,this.points);
+                    console.log(this.v_options.startPoint)
+                }
+                this.v_options.pageNum = 1;
+                this.searchHotelByOption();
+            },
+            selectStr:function (){
+                if(this.selectStr===""){
+                    this.v_options.orderBy = null;
+                }else{
+                    this.v_options.orderBy = this.selectStr;
+                }
+                this.pageNum = 1;
+                this.searchHotelByOption();
             }
         }
     });

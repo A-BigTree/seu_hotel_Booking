@@ -44,7 +44,7 @@
                 AND room_num &gt;=#{roomNum}
             </if>
             <if test="startPrice!=null">
-                AND price &gt;#{startPrice}
+                AND price &gt;=#{startPrice}
             </if>
             <if test="endPrice!=null">
                 AND price &lt;#{endPrice}

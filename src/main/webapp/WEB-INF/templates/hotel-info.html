@@ -401,7 +401,7 @@
                     <div class="row">
                         <div class="col">
                             <table class="table table-hover align-items-center"  v-if="rooms.length!=0">
-                                <thead>
+                                <thead class="thead-light">
                                 <tr>
                                     <th scope="col">
                                         客房类型
@@ -425,7 +425,7 @@
                                         <form th:action="@{/user}">
                                             <button type="submit"
                                                     class="btn btn-primary btn-animated btn-animated-y">
-                                                <span class="btn-inner--visible">预定请先登陆</span>
+                                                <span class="btn-inner--visible">预订请先登陆</span>
                                                 <span class="btn-inner--hidden">
                                                     <i class="fa-solid fa-globe"></i>
                                                 </span>
@@ -470,7 +470,25 @@
                 </div>
             </div>
             <!--政策描述-->
-
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="row mb-4">
+                        <h3>
+                            入住政策
+                        </h3>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table align-items-center table-striped">
+                                <tr th:each="policy:${hotel.policies}">
+                                    <th th:text="${policy.pTitle}">政策标题</th>
+                                    <td th:text="${policy.pDesc}">政策描述</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </main>
