@@ -62,7 +62,9 @@
     </select>
     <select id="selectDesById" resultType="booking.entity.Description">
         SELECT hotel_id hotelId, desc_index descIndex, description
-        FROM desc_hotel WHERE hotel_id=#{hotelId}
+        FROM desc_hotel
+        WHERE hotel_id=#{hotelId}
+        ORDER BY desc_index;
     </select>
     <select id="selectRoomById" resultType="booking.entity.Room">
         SELECT hotel_id hotelId, room_index roomIndex, room_name roomName,description,capacity,price,room_num roomNum

@@ -13,7 +13,7 @@
 </head>
 <body>
 <!--菜单-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded py-4 fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded py-4">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}"><strong>SEU </strong>Booking</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_example_1"
@@ -73,10 +73,10 @@
 </nav>
 <main class="main">
     <!--主界面-->
-    <section class="slice slice-lg">
-        <div class="container">
+    <section class="slice">
+        <div class="container" id="search">
             <!--地点导航-->
-            <div class="row mt-3">
+            <div class="row mt-0">
                 <div class="col">
                     <ul style="display: inline-block">
                         <li style="display: inline-block">
@@ -97,7 +97,7 @@
                 </div>
             </div>
             <!--结果主页-->
-            <div class="row mt-2" id="search">
+            <div class="row mt-2">
                 <!--左侧菜单-->
                 <div class="col-4">
                     <input type="hidden" th:value="${options}" id="options">
@@ -223,6 +223,7 @@
                         </div>
                     </div>
                 </div>
+                <!--右侧信息-->
                 <div class="col-8">
                     <!-- 基本信息-->
                     <div class="row">
@@ -281,17 +282,38 @@
                                         <div class="card" style="overflow: hidden;height: 100px;"
                                              th:each="i:${#numbers.sequence(3, #lists.size(hotel.hotelImages) - 1)}">
                                             <img th:src="${hotel.hotelImages[i].path}" alt="" src=""
-                                                 class="card-img-top">
+                                                 class="card-img">
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--酒店描述-->
+            <div class="row mt-4">
+                <div class="col-8 mt-4">
+                    <div class="row">
+                        <h3>酒店描述</h3>
+                    </div>
+                    <div class="row" th:each="description:${hotel.descriptions}">
+                        <p th:text="${description.description}">描述</p>
+                    </div>
+                </div>
+                <div class="col-4 mt-4">
+                    <div class="card text-center bg-secondary">
+                        <a href="#booking" class="btn btn-primary">
+                            现在预定
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--空房描述-->
+            <div class="row mt-4" id="booking">
+
+            </div>
+
         </div>
     </section>
 </main>
