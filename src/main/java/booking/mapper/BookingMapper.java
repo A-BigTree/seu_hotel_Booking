@@ -25,6 +25,8 @@ import java.util.List;
 public interface BookingMapper {
     List<BookingManager> selectBookingByUser(Integer userId);
 
+    BookingManager selectBooking(Integer bookId);
+
     List<BookingManager> selectBookingByHotel(@Param("hotelId") Integer hotelId,
                                               @Param("roomIndex") Integer roomIndex,
                                               @Param("bookDate") Date bookDate);

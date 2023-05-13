@@ -1,120 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>关于我们</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/bootstrap-select/css/bootstrap-select.css}"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/example.css}"/>
+    <meta charset="UTF-8">
+    <title>预订历史</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/index/theme.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/fontawesome.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/solid.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/fontawesome/css/brands.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/bootstrap-select/css/bootstrap-select.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/seu_hotel/css/example.css}"/>
 </head>
 <body>
 <!-- 菜单栏 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded py-4">
-  <div class="container">
-    <a class="navbar-brand" th:href="@{/}"><strong>SEU </strong>Booking</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_example_1"
-            aria-controls="navbar_example_1" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbar_example_1">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/}">首页</a>
-        </li>
-        <li class="nav-item" th:if="${session.user == null}">
-          <a class="nav-link" th:href="@{/user}">
-            <i class="fa-solid fa-user"></i>
-            <span>登陆/注册</span>
-          </a>
-        </li>
-        <li class="nav-item dropdown" th:if="${session.user != null}">
-          <a class="nav-link dropdown-toggle" href="#" id="navbar_1_dropdown_3"
-             role="button" data-toggle="dropdown" aria-haspopup="true"
-             aria-expanded="false">
-            <i class="fa-solid fa-user"></i>
-            <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" th:href="@{/user/booking}">
-              <span class="float-right badge badge-primary" th:text="${session.bookNum}">0</span>
-              <i class="fa-solid fa-envelope text-primary"></i>订单
-            </a>
-            <a class="dropdown-item" th:href="@{/user/info}">
-              <i class="fa-solid fa-gear text-primary"></i>设置
-            </a>
-            <div class="dropdown-divider" role="presentation"></div>
-            <a class="dropdown-item" th:href="@{/user/logout}">
-              <i class="fas fa-sign-out-alt text-primary"></i>退出登陆
-            </a>
-          </div>
-          <!--
-          <a class="nav-link" th:href="@{/user/info}">
-              <i class="fa-solid fa-user"></i>
-              <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
-          </a>-->
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/about}">关于我们</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/A-BigTree">
-            <i class="fa-brands fa-github fa-2x"></i>
-            <span class="ml-2 d-lg-none">GitHub</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://blog.csdn.net/weixin_53580595">
-            <i class="fa-solid fa-blog fa-2x"></i>
-            <span class="ml-2 d-lg-none">CSDN</span>
-          </a>
-        </li>
-      </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded py-4 fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}"><strong>SEU </strong>Booking</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_example_1"
+                aria-controls="navbar_example_1" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar_example_1">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">首页</a>
+                </li>
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="nav-link" th:href="@{/user}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>登陆/注册</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown" th:if="${session.user != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbar_1_dropdown_3"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                        <span th:text="'您好,'+${session.user.userName}">用户姓名</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" th:href="@{/user/booking}">
+                            <span class="float-right badge badge-primary" th:text="${session.bookNum}">0</span>
+                            <i class="fa-solid fa-envelope text-primary"></i>订单
+                        </a>
+                        <a class="dropdown-item" th:href="@{/user/info}">
+                            <i class="fa-solid fa-gear text-primary"></i>设置
+                        </a>
+                        <div class="dropdown-divider" role="presentation"></div>
+                        <a class="dropdown-item" th:href="@{/user/logout}">
+                            <i class="fas fa-sign-out-alt text-primary"></i>退出登陆
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">关于我们</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/A-BigTree">
+                        <i class="fa-brands fa-github fa-2x"></i>
+                        <span class="ml-2 d-lg-none">GitHub</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://blog.csdn.net/weixin_53580595">
+                        <i class="fa-solid fa-blog fa-2x"></i>
+                        <span class="ml-2 d-lg-none">CSDN</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 <main class="main">
-  <section class="slice slice-lg">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-11">
-          <h1>正在开发！🎉</h1>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slice slice-lg">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-11">
-          <div class="row">
-            <div class="col">
-              <h1 class="text-center">项目介绍</h1>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-lg-2"></div>
-            <div class="col-md-auto">
-              <div class="card bg-secondary px-4 py-4 border-0 mb-0" style="width: 30rem;">
-                <img class="card-img-top img-fluid" th:src="@{/static/seu_hotel/image/index/about.png}"
-                     alt="技术路线" src=""
-                     height="600">
-                <div class="card-body">
-                  <h4 class="card-title">技术路线</h4>
-                  <p class="card-text">Spring6➕SpringMVC➕Mybatis➕Thymeleaf3➕Vue3➕Nginx...</p>
-                  <a href="https://github.com/A-BigTree/seu_hotel_Booking#%E6%8A%80%E6%9C%AF%E6%B5%81%E7%A8%8B%E5%9B%BE"
-                     class="btn btn-sm btn-primary">Learn More</a>
+    <section class="slice slice-lg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col mt-5">
+                    <h1>预订历史</h1>
                 </div>
-              </div>
             </div>
-          </div>
+            <div class="row" th:if="${session.user!=null}">
+                <div class="col">
+                    <div class="row mb-4">
+                        <div class="col">
+                            <h3 th:text="'历史订单数:' + ${#lists.size(bookings)}"></h3>
+                        </div>
+
+                    </div>
+                    <div class="row mb-2" th:each="book:${bookings}">
+                        <div class="col">
+                            <div class="card h-100 z-depth-2">
+                                <div class="row align-items-center">
+                                    <div class="col-4" style="width: 100%;height: 80%;">
+                                        <img class="rounded ml-2" th:src="${hotels[bookStat.index].pageImage.path}"
+                                             alt="" style="width: 100%;height: 100%;" src="">
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <a th:href="@{/hotel/info(hotelId=${book.hotelId})}"
+                                                       class="text-dark">
+                                                        <h4 th:text="${hotels[bookStat.index].hotelName}">酒店名称</h4>
+                                                    </a>
+                                                    <div class="row mt-1">
+                                                        <div class="col">
+                                                            <span th:text="${hotels[bookStat.index].address}">地址</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-right">
+                                                    <form th:if="${hotels[bookStat.index].canBook}" method="post"
+                                                          th:action="@{/booking/cancel(bookId=${book.bookId})}">
+                                                        <button class="btn btn-primary btn-animated btn-animated-y"
+                                                                type="submit">
+                                                            <span class="btn-inner--hidden"><i class="fa-solid fa-trash"></i></span>
+                                                            <span class="btn-inner--visible">取消订单</span>
+                                                        </button>
+                                                    </form>
+                                                    <form th:if="${!hotels[bookStat.index].canBook}" method="post"
+                                                          th:action="@{/booking/delete(bookId=${book.bookId})}">
+                                                        <span class="btn-inner--hidden"><i class="fa-solid fa-trash"></i></span>
+                                                        <span class="btn-inner--visible">删除记录</span>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6>
+                            <span class="badge-dot mr-4"
+                                  th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                              <i class="bg-green"></i>
+                              <span th:text="${rooms[bookStat.index].roomName}">房间名称</span>
+                            </span>
+                                            </h6>
+                                            <h6>
+                            <span class="badge-dot mr-4"
+                                  th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                              <i class="bg-green"></i>时间:
+                              <span th:text="${book.dateInOut}">时间</span>
+                            </span>
+                                                <span class="badge-dot mr-4"
+                                                      th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                              <i class="bg-green"></i>确认时间:
+                              <span th:text="${hotels[bookStat.index].simpleDesc}">时间</span>
+                            </span>
+                                            </h6>
+                                            <h6>
+                            <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                              <i class="bg-green"></i>可入住人数:
+                              <span th:text="${rooms[bookStat.index].peopleNum} + '人'">可住人数</span>
+                            </span>
+                                                <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                              <i class="bg-green"></i>预订数目:
+                              <span th:text="${book.bookNum} + '间'">房间数目</span>
+                            </span>
+                                                <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                              <i class="bg-green"></i>支付金额:
+                              <span th:text="${book.price} + '￥'">支付金额</span>
+                            </span>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal modal-danger fade" id="modalCheck" tabindex="-1"
+                                 role="dialog" aria-labelledby="modalCheck" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modal_title_6">注意!</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center">
+                                                <i class="fas fa-exclamation-circle fa-4x"></i>
+                                                <h4 class="heading mt-4">功能正在开发敬请期待...</h4>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+                                                Probably not
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center" th:if="${session.user==null}">
+                <div class="col align-content-center">
+                    <h2>
+                        用户未登陆/注册
+                    </h2>
+                    <form th:action="@{/user}">
+                        <button type="submit"
+                                class="btn btn-primary btn-animated btn-animated-y">
+                            <span class="btn-inner--visible">登陆</span>
+                            <span class="btn-inner--hidden">
+                            <i class="fa-solid fa-globe"></i>
+                        </span>
+                        </button>
+                    </form>
+                    <br>
+                    <form th:action="@{/user/sign}">
+                        <button type="submit"
+                                class="btn btn-primary btn-animated btn-animated-y">
+                            <span class="btn-inner--visible">注册</span>
+                            <span class="btn-inner--hidden">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 </main>
 
 
@@ -124,5 +228,12 @@
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/bootstrap-select/js/bootstrap-select.js}"></script>
 <script type="text/javascript" th:src="@{/static/seu_hotel/script/index/theme.js}"></script>
+<!--Vue3 + Axios-->
+<script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
+<script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
+<!--自定义函数-->
+<script type="text/javascript">
+
+</script>
 </body>
 </html>

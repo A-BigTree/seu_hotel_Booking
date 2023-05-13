@@ -49,10 +49,24 @@
                room_index roomIndex,
                check_in_date checkIndate,
                check_out_date checkOutDate,
-               book_time checkTime
+               book_time bookTime,
+               book_num bookNum,
+               price
         FROM booking WHERE user_id=#{userId};
     </select>
     <select id="selectBookingByHotel" resultType="booking.entity.BookingManager">
 
+    </select>
+    <select id="selectBooking" resultType="booking.entity.BookingManager">
+        SELECT book_id bookId,
+               user_id userId,
+               hotel_id hotelId,
+               room_index roomIndex,
+               check_in_date checkIndate,
+               check_out_date checkOutDate,
+               book_time bookTime,
+               book_num bookNum,
+               price
+        FROM booking WHERE book_id=#{bookId};
     </select>
 </mapper>

@@ -107,4 +107,9 @@
             AND rooms.people_num >= #{peopleNum}
             AND (X.num IS NULL OR rooms.room_num - X.num > 0)
     </select>
+    <select id="selectRoom" resultType="booking.entity.Room">
+        SELECT hotel_id hotelId, room_index roomIndex, room_name roomName,
+               description,capacity,price,room_num roomNum, people_num peopleNum
+        FROM rooms WHERE hotel_id=#{hotelId} AND room_index = #{roomIndex}
+    </select>
 </mapper>

@@ -26,6 +26,8 @@ public interface BookingService {
 
     List<BookingManager> getHotelBooking(Integer hotelId, Integer roomIndex, Date bookDate);
 
+    BookingManager getBooking(Integer bookId);
+
     Integer toBooking(BookingManager bookingManager);
 
     Integer cancelBooking(Integer bookId);

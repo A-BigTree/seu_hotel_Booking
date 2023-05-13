@@ -45,6 +45,12 @@ public class BookingServiceImpl implements BookingService {
         return bookingMapper.selectBookingByHotel(hotelId, roomIndex, bookDate);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public BookingManager getBooking(Integer bookId) {
+        return bookingMapper.selectBooking(bookId);
+    }
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Integer toBooking(BookingManager bookingManager) {

@@ -105,6 +105,8 @@
                     <input type="hidden" th:value="@{/hotel/search}" id="submitUrl">
                     <input type="hidden" th:value="@{/booking/add}" id="infoUrl">
                     <input type="hidden" th:value="@{/hotel/rooms}" id="submitUrl2">
+                    <input type="hidden" th:value="@{/user}" id="userLogin">
+                    <input type="hidden" th:value="@{/user/info}" id="userInfo">
                     <!--搜索框-->
                     <div class="row mb-4">
                         <div class="col">
@@ -456,8 +458,22 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <!-- ModalLoad -->
+                            <div class="modal modal-info" id="modalLoad" tabindex="-1" role="dialog"
+                                 aria-labelledby="modalLoad" aria-hidden="true" data-backdrop="false">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center">
+                                                <i class="fa-solid fa-spinner fa-spin fa-4x"></i>
+                                                <h4 class="heading mt-4">正在预定Loading...</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- ModalError -->
-                            <div class="modal modal-danger fade" id="modalError" tabindex="-1" role="dialog"
+                            <div class="modal modal-danger" id="modalError" tabindex="-1" role="dialog"
                                  aria-labelledby="modalError" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -526,23 +542,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- ModalLoad -->
-                            <div class="modal modal-info fade" id="modalLoad" tabindex="-1" role="dialog"
-                                 aria-labelledby="modalError" aria-hidden="true" data-backdrop="false">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <div class="py-3 text-center">
-                                                <i class="fa-solid fa-spinner fa-spin fa-4x"></i>
-                                                <h4 class="heading mt-4">正在预定Loading...</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ModalError -->
-                            <div class="modal modal-success fade" id="modalSuccess" tabindex="-1" role="dialog"
-                                 aria-labelledby="modalError" aria-hidden="true">
+                            <!-- ModalSuccess -->
+                            <div class="modal modal-success" id="modalSuccess" tabindex="-1" role="dialog"
+                                 aria-labelledby="modalSuccess" aria-hidden="true" data-backdrop="false">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -555,17 +557,19 @@
                                             <div class="py-3 text-center">
                                                 <i class="fa-solid fa-check fa-bounce fa-4x"></i>
                                                 <h4 class="heading mt-4">预定成功！</h4>
+                                                <p>
+                                                    {{errorMessage}}
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
-                                                确定
-                                            </button>
+                                            <a class="btn btn-secondary" th:href="@{/user/booking}">
+                                                查看订单
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div v-if="rooms.length==0">
                                 暂无可预定房间，请更改筛选条件
                             </div>
@@ -615,7 +619,7 @@
     $(function () {
         let datefilter = $('input[name="datefilter"]');
         datefilter.daterangepicker({
-            autoUpdateInput: true,
+            autoUpdateInput: false,
             minDate: today,
             autoApply: true,
             showDropdowns: true,
@@ -886,9 +890,7 @@
             },
             submitBook:function (){
                 $("#modalInfo").modal("hide");
-                let modalLoad = $("#modalLoad");
-                let modalError = $("#modalError");
-                modalLoad.modal("show");
+                $("#modalLoad").modal("show");
                 axios({
                     method:"post",
                     url:this.infoUrl,
@@ -909,16 +911,66 @@
                     }
                 }).then((response)=>{
                     if(response.status===200){
-                        modalLoad.modal("hide");
+                        $("#modalLoad").modal("hide");
                         if(response.data.code === 200){
                             $("#modalSuccess").modal("show");
+                            const message = "s后返回页面...";
+                            this.errorMessage = "9" + message;
+                            sleep(3000).then(()=>{
+                                this.errorMessage = "6" + message;
+                                sleep(3000).then(()=>{
+                                    this.errorMessage = "3" + message;
+                                    sleep(3000).then(()=>{
+                                        this.errorMessage = "0" + message;
+                                        $("#modalSuccess").modal("hide");
+                                    });
+                                });
+                            });
+                        }
+                        else if(response.data.code === 201){
+                            $("#modalError").modal("show");
+                            this.errorTitle = "服务器出错！"
+                            this.errorMessage = response.data.message;
+                        }
+                        else if(response.data.code === 202){
+                            $("#modalError").modal("show");
+                            this.errorTitle = "服务器出错！"
+                            const message = "用户连接已断开!请重新登陆...";
+                            this.errorMessage = message + "3s";
+                            sleep(1000).then(()=>{
+                                this.errorMessage = message + "2s";
+                                sleep(1000).then(()=>{
+                                    this.errorMessage = message + "1s";
+                                    sleep(1000).then(()=>{
+                                        this.errorMessage = message + "0s";
+                                        $("#modalError").modal("hide");
+                                        window.location.href = document.getElementById("userLogin").value;
+                                    });
+                                });
+                            });
+                        }
+                        else if(response.data.code === 203){
+                            $("#modalError").modal("show");
+                            this.errorTitle = "账户余额不足!"
+                            const message = "请充值!...跳转充值页面";
+                            this.errorMessage = message + "3s";
+                            sleep(1000).then(()=>{
+                                this.errorMessage = message + "2s";
+                                sleep(1000).then(()=>{
+                                    this.errorMessage = message + "1s";
+                                    sleep(1000).then(()=>{
+                                        this.errorMessage = message + "0s";
+                                        window.location.href = document.getElementById("userInfo").value;
+                                    });
+                                });
+                            });
                         }
                     }
                 }).catch((error)=>{
-                    modalLoad.modal("hide");
+                    $("#modalLoad").modal("hide");
                     this.errorTitle = "服务出错";
                     this.errorMessage = error.messageerror;
-                    modalError.modal("show");
+                    $("#modalError").modal("show");
                 });
             }
         },
