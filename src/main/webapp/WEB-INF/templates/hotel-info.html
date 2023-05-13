@@ -313,12 +313,17 @@
             <!--空房描述-->
             <div class="row mt-4" id="booking">
                 <div class="col">
-                    <div class="row mb-4">
+                    <div class="row mb-2">
                         <h3>
                             空房情况
                         </h3>
                     </div>
                     <!--房间筛选-->
+                    <div class="row mb-2">
+                        <span class="badge badge-lg badge-pill badge-primary text-uppercase">
+                            房间筛选
+                        </span>
+                    </div>
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
@@ -347,15 +352,15 @@
                                     </div>
                                     <label for="people_num2"></label>
                                     <input type="text" class="form-control text-center"
-                                           placeholder="居住人数" v-model="peo_num"
+                                           placeholder="居住人数" v-model="peo_num2"
                                            id="people_num2" readonly>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary"
-                                                type="button" @click="peo_plus()">
+                                                type="button" @click="peo_plus2()">
                                             <i class="fa-solid fa-plus"></i>
                                         </button>
                                         <button class="btn btn-outline-secondary"
-                                                type="button" @click="peo_minus()">
+                                                type="button" @click="peo_minus2()">
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
                                     </div>
@@ -372,35 +377,25 @@
                                     </div>
                                     <label for="room_num2"></label>
                                     <input type="text" class="form-control text-center"
-                                           placeholder="房间人数" v-model="room_num"
+                                           placeholder="房间人数" v-model="room_num2"
                                            id="room_num2" readonly>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary"
-                                                type="button" @click="room_plus()">
+                                                type="button" @click="room_plus2()">
                                             <i class="fa-solid fa-plus"></i>
                                         </button>
                                         <button class="btn btn-outline-secondary"
-                                                type="button" @click="room_minus()">
+                                                type="button" @click="room_minus2()">
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-2">
-                            <button type="button"
-                                    class="btn btn-primary btn-animated btn-animated-y"
-                                    @click="queryRooms()">
-                                <span class="btn-inner--visible">筛选</span>
-                                <span class="btn-inner--hidden"><i
-                                        class="fa-solid fa-search"></i></span>
-                            </button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table class="table table-hover align-items-center"  v-if="rooms.length!=0">
+                            <table class="table table-hover align-items-center" v-if="rooms.length!=0">
                                 <thead class="thead-light">
                                 <tr>
                                     <th scope="col">
@@ -435,7 +430,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="room in rooms">
+                                <tr v-for="(room,index) in rooms">
                                     <td>
                                         {{room.roomName}}
                                     </td>
@@ -452,8 +447,8 @@
                                     <td class="text-center">
                                         {{room.price*v_options.bookDays*v_options.roomNum}}￥
                                     </td>
-                                    <td  th:if="${session.user!=null}" class="text-center">
-                                        <button type="button" :data-id="room.roomIndex"
+                                    <td th:if="${session.user!=null}" class="text-center">
+                                        <button type="button" :data-id="index" @click="checkBook"
                                                 class="btn btn-secondary btn-animated btn-animated-y">
                                             <span class="btn-inner--hidden">预定</span>
                                             <span class="btn-inner--visible"><i class="fas fa-shopping-cart"></i></span>
@@ -462,6 +457,62 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <!-- ModalError -->
+                            <div class="modal modal-danger fade" id="modalError" tabindex="-1" role="dialog"
+                                 aria-labelledby="modalError" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modal_title_6">出错Error!</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center">
+                                                <i class="fas fa-exclamation-circle fa-4x"></i>
+                                                <h4 class="heading mt-4">{{errorTitle}}</h4>
+                                                <p>
+                                                    {{errorMessage}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+                                                确定
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ModalInfo -->
+                            <div class="modal modal-primary" id="modalInfo" tabindex="-1" role="dialog"
+                                 aria-labelledby="modalError" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">信息确定</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center">
+                                                <i class="fas fa-exclamation-circle fa-4x"></i>
+                                                <h4 class="heading mt-4">预定信息</h4>
+                                                <p>
+                                                    {{errorMessage}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+                                                取消
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div v-if="rooms.length==0">
                                 暂无可预定房间，请更改筛选条件
                             </div>
@@ -504,6 +555,32 @@
 <!--Vue3 + Axios-->
 <script th:src="@{/static/seu_hotel/script/vue.global.js}"></script>
 <script th:src="@{/static/seu_hotel/script/axios.min.js}"></script>
+<!--日期选择函数-->
+<script type="text/javascript">
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    $(function () {
+        let datefilter = $('input[name="datefilter"]');
+        datefilter.daterangepicker({
+            autoUpdateInput: true,
+            minDate: today,
+            autoApply: true,
+            showDropdowns:true,
+            locale: {
+                daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月']
+            }
+        });
+
+        datefilter.on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + '-' + picker.endDate.format('MM/DD/YYYY'));
+        });
+        datefilter.on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+    });
+</script>
 <!--Vue绑定函数-->
 <script type="text/javascript">
     const city_json = document.getElementById("cityJson").value;
@@ -537,12 +614,19 @@
                 room_num: "1 间",
                 peo_key: 2,
                 room_key: 1,
+                peo_num2: "2 人",
+                room_num2: "1 间",
+                peo_key2: 2,
+                room_key2: 1,
                 isSearch: false,
                 isOk: false,
                 // 搜索传参
                 v_options: null,
                 // 房间列表
-                rooms:[]
+                rooms: [],
+                selectedRoom: null,
+                errorTitle: "",
+                modalErrorMessage: ""
             }
         },
         mounted() {
@@ -561,11 +645,14 @@
             this.room_num = options.roomNum + " 间";
             this.peo_key = options.peopleNum;
             this.room_key = options.roomNum;
+            this.peo_num2 = options.peopleNum + " 人"
+            this.room_num2 = options.roomNum + " 间";
+            this.peo_key2 = options.peopleNum;
+            this.room_key2 = options.roomNum;
             this.infoUrl = infoUrl;
             this.v_options = JSON.parse(optionsStr);
             this.v_options.dateIn = null;
             this.v_options.dateOut = null;
-            console.log(this.v_options);
             document.getElementById("date_input").value = options.dateInOut;
             document.getElementById("date_input2").value = options.dateInOut;
             if (options.dateInOut !== '') {
@@ -573,6 +660,23 @@
                 document.getElementById("date_input2").setAttribute("placeholder", options.dateInOut);
             }
             this.searchRooms();
+            // 监听筛选条件
+            $("#date_input2").on("apply.daterangepicker", (ev, picker) => {
+                const startDate = picker.startDate, endDate = picker.endDate;
+                const startStr1 = startDate.format("YYYY-MM-DD"),
+                    endStr1 = endDate.format("YYYY-MM-DD"),
+                    starStr2 = startDate.format('MM/DD/YYYY'),
+                    endStr2 = endDate.format('MM/DD/YYYY');
+                if(startStr1===endStr1){
+                    $("#date_input2").val("");
+                }else{
+                    let startDate1 = new Date(startStr1);
+                    let endDate1 = new Date(endStr1);
+                    this.v_options.dateInOut = starStr2 + '-' + endStr2;
+                    this.v_options.bookDays = (endDate1 - startDate1) / (24 * 60 * 60 * 1000)
+                    this.searchRooms();
+                }
+            });
         },
         methods: {
             searchDest: function (dest) {
@@ -654,6 +758,30 @@
                     this.room_num = this.room_key + " 间";
                 }
             },
+            peo_plus2: function () {
+                if (this.peo_key2 < 20) {
+                    this.peo_key2++;
+                    this.peo_num2 = this.peo_key2 + " 人";
+                }
+            },
+            peo_minus2: function () {
+                if (this.peo_key2 > 1) {
+                    this.peo_key2--;
+                    this.peo_num2 = this.peo_key2 + " 人";
+                }
+            },
+            room_plus2: function () {
+                if (this.room_key2 < 10) {
+                    this.room_key2++;
+                    this.room_num2 = this.room_key2 + " 间";
+                }
+            },
+            room_minus2: function () {
+                if (this.room_key2 > 1) {
+                    this.room_key2--;
+                    this.room_num2 = this.room_key2 + " 间";
+                }
+            },
             searchHotels: function () {
                 if (this.selected_key !== -1) {
                     searchHotel(this.dest_city, this.selected_key,
@@ -664,7 +792,7 @@
                     this.isOk = true;
                 }
             },
-            searchRooms:function (){
+            searchRooms: function () {
                 this.rooms.splice(0, this.rooms.length);
                 axios({
                     method: "post",
@@ -673,23 +801,26 @@
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then((response)=>{
-                    if(response.status===200){
-                        for(let i = 0; i < response.data.length; i++){
+                }).then((response) => {
+                    if (response.status === 200) {
+                        for (let i = 0; i < response.data.length; i++) {
                             this.rooms.push(response.data[i]);
                         }
                     }
-                }).catch(function (error){
+                }).catch(function (error) {
                     console.log(error);
                 });
             },
-            queryRooms:function (){
-                this.v_options.dateInOut = document.getElementById("date_input2").value;
-                this.v_options.peopleNum = this.peo_key;
-                this.v_options.roomNum = this.room_key;
-                this.searchRooms();
+            checkBook: function (event) {
+                let modalError = $("#modalError");
+                if (this.v_options.dateInOut === "" || $("#date_input2").val() === "") {
+                    this.errorTitle = "预定信息缺失";
+                    this.errorMessage = "未选择入住与退房时间! 请检查!";
+                    modalError.modal("show");
+                    return
+                }
+                this.selectedRoom = this.rooms[event.currentTarget.dataset.id];
             }
-
         },
         watch: {
             dest_input: function (input) {
@@ -701,35 +832,29 @@
                     this.isComplete = false;
                     this.selected_key = -1;
                 }
+            },
+            peo_key2: function () {
+                const num_temp = this.peo_key2;
+                setTimeout(() => {
+                    if (num_temp === this.peo_key2) {
+                        this.v_options.peopleNum = this.peo_key2;
+                        this.searchRooms();
+                    }
+                }, 1000);
+            },
+            room_key2: function () {
+                const num_temp = this.room_key2;
+                setTimeout(() => {
+                    if (num_temp === this.room_key2) {
+                        this.v_options.roomNum = this.room_key2;
+                        this.searchRooms();
+                    }
+                }, 1000);
             }
         }
     });
     app.mount("#search");
 
-</script>
-<!--日期选择函数-->
-<script type="text/javascript">
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
-    $(function () {
-        $('input[name="datefilter"]').daterangepicker({
-            autoUpdateInput: false,
-            minDate: today,
-            autoApply: true,
-            locale: {
-                daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
-                    '七月', '八月', '九月', '十月', '十一月', '十二月']
-            }
-        });
-
-        $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + '-' + picker.endDate.format('MM/DD/YYYY'));
-        });
-        $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val('');
-        });
-    });
 </script>
 </body>
 </html>

@@ -36,5 +36,7 @@ public interface HotelInfoService {
 
     List<Room> getRooms(Integer hotelId);
 
+    List<Room> getRoomsByOptions(QueryOptions options);
+
     List<Policy> getPolicies(Integer hotelId);
 }

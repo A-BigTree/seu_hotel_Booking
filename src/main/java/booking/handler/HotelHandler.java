@@ -108,7 +108,7 @@ public class HotelHandler {
         QueryOptions options = (QueryOptions) session.getAttribute("options");
         // 获取酒店基本信息
         HotelInfo hotelInfo = hotelInfoService.getHotel(hotelId);
-        if(options==null){
+        if (options == null) {
             options = QueryUtils.getSearchDestId(hotelInfo.getDestId());
             options.setDateInOut("");
             options.setPeopleNum(2);
@@ -140,10 +140,9 @@ public class HotelHandler {
     }
 
     @RequestMapping("/hotel/rooms")
-    public @ResponseBody List<Room> getRooms(@RequestBody QueryOptions options){
-        if(options.getDateInOut().equals("")){
-            return hotelInfoService.getRooms(options.getHotelId());
-        }
-        return null;
+    public @ResponseBody List<Room> getRooms(@RequestBody QueryOptions options) {
+        QueryUtils.initDateInOut(options, options.getDateInOut());
+
+        return hotelInfoService.getRooms(options.getHotelId());
     }
 }

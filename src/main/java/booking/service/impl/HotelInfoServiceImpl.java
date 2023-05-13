@@ -76,6 +76,12 @@ public class HotelInfoServiceImpl implements HotelInfoService {
 
     @Transactional(readOnly = true)
     @Override
+    public List<Room> getRoomsByOptions(QueryOptions options) {
+        return hotelInfoMapper.selectRoomByOptions(options);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public List<Policy> getPolicies(Integer hotelId) {
         return hotelInfoMapper.selectPoliesById(hotelId);
     }
