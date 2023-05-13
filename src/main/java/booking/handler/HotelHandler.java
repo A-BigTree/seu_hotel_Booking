@@ -142,7 +142,9 @@ public class HotelHandler {
     @RequestMapping("/hotel/rooms")
     public @ResponseBody List<Room> getRooms(@RequestBody QueryOptions options) {
         QueryUtils.initDateInOut(options, options.getDateInOut());
-
-        return hotelInfoService.getRooms(options.getHotelId());
+        if (options.getDateInOut().equals("")){
+            return hotelInfoService.getRooms(options.getHotelId());
+        }
+        return hotelInfoService.getRoomsByOptions(options);
     }
 }

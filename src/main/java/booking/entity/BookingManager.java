@@ -35,6 +35,8 @@ public class BookingManager {
     private Integer hotelId;
     // 预定房间
     private Integer roomIndex;
+    // 日期记录字符串
+    private String dateInOut;
     // 入住日期
     private Date checkInDate;
     // 离店日期

@@ -40,8 +40,6 @@ public class QueryOptions {
     private Double endPoint;
     // 可选目的地范围
     private List<Integer> destList;
-    // 是否查询订单记录
-    private boolean isQueryRecord;
     // 时间范围
     private String dateInOut;
     private Date dateIn;

@@ -49,9 +49,6 @@
             <if test="endPrice!=null">
                 AND price &lt;#{endPrice}
             </if>
-            <if test="isQueryRecord">
-
-            </if>
         </where>
         GROUP BY info.hotel_id
     </select>
@@ -88,12 +85,26 @@
         WHERE p_id=#{cityId}
     </select>
     <select id="selectRoomByOptions" resultType="booking.entity.Room">
-        SELECT hotel_id hotelId, rooms.room_index roomIndex, room_name roomName,
-               description,capacity,price,rooms.room_num-X.num roomNum, people_num peopleNum
-        FROM rooms,(SELECT room_index,COUNT(*) num
-                        FROM booking
-                        WHERE hotel_id=#{hotelId} AND (check_in_date &lt;= #{dateIn} OR check_out_date &gt;= #{dateOut})
-                        GROUP BY room_index) X
-        WHERE rooms.room_index=X.room_index AND rooms.people_num &gt;= #{peopleNum} AND rooms.hotel_id=#{hotelId}
+
+        SELECT
+        rooms.room_index AS roomIndex,
+        rooms.room_name AS roomName,
+        rooms.description,
+        rooms.capacity,
+        rooms.price,
+        rooms.room_num - COALESCE(X.num, 0) AS roomNum,
+        rooms.people_num AS peopleNum
+        FROM rooms LEFT JOIN (SELECT room_index,COUNT(*) AS num
+                                FROM booking
+                                WHERE
+                                hotel_id = #{hotelId}
+                                AND (
+                                check_in_date &lt;= #{dateIn} OR check_out_date &gt;= #{dateOut}
+                                )
+                                GROUP BY room_index) X
+        ON rooms.room_index = X.room_index
+        WHERE rooms.hotel_id = #{hotelId}
+            AND rooms.people_num >= #{peopleNum}
+            AND (X.num IS NULL OR rooms.room_num - X.num > 0)
     </select>
 </mapper>

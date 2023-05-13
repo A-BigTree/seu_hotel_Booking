@@ -15,6 +15,7 @@
 
 package booking.utils;
 
+import booking.entity.BookingManager;
 import booking.entity.QueryOptions;
 
 import java.text.ParseException;
@@ -66,7 +67,6 @@ public class QueryUtils {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     public static Map<String, Integer> setSearchPage(Integer totalPage, Integer page){
@@ -88,5 +88,18 @@ public class QueryUtils {
         pageMap.put("startPage", startPage);
         pageMap.put("endPage", endPage);
         return pageMap;
+    }
+
+    public static void initBookingDate(BookingManager bookingManager){
+        String[] dates = bookingManager.getDateInOut().split("-");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        try{
+            Date parse1 = sdf.parse(dates[0]);
+            Date parse2 = sdf.parse(dates[1]);
+            bookingManager.setCheckInDate(new java.sql.Date(parse1.getTime()));
+            bookingManager.setCheckOutDate(new java.sql.Date(parse2.getTime()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
