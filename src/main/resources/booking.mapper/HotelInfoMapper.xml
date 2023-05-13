@@ -88,6 +88,12 @@
         WHERE p_id=#{cityId}
     </select>
     <select id="selectRoomByOptions" resultType="booking.entity.Room">
-
+        SELECT hotel_id hotelId, rooms.room_index roomIndex, room_name roomName,
+               description,capacity,price,rooms.room_num-X.num roomNum, people_num peopleNum
+        FROM rooms,(SELECT room_index,COUNT(*) num
+                        FROM booking
+                        WHERE hotel_id=#{hotelId} AND (check_in_date &lt;= #{dateIn} OR check_out_date &gt;= #{dateOut})
+                        GROUP BY room_index) X
+        WHERE rooms.room_index=X.room_index AND rooms.people_num &gt;= #{peopleNum} AND rooms.hotel_id=#{hotelId}
     </select>
 </mapper>
