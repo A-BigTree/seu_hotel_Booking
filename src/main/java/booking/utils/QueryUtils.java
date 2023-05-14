@@ -16,13 +16,13 @@
 package booking.utils;
 
 import booking.entity.BookingManager;
+import booking.entity.Description;
 import booking.entity.QueryOptions;
+import booking.entity.Room;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class QueryUtils {
     /**
@@ -31,17 +31,17 @@ public class QueryUtils {
      * @param queryDestId 查询目的地Id
      * @return 目的地Id与范围Id的HotelInfo对象
      */
-    public static QueryOptions getSearchDestId(Integer queryDestId){
+    public static QueryOptions getSearchDestId(Integer queryDestId) {
         QueryOptions options = new QueryOptions();
         options.setDest(queryDestId);
         int destId, destParentId;
-        if(queryDestId < 100){
+        if (queryDestId < 100) {
             destId = queryDestId * 10000;
-            destParentId = (queryDestId + 1) *10000;
+            destParentId = (queryDestId + 1) * 10000;
         } else if (queryDestId < 10000) {
             destId = queryDestId * 100;
             destParentId = (queryDestId + 1) * 100;
-        }else{
+        } else {
             destId = queryDestId;
             destParentId = queryDestId + 1;
         }
@@ -50,17 +50,17 @@ public class QueryUtils {
         return options;
     }
 
-    public static void initDateInOut(QueryOptions options, String dateInOut){
+    public static void initDateInOut(QueryOptions options, String dateInOut) {
         options.setDateInOut(dateInOut);
-        if (dateInOut.equals("")){
+        if (dateInOut.equals("")) {
             options.setBookDays(1);
-        }else{
+        } else {
             String[] dates = dateInOut.split("-");
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            try{
+            try {
                 Date parse1 = sdf.parse(dates[0]);
                 Date parse2 = sdf.parse(dates[1]);
-                options.setBookDays((int) ((parse2.getTime()-parse1.getTime())/(24*60*60*1000)));
+                options.setBookDays((int) ((parse2.getTime() - parse1.getTime()) / (24 * 60 * 60 * 1000)));
                 options.setDateIn(new java.sql.Date(parse1.getTime()));
                 options.setDateOut(new java.sql.Date(parse2.getTime()));
             } catch (ParseException e) {
@@ -69,18 +69,18 @@ public class QueryUtils {
         }
     }
 
-    public static Map<String, Integer> setSearchPage(Integer totalPage, Integer page){
+    public static Map<String, Integer> setSearchPage(Integer totalPage, Integer page) {
         HashMap<String, Integer> pageMap = new HashMap<>();
         int startPage = 1, endPage = totalPage;
-        if(totalPage > 11){
-            if(page >= 6){
-                if(page + 5 >= totalPage){
+        if (totalPage > 11) {
+            if (page >= 6) {
+                if (page + 5 >= totalPage) {
                     startPage = totalPage - 10;
-                }else {
+                } else {
                     startPage = page - 5;
                     endPage = page + 5;
                 }
-            }else{
+            } else {
                 endPage = 11;
             }
         }
@@ -90,16 +90,28 @@ public class QueryUtils {
         return pageMap;
     }
 
-    public static void initBookingDate(BookingManager bookingManager){
+    public static void initBookingDate(BookingManager bookingManager) {
         String[] dates = bookingManager.getDateInOut().split("-");
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        try{
+        try {
             Date parse1 = sdf.parse(dates[0]);
             Date parse2 = sdf.parse(dates[1]);
             bookingManager.setCheckInDate(new java.sql.Date(parse1.getTime()));
             bookingManager.setCheckOutDate(new java.sql.Date(parse2.getTime()));
         } catch (ParseException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void initRoomDesc(List<Room> rooms) {
+        for (Room room : rooms) {
+            ArrayList<Description> descriptions = new ArrayList<>();
+            if(room.getDescription()!=null){
+                for(String description:room.getDescription().split(";")){
+                    descriptions.add(new Description(0,0,description));
+                }
+            }
+            room.setDescriptions(descriptions);
         }
     }
 }

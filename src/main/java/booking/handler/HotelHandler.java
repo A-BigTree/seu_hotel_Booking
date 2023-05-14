@@ -140,11 +140,22 @@ public class HotelHandler {
     }
 
     @RequestMapping("/hotel/rooms")
-    public @ResponseBody List<Room> getRooms(@RequestBody QueryOptions options) {
+    public @ResponseBody List<Room> getRooms(@RequestBody QueryOptions options,
+                                             HttpSession session) {
         QueryUtils.initDateInOut(options, options.getDateInOut());
-        if (options.getDateInOut().equals("")){
-            return hotelInfoService.getRooms(options.getHotelId());
+        // 刷新session查询条件
+        QueryOptions options1 = (QueryOptions) session.getAttribute("options");
+        if(options1!=null){
+            session.removeAttribute("options");
         }
-        return hotelInfoService.getRoomsByOptions(options);
+        session.setAttribute("options", options);
+        // 未选择日期返回0
+        if(options.getDateInOut().equals("")){
+            return new ArrayList<Room>();
+        }
+        List<Room> rooms = hotelInfoService.getRoomsByOptions(options);
+        // 初始化描述
+        QueryUtils.initRoomDesc(rooms);
+        return rooms;
     }
 }

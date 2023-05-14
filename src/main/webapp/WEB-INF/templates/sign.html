@@ -240,7 +240,7 @@
                             this.isWarn = false;
                             this.isDanger = false;
                             this.isSuccess = true;
-                            const messageInfo = "注册登陆成功!正在返回首页...";
+                            const messageInfo = "注册登陆成功!正在返回...";
                             this.infoMessage = messageInfo + "3s";
                             sleep(1000).then(() => {
                                 this.infoMessage = messageInfo + "2s";
@@ -248,7 +248,7 @@
                                     this.infoMessage = messageInfo + "1s";
                                     sleep(1000).then(()=>{
                                         this.infoMessage = messageInfo + "0s";
-                                        window.location.replace(response.data.message);
+                                        window.location.replace(document.referrer);
                                     });
                                 });
                             });

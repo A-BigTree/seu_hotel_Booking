@@ -52,7 +52,8 @@
                book_time bookTime,
                book_num bookNum,
                price
-        FROM booking WHERE user_id=#{userId};
+        FROM booking WHERE user_id=#{userId}
+        ORDER BY check_in_date;
     </select>
     <select id="selectBookingByHotel" resultType="booking.entity.BookingManager">
 

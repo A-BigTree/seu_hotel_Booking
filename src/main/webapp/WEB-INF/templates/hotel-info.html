@@ -396,6 +396,25 @@
                     </div>
                     <div class="row">
                         <div class="col">
+                            <!--提示信息-->
+                            <div class="row">
+                                <div class="col">
+                                    <div v-if="v_options!=null">
+                                        <div v-if="v_options.dateInOut == ''">
+                                            <h4 class="text-danger">请选择入住日期!!!</h4>
+                                        </div>
+                                        <div v-else>
+                                            <div v-if="rooms.length==0">
+                                                <h4>暂无可预定房间，请更改筛选条件</h4>
+                                            </div>
+                                            <div v-else>
+                                                <h4>可选房间:{{rooms.length}}间</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--表格-->
                             <table class="table table-hover align-items-center" v-if="rooms.length!=0">
                                 <thead class="thead-light">
                                 <tr>
@@ -433,7 +452,13 @@
                                 <tbody>
                                 <tr v-for="(room,index) in rooms">
                                     <td>
-                                        {{room.roomName}}
+                                        <h6>{{room.roomName}}</h6>
+
+                                        <p th:if="${session.user!=null}">
+                                            <span class="badge badge-dot mr-2 text-dark" v-for="desc in room.descriptions">
+                                                <i class="bg-green"></i>{{desc.description}}
+                                            </span>
+                                        </p>
                                     </td>
                                     <td class="text-center">
                                         <i class="fa-solid fa-user"
@@ -450,7 +475,7 @@
                                     </td>
                                     <td th:if="${session.user!=null}" class="text-center">
                                         <button type="button" :data-id="index" @click="checkBook"
-                                                class="btn btn-secondary btn-animated btn-animated-y">
+                                                class="btn btn-primary btn-animated btn-animated-y" :disabled="canBook">
                                             <span class="btn-inner--hidden">预定</span>
                                             <span class="btn-inner--visible"><i class="fas fa-shopping-cart"></i></span>
                                         </button>
@@ -570,9 +595,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="rooms.length==0">
-                                暂无可预定房间，请更改筛选条件
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -685,7 +708,9 @@
                 rooms: [],
                 selectedRoom: null,
                 errorTitle: "",
-                errorMessage: ""
+                errorMessage: "",
+                // 预订控制
+                canBook: false
             }
         },
         mounted() {
@@ -721,7 +746,9 @@
                 document.getElementById("date_input").setAttribute("placeholder", options.dateInOut);
                 document.getElementById("date_input2").setAttribute("placeholder", options.dateInOut);
             }
-            this.searchRooms();
+            if(this.v_options.dateInOut!==""){
+                this.searchRooms();
+            }
             // 监听筛选条件
             $("#date_input2").on("apply.daterangepicker", (ev, picker) => {
                 const startDate = picker.startDate, endDate = picker.endDate;
@@ -740,7 +767,9 @@
                     let endDate1 = new Date(endStr1);
                     this.v_options.dateInOut = starStr2 + '-' + endStr2;
                     this.v_options.bookDays = (endDate1 - startDate1) / (24 * 60 * 60 * 1000)
+                    this.canBook = true;
                     this.searchRooms();
+                    this.canBook = false;
                 }
             });
         },
@@ -986,20 +1015,24 @@
                 }
             },
             peo_key2: function () {
+                this.canBook = true;
                 const num_temp = this.peo_key2;
                 setTimeout(() => {
                     if (num_temp === this.peo_key2) {
                         this.v_options.peopleNum = this.peo_key2;
                         this.searchRooms();
+                        this.canBook = false;
                     }
                 }, 1000);
             },
             room_key2: function () {
+                this.canBook = true;
                 const num_temp = this.room_key2;
                 setTimeout(() => {
                     if (num_temp === this.room_key2) {
                         this.v_options.roomNum = this.room_key2;
                         this.searchRooms();
+                        this.canBook = false;
                     }
                 }, 1000);
             }

@@ -86,9 +86,9 @@
                         </div>
 
                     </div>
-                    <div class="row mb-2" th:each="book:${bookings}">
-                        <div class="col">
-                            <div class="card h-100 z-depth-2">
+                    <div class="row mb-2">
+                        <div class="col-6  mb-4" th:each="book:${bookings}">
+                            <div class="card z-depth-2 h-100">
                                 <div class="row align-items-center">
                                     <div class="col-4" style="width: 100%;height: 80%;">
                                         <img class="rounded ml-2" th:src="${hotels[bookStat.index].pageImage.path}"
@@ -100,89 +100,93 @@
                                                 <div class="col-8">
                                                     <a th:href="@{/hotel/info(hotelId=${book.hotelId})}"
                                                        class="text-dark">
-                                                        <h4 th:text="${hotels[bookStat.index].hotelName}">酒店名称</h4>
+                                                        <h6 th:text="${hotels[bookStat.index].hotelName}">酒店名称</h6>
                                                     </a>
                                                     <div class="row mt-1">
                                                         <div class="col">
-                                                            <span th:text="${hotels[bookStat.index].address}">地址</span>
+                                                            <small>
+                                                                <span th:text="${hotels[bookStat.index].address}">地址</span>
+                                                            </small>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-4 text-right">
+                                                <div class="col-4">
                                                     <form th:if="${hotels[bookStat.index].canBook}" method="post"
                                                           th:action="@{/booking/cancel(bookId=${book.bookId})}">
-                                                        <button class="btn btn-primary btn-animated btn-animated-y"
-                                                                type="submit">
+                                                        <button class="btn btn-danger btn-animated btn-animated-y"
+                                                                type="submit" data-toggle="modalLoad" data-target="#modalLoad">
                                                             <span class="btn-inner--hidden"><i class="fa-solid fa-trash"></i></span>
-                                                            <span class="btn-inner--visible">取消订单</span>
+                                                            <span class="btn-inner--visible">取消</span>
                                                         </button>
                                                     </form>
                                                     <form th:if="${!hotels[bookStat.index].canBook}" method="post"
                                                           th:action="@{/booking/delete(bookId=${book.bookId})}">
-                                                        <span class="btn-inner--hidden"><i class="fa-solid fa-trash"></i></span>
-                                                        <span class="btn-inner--visible">删除记录</span>
+                                                        <button class="btn btn-secondary btn-animated btn-animated-y"
+                                                                type="submit"  data-toggle="modalLoad" data-target="#modalLoad">
+                                                            <span class="btn-inner--hidden"><i class="fa-solid fa-trash"></i></span>
+                                                            <span class="btn-inner--visible">删除</span>
+                                                        </button>
+
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h6>
-                            <span class="badge-dot mr-4"
-                                  th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
-                              <i class="bg-green"></i>
-                              <span th:text="${rooms[bookStat.index].roomName}">房间名称</span>
-                            </span>
-                                            </h6>
-                                            <h6>
-                            <span class="badge-dot mr-4"
-                                  th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
-                              <i class="bg-green"></i>时间:
-                              <span th:text="${book.dateInOut}">时间</span>
-                            </span>
-                                                <span class="badge-dot mr-4"
-                                                      th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
-                              <i class="bg-green"></i>确认时间:
-                              <span th:text="${hotels[bookStat.index].simpleDesc}">时间</span>
-                            </span>
-                                            </h6>
-                                            <h6>
-                            <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
-                              <i class="bg-green"></i>可入住人数:
-                              <span th:text="${rooms[bookStat.index].peopleNum} + '人'">可住人数</span>
-                            </span>
-                                                <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
-                              <i class="bg-green"></i>预订数目:
-                              <span th:text="${book.bookNum} + '间'">房间数目</span>
-                            </span>
-                                                <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
-                              <i class="bg-green"></i>支付金额:
-                              <span th:text="${book.price} + '￥'">支付金额</span>
-                            </span>
-                                            </h6>
+                                            <div class="row">
+                                                <div class="col">
+                                    <span class="badge-dot mr-4"
+                                          th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                                      <i class="bg-green"></i>
+                                      <span th:text="${rooms[bookStat.index].roomName}">房间名称</span>
+                                    </span>
+                                                    <br>
+
+                                                    <span class="badge-dot mr-4"
+                                                          th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                                      <i class="bg-green"></i>时间:
+                                      <span th:text="${book.dateInOut}">时间</span>
+                                    </span>
+
+                                                    <br>
+
+                                                    <span class="badge-dot mr-4"
+                                                          th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                                      <i class="bg-green"></i>确认时间:
+                                      <span th:text="${hotels[bookStat.index].simpleDesc}">时间</span>
+                                    </span>
+
+                                                    <br>
+
+
+                                                    <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                                      <i class="bg-green"></i>可入住人数:
+                                      <span th:text="${rooms[bookStat.index].peopleNum} + '人'">可住人数</span>
+                                    </span>
+                                                    <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                                      <i class="bg-green"></i>预订数目:
+                                      <span th:text="${book.bookNum} + '间'">房间数目</span>
+                                    </span>
+
+                                                    <br>
+
+                                                    <span class="badge-dot mr-4" th:classappend="${hotels[bookStat.index].canBook}?'text-dark':''">
+                                      <i class="bg-green"></i>支付金额:
+                                      <span th:text="${book.price} + '￥'">支付金额</span>
+                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal modal-danger fade" id="modalCheck" tabindex="-1"
-                                 role="dialog" aria-labelledby="modalCheck" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modal_title_6">注意!</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="py-3 text-center">
-                                                <i class="fas fa-exclamation-circle fa-4x"></i>
-                                                <h4 class="heading mt-4">功能正在开发敬请期待...</h4>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
-                                                Probably not
-                                            </button>
+                        </div>
+                        <!-- ModalLoad -->
+                        <div class="modal modal-info" id="modalLoad" tabindex="-1" role="dialog"
+                             aria-labelledby="modalLoad" aria-hidden="true" data-backdrop="false">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="py-3 text-center">
+                                            <i class="fa-solid fa-spinner fa-spin fa-4x"></i>
+                                            <h4 class="heading mt-4">Loading...</h4>
                                         </div>
                                     </div>
                                 </div>
