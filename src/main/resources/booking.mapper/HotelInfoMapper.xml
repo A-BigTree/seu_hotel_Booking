@@ -104,8 +104,8 @@
                                 GROUP BY room_index) X
         ON rooms.room_index = X.room_index
         WHERE rooms.hotel_id = #{hotelId}
-            AND rooms.people_num >= #{peopleNum}
-            AND (X.num IS NULL OR rooms.room_num - X.num > 0)
+            AND rooms.people_num &gt;= #{peopleNum}
+            AND (X.num IS NULL OR rooms.room_num - X.num &gt; 0)
     </select>
     <select id="selectRoom" resultType="booking.entity.Room">
         SELECT hotel_id hotelId, room_index roomIndex, room_name roomName,

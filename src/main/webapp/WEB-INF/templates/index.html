@@ -460,7 +460,7 @@
         },
         mounted() {
             axios({
-                method: 'post',
+                method: 'GET',
                 url: city_json
             }).then((response) => {
                 if (response.status === 200) {

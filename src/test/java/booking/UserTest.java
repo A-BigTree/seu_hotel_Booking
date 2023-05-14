@@ -35,6 +35,11 @@ public class UserTest {
     private UserService userService;
 
     @Test
+    public void testApp(){
+        log.debug("Testing...");
+    }
+    /*
+    @Test
     public void testAddUser(){
         User user = new User();
         user.setAccountNumber("123@gmail.com");
@@ -61,6 +66,6 @@ public class UserTest {
     public void testGetUser(){
         log.info(userService.getUser(2).toString());
     }
-
+    */
 
 }

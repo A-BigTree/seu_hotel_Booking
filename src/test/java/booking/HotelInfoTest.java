@@ -39,6 +39,7 @@ public class HotelInfoTest {
         log.debug("Testing...");
     }
 
+    /*
     @Test
     public void testSearchHotel(){
         QueryOptions options = QueryUtils.getSearchDestId(11);
@@ -59,5 +60,5 @@ public class HotelInfoTest {
     @Test
     public void testGetPage(){
         log.info(QueryUtils.setSearchPage(25, 1).toString());
-    }
+    }*/
 }

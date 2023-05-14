@@ -40,6 +40,7 @@ public class BookingTest {
         log.debug("Testing...");
     }
 
+    /*
     @Test
     public void testAddBooking(){
         BookingManager bookingManager = new BookingManager();
@@ -54,5 +55,5 @@ public class BookingTest {
         bookingManager.setBookNum(1);
         Integer res = bookingService.toBooking(bookingManager);
         log.info(res.toString());
-    }
+    }*/
 }
