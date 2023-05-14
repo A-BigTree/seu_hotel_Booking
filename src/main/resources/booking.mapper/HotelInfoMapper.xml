@@ -99,7 +99,7 @@
                                 WHERE
                                 hotel_id = #{hotelId}
                                 AND (
-                                check_in_date &lt;= #{dateIn} OR check_out_date &gt;= #{dateOut}
+                                check_in_date &lt;= #{dateOut} OR check_out_date &gt;= #{dateIn}
                                 )
                                 GROUP BY room_index) X
         ON rooms.room_index = X.room_index
