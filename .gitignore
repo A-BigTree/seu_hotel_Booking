@@ -40,3 +40,4 @@ build/
 ### 配置文件 ###
 src/main/resources/druid.properties
 src/main/resources/static.properties
+src/main/resources/druid.properties~
